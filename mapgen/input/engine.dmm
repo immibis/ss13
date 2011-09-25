@@ -1,0 +1,76 @@
+"a" = (/turf/space,/area)
+"b" = (/turf/maphelp/auto_window,/area)
+"c" = (/turf/simulated/r_wall,/area)
+"d" = (/turf/simulated/floor,/area)
+"e" = (/obj/machinery/atmospherics/pipes/heat_exch{tag = "icon-6"; icon_state = "6"},/turf/space,/area)
+"f" = (/obj/machinery/atmospherics/pipes/heat_exch,/turf/space,/area)
+"g" = (/obj/machinery/atmospherics/junction{tag = "icon-junction (WEST)"; icon_state = "junction"; dir = 8},/turf/maphelp/auto_window,/area)
+"h" = (/obj/machinery/atmospherics/pipes/insulated,/turf/simulated/floor,/area)
+"i" = (/obj/machinery/atmospherics/pipes/insulated{tag = "icon-10"; icon_state = "10"},/turf/simulated/floor,/area)
+"j" = (/obj/start{name = "Captain"},/turf/simulated/floor,/area)
+"k" = (/obj/item/weapon/wrench,/turf/simulated/floor,/area)
+"l" = (/obj/machinery/atmospherics/pipes/heat_exch{tag = "icon-5"; icon_state = "5"},/turf/space,/area)
+"m" = (/obj/machinery/atmospherics/pipes/heat_exch{tag = "icon-10"; icon_state = "10"},/turf/space,/area)
+"n" = (/obj/machinery/atmospherics/pipes/insulated{tag = "icon-3"; icon_state = "3"},/turf/simulated/floor,/area)
+"o" = (/obj/machinery/atmospherics/pipes/heat_exch{tag = "icon-9"; icon_state = "9"},/turf/space,/area)
+"p" = (/obj/machinery/atmospherics/unary/connector,/obj/machinery/atmoalter/canister/co2canister/large,/turf/simulated/floor,/area)
+"q" = (/obj/machinery/atmospherics/binary/oneway/pipepump,/turf/simulated/floor,/area)
+"r" = (/obj/machinery/atmospherics/pipes/insulated{tag = "icon-5"; icon_state = "5"},/turf/simulated/floor,/area)
+"s" = (/obj/machinery/atmospherics/manifold{tag = "icon-manifold (WEST)"; icon_state = "manifold"; dir = 8},/turf/simulated/floor,/area)
+"t" = (/obj/machinery/atmospherics/pipes/insulated{tag = "icon-6"; icon_state = "6"},/turf/simulated/floor,/area)
+"u" = (/obj/machinery/atmospherics/manifold,/turf/simulated/floor,/area)
+"v" = (/obj/machinery/atmospherics/binary/oneway/pipepump{tag = "icon-pipepump-run (WEST)"; icon_state = "pipepump-run"; dir = 8},/turf/simulated/floor,/area)
+"w" = (/obj/machinery/atmospherics/unary/connector{tag = "icon-connector (WEST)"; icon_state = "connector"; dir = 8},/obj/machinery/atmoalter/canister/co2canister/large,/turf/simulated/floor,/area)
+"x" = (/obj/machinery/atmospherics/binary/circulator,/turf/simulated/floor,/area)
+"y" = (/obj/machinery/power/generator,/turf/simulated/floor,/area)
+"z" = (/obj/machinery/atmospherics/binary/circulator{icon_state = "circ2-off"; side = 2},/turf/simulated/floor,/area)
+"A" = (/obj/machinery/atmospherics/pipes/insulated{tag = "icon-9"; icon_state = "9"},/turf/simulated/floor,/area)
+"B" = (/obj/machinery/atmospherics/pipes/insulated{tag = "icon-6"; icon_state = "6"},/turf/maphelp/auto_window,/area)
+"C" = (/obj/machinery/atmospherics/pipes/insulated,/turf/maphelp/auto_window,/area)
+"D" = (/obj/machinery/atmospherics/pipes/insulated{tag = "icon-9"; icon_state = "9"},/turf/maphelp/auto_window,/area)
+"E" = (/obj/machinery/atmospherics/pipes/insulated{tag = "icon-5"; icon_state = "5"},/turf/maphelp/auto_window,/area)
+"F" = (/obj/machinery/atmospherics/pipes/insulated{tag = "icon-10"; icon_state = "10"},/turf/maphelp/auto_window,/area)
+"G" = (/turf/simulated/engine/floor,/area)
+"H" = (/obj/machinery/atmospherics/junction,/turf/simulated/engine/floor,/area)
+"I" = (/obj/machinery/atmospherics/pipes/heat_exch{tag = "icon-6"; icon_state = "6"},/turf/simulated/engine/floor,/area)
+"J" = (/obj/machinery/atmospherics/pipes/heat_exch{tag = "icon-10"; icon_state = "10"},/turf/simulated/engine/floor,/area)
+"K" = (/obj/machinery/atmospherics/pipes/heat_exch{tag = "icon-3"; icon_state = "3"},/turf/simulated/engine/floor,/area)
+"L" = (/obj/machinery/atmospherics/unary/connector{dir = 4; p_dir = 4},/obj/machinery/atmoalter/canister/poisoncanister/large,/turf/simulated/floor,/area)
+"M" = (/obj/machinery/atmospherics/binary/oneway/pipepump{dir = 4},/turf/maphelp/auto_window,/area)
+"N" = (/obj/machinery/atmospherics/unary/vent{tag = "2"; dir = 8; p_dir = 8},/turf/simulated/engine/floor,/area)
+"O" = (/obj/machinery/igniter,/turf/simulated/engine/floor,/area)
+"P" = (/obj/machinery/atmospherics/pipes/heat_exch{tag = "icon-5"; icon_state = "5"},/turf/simulated/engine/floor,/area)
+"Q" = (/obj/machinery/atmospherics/pipes/heat_exch{tag = "icon-9"; icon_state = "9"},/turf/simulated/engine/floor,/area)
+
+(1,1,1) = {"
+aaaaabcccccccccccccccccccccccc
+aaaaabdddddddddddddddddddddddc
+effffghhiddjkddddddddddddddddc
+lfffmbddnddddddddddddddddddddc
+efffobddndpddddddddddddddddddc
+lffffgidndqddddddddddddddddddc
+bbbbbbndrhsdtuvwdddddddddddddc
+cdddddndddxyzndddddddddddddddc
+cdddddrhhhAdnndddddddddddddddc
+cddddddbbBCCDECCCCFbbddddddddc
+cdddddbbGHIJIJIJIJHGbbdddddddc
+cddddbbGGKKKKKKKKKKGGbbddddddc
+cdddLMNGGKKKKKKKKKKGGGbddddddc
+cdddLMNGOKKKKKKKKKKGGGbddddddc
+cdddLMNGGKKKKKKKKKKGGGbddddddc
+cdddLMNGGKKKKKKKKKKGGGbddddddc
+cddddbbGGKKKKKKKKKKGGbbddddddc
+cdddddbbGPQPQPQPQPQGbbdddddddc
+cddddddbbbbbbbbbbbbbbddddddddc
+cddddddddddddddddddddddddddddc
+cddddddddddddddddddddddddddddc
+cddddddddddddddddddddddddddddc
+cddddddddddddddddddddddddddddc
+cddddddddddddddddddddddddddddc
+cddddddddddddddddddddddddddddc
+cddddddddddddddddddddddddddddc
+cddddddddddddddddddddddddddddc
+cddddddddddddddddddddddddddddc
+cddddddddddddddddddddddddddddc
+cccccccccccccccccccccccccccccc
+"}

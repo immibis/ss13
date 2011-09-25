@@ -1,0 +1,17 @@
+Being able to poo poo in pipes and tubes to block them would be nice. Imagine foiling a tube bomb with a well placed turd. 
+
+Could we somehow mix the hobo station and the planet surface ideas? The elite live on the station above while the hobos toil on the surface of a hostile planet.
+
+
+(see cyborgui.png)
+I think the cyborg should have an actual percentage instead of a damage diagram(handwave it with "diagnostic software") and the paper doll should be a cyborg that progressively gets redder in the areas where it is damaged(using multiple transluscent red overlays). This will assist people trying to heal it and it will also look more mechanical than the current paperdoll's organic-looking wounds.
+Also seconding the headset for cyborgs, or perhaps just make it so that when you type say "; it just automatically acts like a headset. Perhaps the icon that would be used like a station intercom or headset could simply be a robot head.
+EDIT: I am also really excited for the owl bit. Soon we can have rounds of owls versus aliens(speaking of which, does the Alien have a HR Giger-esque HUD?) versus graifer versus cows versus lizards versus squids. It will be an amazing spectacle.
+In addition, I'm glad to hear everyone's input on the pneumatic tube system, you've thought up some stuff that never occurred to me when I suggested it.
+EDIT2: why isn't buttbot in yet the icons have been done since like september 
+
+Since the bot pathfinding works pretty well now, maybe have mail lockers in each of the main rooms, and mailbot(s) that collect any waiting mail and transport it to the labelled destination. Anything that's not wrapped or labelled would be taken to the lost mail room (which would be part of the quartermaster's office).
+You could then hack the mailbot (emag?) and sneak inside it to get through a secure door. Or get yourself wrapped and labelled and try to get mailed to somewhere you want to go.
+Bonus points if Beepsky wraps up and dumps felons into the nearest mailbox, for delivery to the brig.
+Also, I should get my arse in gear and finish off the recycling stuff. 
+

@@ -1,0 +1,69 @@
+4. A circular conveyor belt attached to an industrial packaging machine that can be tinkered with somehow. Cans biomaterials (blood, poop, gibs, food), industrial products, etc. to be shipped back to the station. Objects in cans will be ignored by the recycler, so canning a person allows you to send him through it and get into the docking bay. You can also kick the cans, as H.O.B.O. are wont to do.
+5. Industrial Waste Teleporter. All trash is beamed into the station here. Random bags of garbage full of litter (biowaste of random origin) and scrap (metal and glass bits) are periodically spawned. In addition, all waste sent off the main station through the janitor's mop, disposal units, some kind of garbage disposal unit (if one is added), or the toilet ends up here. The job of the H.O.B.O. is to pick through this garbage, growing ever filthier, looking for materials which can be recycled and returned to the main station. Or they can use it to steal tools, build allies, whatever.
+9. Maintenance bay. Designed to maintain and construct Bionic Unapproved Mechanoids (B.U.M.), ramshackle scrap robots who can assist the crew. B.U.M.s may recharge here, or they can just imbibe alcohol to restore their cells. Unlike other robots, they have a single hand (for hauling). Their other hand is an Industrial Saw, which functions like a circular saw and can do various things I haven't thought of. And kill people.
+12. Some kind of derelict ship or asteroid or whatever, if that idea goes in, could also be on this z-level. Will the H.O.B.O. permit EVA crew and their fancy spacesuits to stop over at their station while looting the ship, or will they stage a revolt?
+
+I wasn't planning a crushing machine for cube-compacting, but it wouldn't be such a difficult thing to add. Currently it goes stuff->grinder->mixed scrap->separator->pure metal or glass scrap->autoforge->metal or glass sheets. I could see sticking a crushing stage in there for scrap storage or transport. Like everything else in SS13, the recycling system should be needlessly elaborate.
+
+[DEFERRED]
+The Hobo station is fantastically designed, love every detail of it.
+Would BUM robots require brains to be built still? Because getting the brains to the HOBO station could be a problem (though I suppose a body or brain is going to end up dumped at some point in a round, then it'll be quickly turned into a bum robot)
+The hobostation would still havve radio access to the main station I assume, so they can report suspicious stuff coming through the teleporter(if they want to, wink wink)
+Possibly have each hobo not spawn with a radio head set, and have them be required to use a radio kept in the TRASH kings station, just to show how poor they are.
+EDIT: have one way radios in the walls around the hobo station, so that they can always hear orders from Captain, etc. But to speak back they need to speak through the only two way radio on the station, in the TRASH kings compartment.
+	
+[DEFERRED] d3c0y2 posted: If stuff blows up in the mailtube, it should not cause any real damage, but a hole in the tube appears, and letters and packages have a chance to spray out before reaching their destination.
+Heavy enough packages have a chance to knock people over and cause brute force damage.
+Letters have a chance to cause painful papercuts? 
+
+Also, I'd like to suggest a soft serve machine and fountain drinks in the cafeteria. The fountain drinks can be out in the seating area proper - you can fill up the glasses with pop/beverages, which will be connected to syrup containers that are accessible through maintenance. Naturally, you can "Contaminate" them.
+
+Going back a page or two to the package tubes, If that actually does get work on and we have a postman, why not have him set up restrictions about what automatically gets sent through
+Mailman's Computer posted:
+    Postal Service 1853:
+    Welcome [Johnny] (Mailman)
+    If you're not him, Please [Log Out]
+    Would you like to halt and wait for your acceptance
+    [Food] [Drinks] [Tools] [Guns] [Security Items] [ID Cards] [Bomb] [Chemicals] [Syndicate Items] [Wizard Items] [Basic Medical Supplies] [Genetic Syringes] [Internals] [Containers]
+    Automatically allow/disallow/question packages coming from
+    JosephStalin2192 [Allow] [Query] [Disallow]
+    CrazyMcGotBanned [Allow] [Query] [Disallow]
+    MartyMcFly [Allow] [Query] [Disallow]
+    Johnny [Allow] [Query] [Disallow]
+    Pipes between Chapel Tube and Medlab Tube are blocked by foreign object, please repair and [Resume Service], All packages going to [Chapel] [Toxins] have been automatically stopped
+    [Disallow all unconfirmed packages]
+    [Disallow all anonymous Packages]
+    [Print a log]
+    Josephstalin2192 (Station Engineer) [Approve] [Deny] [Redirect]
+    Contents: 4 Metal, 1 Glass, 1 Weldingtool
+    To: Chapel Tube
+    Note: Lol chapel wants to build a meatshoe factory
+    CrazyMcGotBanned (Quartermaster) [Approve] [Deny] [Redirect]
+    Contents: 5 Butt
+    To: Robotic Tube
+    Note: Take a guess
+    MartyMcFly (Captain) [Approve] [Deny] [Redirect]
+    Contents: 1 Plasmatank/Igniter/Timer assembly 1 Beaker 1 Human > Monkey syringe
+    To: Bridge Tube
+    Note: Send this or you're going to be killed
+    Anonymous [Approve] [Deny] [Redirect]
+    Contents: 1 Backpack (Contents: 1 Box (Contents: 1 Breath mask 1 Emergency oxygen tank)) 1 Pen 1 Oxygen tank (Internals: 356000/356000)
+    To: Cafeteria
+    Note: jkldsaflkasdf
+that should be a good example of the screen that would pop up from the mailroom computer, If you approve a package it would travel along its way, if it is denied it would be returned to the tube that it went out, A log would show something to the extent
+log posted:
+    Anonymous Approved by Johnny
+    Contents: 1 Backpack (Contents: 1 Box (Contents: 1 Breath mask 1 Emergency oxygen tank)) 1 Pen 1 Oxygen tank (Internals: 356000/356000)
+    To: Cafeteria
+    Redirected: Medlab
+    Note: jkldsaflkasdf
+Objects would be required to be put in boxes like what the quartermaster has which would be kept nearby the tubes, and the tubes would have a button that (assuming the postmaster has the cache filled up on his end) would send an empty box out to them, I was also thinking about the option of the mailman able to change the mail that was being sent, but for right now I figure no tampering
+This IS something I would like to see but this would be a later implementation and a goal to work towards if anything, I would rather see the first editions of the tubesystem in place shortly then the amount of time I'm thinking to put ALL of this in.
+Also holy poo poo did I really spend 30 minutes just typing this out... 
+
+How about this:
+And engine running will have certain variables (Manifold pressure, integrity, or whatever), that creep one way or the other over time. The further from their median (starting) position they are, the faster they change. These values can be amended by 5 one way or the other every 5 minutes. If an engine is at least being check in on every now and again, they can be kept within safe parameters easily. However, once they fall above/below a certain value, a massive explosion/engine breach will occur. This has the added effect of having the "Eject Engine" function actually mean something, as there may come a point where the values are so far off the median that they are degrading faster than they can be amended, because of the five minute limit.
+It would also add for more traitoring opportunities, in moving the values in the wrong direction. 
+
+Would it be able to replace the bartender's closet of beer with a a few taps, and a load of pint glasses. Then he could really pour drinks.
+

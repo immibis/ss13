@@ -1,0 +1,12 @@
+"a" = (/turf/unsimulated/wall/rwall,/area)
+"b" = (/turf/unsimulated/floor/shuttle,/area/start)
+"c" = (/turf/unsimulated/floor/shuttle,/area/pregame)
+"d" = (/obj/begin/hub,/turf/unsimulated/floor/shuttle,/area)
+
+(1,1,1) = {"
+aaaaa
+abaca
+adaaa
+aaaaa
+aaaaa
+"}

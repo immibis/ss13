@@ -1,0 +1,59 @@
+a smaller central mailroom. Only attached to the station by tubes. A stack of tiles, but no internals. Staffed by The Mailman. He has to route the mail. Just him, the tubes, and paper. Maybe a space suit or internals. And a license to kill. "The mail... ALWAYS gets through." 
+
+More anachronisms- the pneumo-tubes have sophisticated SPACE-AGE bomb deactivators/delayers/localized EMP to disable items upon entering the mailroom.
+
+Mailman can have a disposal jettison for bombs/junk, and either send bad things into space, or assuming the SPACE-AGE bomb deactivator isn't a big piece of poo poo and does its job (why wouldn't it be a piece of poo poo), mailman can accept bribes in advance to send any bombs he might run into to certain locations.
+
+We should have the mailroom and comms idea rolled together, turn the bridge area into more of an Operations Center, and have a Mailman and Radio Operator job. One handles stuff sent through the pneumo tubes, one regulates radio frequencies and acts as a DJ when he feels like it. They technically count as bridge crew, though they'd have to lack computer access to some of the nastier features like engine ejection and whatnot.
+
+Make it so denied packages end up in the mailroom, and the mailman can forge addresses. Otherwise, it's just another pointless button pushing job.
+Also, make it so the only door access the mailman has is the mailroom. 
+
+Immibis: ability to destroy generators and gas turbines
+
+Immibis: ability to build pipes
+
+Immibis: chemistry like goonstation
+
+Immibis: ability to build APCs
+
+Immibis: better computer system
+
+Immibis: firelock icon != airlock icon
+
+Immibis: ability to build engine floor
+
+Immibis: ability to build CIRs and RPMUs and SMESes
+
+Immibis: ability to build air alarms and fire alarms
+
+Immibis: pneumotubes affected by fire and explosions
+
+Immibis: engine doesn't start loaded
+
+Immibis: change scale of display on TEGs
+
+Immibis: ability to build airlocks, windoors, firelocks
+
+Immibis: ability to alter airlock/windoor permissions and permissions of other things too
+
+Immibis: ability to build igniters
+
+Immibis: gasmasks and firesuits in maint tunnels + engineering
+
+Immibis: tank storage unit in engineering
+
+Immibis: ability to build gas sensors
+
+Immibis: ability to change IDs of stuff
+
+Immibis: spacesuits are perfectly insulated
+
+Immibis: pipes can be destroyed
+
+Immibis: pneumotubes can be destroyed
+
+Immibis: pneumotubes hide under floor
+
+Immibis: pneumotubes can be built
+

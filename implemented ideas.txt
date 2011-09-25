@@ -1,0 +1,17 @@
+Also, something I think would be kind of fun would be a dumb waiter or perhaps a pneumatic tube system on the station, for certain connected areas. I'd kind of like to see the chef be able to send a burger over to the bar without having to leave his kitchen.
+
+(see trashstation.png)
+General mockup concept for the trash station and how it would actually function:
+The garbage station is a gritty, ugly place overseen by the dregs even Assistants look down on: the Hazardous Occupation Belt Operators (H.O.B.O.). Their ratty brown jumpsuits scuffed and patched at random, they resemble vagrants more than anything else. They have no access privileges of any kind and are largely confined to their menial drudgery. However, as the garbage station is located on a different z-level from the main station, the crew rarely has any reason to go there, and there are no security cameras for the AI to view or meddle with the brave H.O.B.O. crew.
+1. The docking bay. A trash shuttle with doors locked to respectable crew is here, along with a storage bay which can be toggled open with a switch on the vehicle's exterior. The bay is storage for recycled raw materials to be shipped back to the station, and for the average H.O.B.O., it may be their only ticket to the real station.
+2. Garbage station operations. The only clean part of the station with a respectable set of quarters and some operations computers and maybe a power generator control thing. This area is only accessible to the Technician Responsible for All Substation Handling (T.R.A.S.H. King). The T.R.A.S.H. king is the only member of the garbage crew with privileges to use the shuttle and station staff must be careful not to let him fall in with the H.O.B.O. ways and send his compatriots to the station to raise a filthy drunken ruckus.
+3. The main floor, aka the shantytown. A rusty iron-floored expanse for the H.O.B.O. to mess around in. Conveyor belts run around the room.
+6. Disposal belt. Any waste that travels along this belt will eventually be destroyed forever. If you want to save something you need to pull it off! This belt would move very slowly.
+7. Trash compactor. Smashes trash into cubes. The cubes can be used as building materials.
+8. Incinerator. Destroys everything that goes inside forever. It generates power for the garbage station.
+10. Recycling belt. Anything placed here will be recycled into raw materials. Moves kind of fast.
+11. Recycling unit. Turns scrap into glass and metal sheets, turns certain food waste (and poop) into food ingredients, passes canned materials through without incident, and jams if anything incompatible (humans, robots, lockers, oversized objects, etc.) is placed inside, backing up the conveyor belt. Finished materials are deposited in the docking bay for loading into the materials shuttle. An enterprising H.O.B.O. could can himself and have his buddies send him through this machine, escaping when the T.R.A.S.H. King or station personnel ship him. As all cans will be completely unlabeled unless an actual label is written and applied by the T.R.A.S.H. King, the Chef might be in for a surprise when he pops open a can of what he thought was food!
+
+Immibis: ability to build generators
+
+
