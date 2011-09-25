@@ -1,0 +1,11 @@
+*.obj
+*.pdb
+*.res
+*.rsc
+*.dmb
+*.tmp
+*.lk
+*.manifest
+*.ncb
+*.sav
+*.int
