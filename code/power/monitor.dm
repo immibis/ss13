@@ -108,8 +108,10 @@ obj/machinery/power/monitor
 				if(istype(term.master, /obj/machinery/power/apc))
 					apcs += term.master
 				else if(istype(term.master, /obj/machinery/power/smes))
+					smeses -= term.master
 					smeses += term.master
 				else if(istype(term.master, /obj/machinery/power/control_info_relay))
+					cirs -= term.master
 					cirs += term.master
 
 			t += "<PRE><FONT SIZE=-1>Directly connected power: [num2text(max(0, round(powernet.avail)), 10)] W<BR>Directly connected load:  [num2text(max(0, round(powernet.viewload)),10)] W<BR>"

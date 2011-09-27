@@ -11,8 +11,6 @@
 	return 1
 
 /turf/simulated/wall/proc/checkForMultipleDoors()
-	if(!src.loc)
-		return 0
 	for(var/obj/machinery/door/D in locate(src.x,src.y,src.z))
 		if(!istype(D, /obj/machinery/door/window) && D.density)
 			return 0

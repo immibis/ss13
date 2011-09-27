@@ -1795,6 +1795,8 @@
 	..()
 	src << "\blue <B>[join_motd]</B>"
 
+	winset(src, "mainwindow", "is-maximized=true")
+
 	if(ckey(world.host) == "guest")
 		// hosting in Dream Seeker.
 		// Not a good idea for multiplayer since then everyone is an admin.
