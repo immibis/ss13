@@ -1,0 +1,1 @@
+var/supply_budget = 10000
