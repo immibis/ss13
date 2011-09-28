@@ -27,7 +27,7 @@ var/permissions = list(
 	"access_trash_disposal" = "Access garbage disposal area",
 	"access_courtroom" = "Access courtroom secure area",
 	"access_detective" = "Access detective's office",
-	"access_quartermaster" = "Access the quartermaster's office",
+	"access_quartermaster" = "Access the cargo bay",
 	"access_solars" = "Access solar substations",
 	"access_ai" = "Access AI Upload"
 	)

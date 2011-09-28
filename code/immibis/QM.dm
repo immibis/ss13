@@ -4,6 +4,7 @@
 
 	var/opened
 
+	icon = 'icons/goonstation/obj/storage.dmi'
 	icon_state = "crate"
 
 	density = 1
@@ -33,6 +34,13 @@
 	var/list/start_items = new
 	var/locked = 0
 	var/lockable = 0
+
+	New()
+		. = ..()
+		for(var/path in start_items)
+			var/atom/movable/O = new path()
+			O.loc = src
+
 	metal
 		start_items = list(/obj/item/weapon/sheet/metal)
 		name = "Metal Sheets Crate"
@@ -112,10 +120,98 @@ var/list/QM_crates = list(
 	New()
 		. = ..()
 		var/datum/os/thinkdos/td = os
-		td.FS.root.contents["SupplyMaster"] = /datum/comp_program/supplymaster
+		td.FS.root.contents["SupplyMaster"] = new/datum/fs_file(FILETYPE_PROG, /datum/comp_program/supplymaster)
+
+var/const/QM_DOCK_ZLEVEL = 4
+
+var/datum/shuttle/QM_shuttle = new
+world/New()
+	. = ..()
+	spawn
+		QM_shuttle.transit_zlevel = 3
+		QM_shuttle.end_zlevel = 1
+		QM_shuttle.area = /area/supply_shuttle
+		QM_shuttle.cur_zlevel = QM_DOCK_ZLEVEL
 
 /datum/comp_program/supplymaster
 	start()
 		term.print("Welcome to SupplyMaster!")
 
-	command(cmd)
+	command2(cmd, c_args)
+		var/name = join(" ", c_args)
+		if(cmd == "order")
+			for(var/list/data in QM_crates)
+				if(cmptext(data[1], name))
+					order_crate(data)
+					return
+			term.print("No such crate: '[name]'")
+		else if(cmd == "help")
+			term.print("Current supply budget: $[supply_budget]")
+			term.print("SupplyMaster commands:")
+			term.print("  list")
+			term.print("    shows a list of crates")
+			term.print("  order CRATE NAME")
+			term.print("    orders a crate")
+			term.print("  orders")
+			term.print("    shows current orders")
+			term.print("  requests")
+			term.print("    shows current requests")
+			term.print("  call")
+			term.print("    calls the supply shuttle")
+			term.print("  status")
+			term.print("    shows status information")
+			term.print("  quit")
+			term.print("    quits the program")
+		else if(cmd == "list")
+			list_crates()
+		else if(cmd == "orders")
+			show_orders()
+		else if(cmd == "requests")
+			show_requests()
+		else if(cmd == "call")
+			call_shuttle()
+		else if(cmd == "status")
+			show_status()
+		else if(cmd == "quit")
+			quitprog()
+		else
+			term.print("Unknown command.")
+
+	proc/order_crate(list/data)
+		if(QM_shuttle.cur_zlevel != QM_DOCK_ZLEVEL)
+			term.print("Must be at dock to order items.")
+			return
+		if(supply_budget < data[3])
+			term.print("Insufficient funds.")
+			return
+		var/turf/simulated/shuttle/floor/T
+		for(T in locate(QM_shuttle.area))
+			if(T.z != QM_DOCK_ZLEVEL)
+				continue
+			if(T.isempty())
+				supply_budget -= data[3]
+				var/crate_path = data[2]
+				var/obj/crate/crate = new crate_path()
+				crate.loc = T
+				break
+		if(!T)
+			term.print("Shuttle is full.")
+			return
+		term.print("Crate ordered.")
+		term.print("Supply budget is now $[supply_budget]")
+
+	proc/list_crates()
+		for(var/list/data in QM_crates)
+			term.print("[data[1]]: $[data[3]]")
+
+	proc/call_shuttle()
+		spawn
+			QM_shuttle.take_off()
+		term.print("Shuttle called.")
+
+	proc/show_orders()
+	proc/show_requests()
+	proc/show_status()
+
+/area/supply_shuttle
+	name = "Supply shuttle"

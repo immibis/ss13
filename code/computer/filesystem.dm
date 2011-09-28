@@ -6,6 +6,11 @@ datum/fs_file
 	var/data
 	var/filetype
 
+	New(filetype, data)
+		. = ..()
+		src.filetype = filetype
+		src.data = data
+
 datum/fs_dir
 	// maps names to objects
 	var/list/contents = new

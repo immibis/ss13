@@ -50,10 +50,10 @@ datum/os/thinkdos
 			for(var/name in cur_dir.contents)
 				file = cur_dir.contents[name]
 				if(istype(file))
-					term.print(name+" "+file.type)
+					term.print("[name] [file.filetype]")
 				else
 					dir = file
-					term.print(name+" DIR")
+					term.print("[name] DIR")
 		else if(cmd == "root")
 			cur_dir = FS.root
 			term.print("Directory changed")
@@ -145,10 +145,10 @@ datum/os/thinkdos
 		else if(cmd == "title")
 			term.print("TODO")*/
 		else if(cmd == "run")
-			file = FS.find_path(cmd)
+			file = FS.find_path(cur_dir, c_args[1])
 			if(file == null)
 				term.print("File not found.")
-			else if(file.type != FILETYPE_PROG)
+			else if(file.filetype != FILETYPE_PROG)
 				term.print("Not an executable file.")
 			else
 				cur_prog = new file.data()
@@ -156,8 +156,8 @@ datum/os/thinkdos
 				cur_prog.os = src
 				cur_prog.start()
 		else
-			file = FS.find_path(cmd)
-			if(file == null || file.type != FILETYPE_PROG)
+			file = FS.find_path(cur_dir, cmd)
+			if(file == null || file.filetype != FILETYPE_PROG)
 				term.print("Unknown command.")
 			else
 				cur_prog = new file.data()

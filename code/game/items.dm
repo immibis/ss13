@@ -2838,21 +2838,24 @@
 		return
 	return
 
-/obj/item/weapon/storage/toolbox/New()
-
+/obj/item/weapon/storage/toolbox/mechanical/New()
+	. = ..()
+	new /obj/item/weapon/wirecutters( src )
 	new /obj/item/weapon/screwdriver( src )
+	new /obj/item/weapon/crowbar( src )
 	new /obj/item/weapon/wrench( src )
 	new /obj/item/weapon/weldingtool( src )
-	new /obj/item/weapon/radio( src )
 	new /obj/item/weapon/analyzer( src )
+
+/obj/item/weapon/storage/toolbox/emergency/New()
+	. = ..()
+	new /obj/item/weapon/flashlight( src )
+	new /obj/item/weapon/crowbar( src )
 	new /obj/item/weapon/extinguisher( src )
-	new /obj/item/weapon/wirecutters( src )
-	..()
-	return
+	new /obj/item/weapon/radio( src )
 
 /obj/item/weapon/storage/toolbox/electrical/New()
-	..()
-	src.contents = null
+	. = ..()
 	new /obj/item/weapon/screwdriver( src )
 	new /obj/item/weapon/wirecutters( src )
 	new /obj/item/weapon/t_scanner( src )
@@ -2860,8 +2863,6 @@
 	new /obj/item/weapon/cable_coil( src )
 	new /obj/item/weapon/cable_coil( src )
 	new /obj/item/weapon/cable_coil( src )
-
-	return
 
 /obj/item/weapon/storage/toolbox/attack(mob/M as mob, mob/user as mob)
 	..()

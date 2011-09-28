@@ -1935,7 +1935,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/item/weapon/storage/toolbox/electrical
 	name = "electical toolbox"
 	icon_state = "yellow"
-/obj/item/weapon/storage/toolbox/electrical
+/obj/item/weapon/storage/toolbox/emergency
 	name = "emergency toolbox"
 	icon_state = "red"
 

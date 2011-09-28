@@ -5,14 +5,19 @@ obj/machinery/terminal/computer
 		. = ..()
 		os = new/datum/os/thinkdos
 		os.term = src
-		os.boot()
 
 	command(cmd)
 		os.command(cmd)
 
+	var/prev_power = 0
+
 	power_change()
 		. = ..()
 		if(stat & NOPOWER)
-			os.unboot()
+			if(prev_power)
+				os.unboot()
+				prev_power = 0
 		else
-			os.boot()
+			if(!prev_power)
+				os.boot()
+				prev_power = 1

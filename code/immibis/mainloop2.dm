@@ -79,10 +79,6 @@
 	for (var/turf/simulated/T in world)
 		T.updatelinks()
 
-	// not with Pipe3
-	//spawn makepipelines()
-	//spawn makepowernets()
-
 	sun = new /datum/sun()
 
 	// ****stuff for presistent mode picking

@@ -8,6 +8,16 @@ obj/machinery/computer/shuttle
 	var/transit_zlevel = 3
 	var/end_zlevel = 2
 
+	var/datum/shuttle/shuttle
+
+	New()
+		. = ..()
+		shuttle = new
+		shuttle.transit_zlevel = transit_zlevel
+		shuttle.end_zlevel = end_zlevel
+		shuttle.area = text2path(area)
+		shuttle.cur_zlevel = src.z
+
 	ex_act(severity)
 		switch(severity)
 			if(1.0)
@@ -26,72 +36,93 @@ obj/machinery/computer/shuttle
 			else
 		return
 
-
 	verb/take_off()
+		if(src.z == transit_zlevel)
+			usr << "\red Already in transit! Please wait!"
+			return
+		src.add_fingerprint(usr)
+
+		shuttle.take_off()
+
+
+datum/shuttle
+	var/transit_zlevel
+	var/end_zlevel
+	var/area
+	var/cur_zlevel
+
+	// does not return until the shuttle has arrived at its destination
+	proc/take_off()
 		set src in oview(1)
 
 		if (usr.stat || usr.restrained())
 			return
 
-		src.add_fingerprint(usr)
-
-		if(src.z == transit_zlevel)
-			usr << "\red Already in transit! Please wait!"
-			return
-
-		var/A = locate(text2path(area))
+		var/A = locate(area)
 		for(var/mob/M in A)
+			if(M.z != cur_zlevel) continue
 			M.show_message("\red Launch sequence initiated!")
 			spawn(0)	shake_camera(M, 10, 1)
 
 		for(var/obj/machinery/door/poddoor/M in A)
+			if(M.z != cur_zlevel) continue
 			if(!M.density)
 				spawn M.closepod()
 		for(var/obj/machinery/door/D in A)
+			if(D.z != cur_zlevel) continue
 			if(!D.density && !istype(D, /obj/machinery/door/poddoor))
 				spawn D.close()
 		for(var/obj/shuttle/door/D in A)
+			if(D.z != cur_zlevel) continue
 			if(!D.density)
 				spawn D.close()
 
 		sleep(10)
 
-		var/original_zlevel = src.z
-
-		for(var/atom/movable/AM as mob|obj in A)
-			AM.z = transit_zlevel
-			AM.Move()
+		var/original_zlevel = cur_zlevel
 
 		for(var/turf/T as turf in A)
+			if(T.z != cur_zlevel) continue
+			move_turf(T, transit_zlevel)
+		for(var/turf/T as turf in A)
 			T.buildlinks()
+
+		cur_zlevel = transit_zlevel
 
 		var/time = rand(2,4)
-		world.log << "Moving shuttle for [time] ticks"
 		sleep(time)
-		world.log << "Done"
 
-		for(var/atom/movable/AM as mob|obj in A)
-			AM.z = end_zlevel
-			AM.Move()
-
-		world.log << "0"
-
+		for(var/turf/T as turf in A)
+			if(T.z != cur_zlevel) continue
+			move_turf(T, end_zlevel)
 		for(var/turf/T as turf in A)
 			T.buildlinks()
 
-		world.log << "1"
-
+		cur_zlevel = end_zlevel
 		end_zlevel = original_zlevel
 
 		for(var/obj/machinery/door/poddoor/M in A)
+			if(M.z != cur_zlevel) continue
 			if (M.density)
 				spawn M.openpod()
 
-		world.log << "2"
-
 		for(var/mob/M in A)
+			if(M.z != cur_zlevel) continue
 			M.show_message("\red Arrived at destination!")
 			spawn(0)	shake_camera(M, 2, 1)
+
+	proc/move_turf(turf/T, newz)
+		if(newz == T.z)
+			return
+		var/turf/newT = new T.type(locate(T.x, T.y, newz))
+		for(var/key in T.vars)
+			if(issaved(T.vars[key]))
+				newT.vars[key] = T.vars[key]
+		for(var/atom/movable/AM in T)
+			AM.loc = newT
+		newT = new/turf/space(T)
+		newT.overlays = null
+
 
 obj/machinery/computer/shuttle/escape
 	ex_act(severity)
@@ -112,6 +143,10 @@ obj/machinery/computer/shuttle/escape
 					src.icon_state = "broken"
 			else
 		return
+
+	New()
+		. = ..()
+		src.verbs -= /obj/machinery/computer/shuttle/verb/take_off
 
 	attackby(var/obj/item/weapon/card/id/W as obj, var/mob/user as mob)
 		if(stat & (BROKEN|NOPOWER))

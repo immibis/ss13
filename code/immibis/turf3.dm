@@ -29,27 +29,27 @@ turf/simulated
 	level = 1.0
 
 	// the turfs to the N,S,E & W
-	var/turf/linkN
-	var/turf/linkS
-	var/turf/linkE
-	var/turf/linkW
+	var/tmp/turf/linkN
+	var/tmp/turf/linkS
+	var/tmp/turf/linkE
+	var/tmp/turf/linkW
 
 	// whether those turfs are air-connected
-	var/airN
-	var/airS
-	var/airE
-	var/airW
+	var/tmp/airN
+	var/tmp/airS
+	var/tmp/airE
+	var/tmp/airW
 
 	// whether to use special conduction heat transfer (through windows only)
 
-	var/condN
-	var/condS
-	var/condE
-	var/condW
+	var/tmp/condN
+	var/tmp/condS
+	var/tmp/condE
+	var/tmp/condW
 
 	var/overlay_state = 0
 
-	var/tmp/obj/hotspot/hotspot = null
+	var/obj/hotspot/hotspot = null
 
 	AddHotspot()
 		if(!hotspot)

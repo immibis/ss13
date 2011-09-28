@@ -109,6 +109,10 @@
 	name = "floor"
 	icon_state = "floor"
 	updatecell = 1
+	floor2/icon_state = "floor2"
+	floor3/icon_state = "floor3"
+	floor4/icon_state = "floor4"
+	floor5/icon_state = "floor5"
 
 /turf/simulated/shuttle/wall
 	name = "wall"
