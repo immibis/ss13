@@ -13,6 +13,6 @@ obj/machinery/terminal/computer
 	power_change()
 		. = ..()
 		if(stat & NOPOWER)
-			os.shutdown()
+			os.unboot()
 		else
 			os.boot()

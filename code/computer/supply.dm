@@ -1,1 +1,0 @@
-obj/machinery/terminal/computer/supply

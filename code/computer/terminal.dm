@@ -6,7 +6,7 @@ obj/machinery/terminal
 		. = ..()
 		base_icon_state = icon_state
 
-	icon = 'icons/goonstation/computer.dmi'
+	icon = 'icons/goonstation/obj/computer.dmi'
 	icon_state = "computer_generic"
 
 	proc/print(msg)
@@ -16,6 +16,12 @@ obj/machinery/terminal
 		for(var/client/C)
 			if(C.term_current == src)
 				C << output(msg, "termwnd.termout")
+
+	proc/clear_screen()
+		msg_history = ""
+		for(var/client/C)
+			if(C.term_current == src)
+				C << output(null, "termwnd.termout")
 
 	attack_ai(mob/user)
 		add_fingerprint(user)
@@ -42,6 +48,7 @@ obj/machinery/terminal
 		else
 			icon_state = base_icon_state
 
+
 	power_change()
 		. = ..()
 		update_icon()
@@ -50,7 +57,7 @@ obj/machinery/terminal
 				if(C.term_current == src)
 					C.term_close()
 
-	# override these
+	// override these
 	proc/opened(mob/M)
 	proc/closed()
 	proc/command(cmd as text)
@@ -71,7 +78,7 @@ client
 		if(term_current != null)
 			term_close()
 
-	proc/term_open(obj/machinery/computer2/terminal)
+	proc/term_open(obj/machinery/terminal/terminal)
 		if(term_current == terminal)
 			return
 		if(term_current != null)
@@ -84,6 +91,7 @@ client
 		winshow(src, "termwnd", 1)
 		term_current = terminal
 		terminal.opened(mob)
+		winset(src, "focus", "termwnd.termcmd")
 
 	proc/term_close()
 		if(term_current == null)

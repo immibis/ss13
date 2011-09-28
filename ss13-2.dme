@@ -13,6 +13,7 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
+#include <trashhalo\bstrlib\bstrlib.dme>
 #include "code\__defines.dm"
 #include "code\atom-common.dm"
 #include "code\atoms.dm"
@@ -44,6 +45,7 @@
 #include "code\atoms\vote.dm"
 #include "code\build\metal.dm"
 #include "code\computer\computer.dm"
+#include "code\computer\filesystem.dm"
 #include "code\computer\os.dm"
 #include "code\computer\supply.dm"
 #include "code\computer\terminal.dm"
@@ -54,7 +56,6 @@
 #include "code\game\algorithm.dm"
 #include "code\game\areas.dm"
 #include "code\game\atmo_control.dm"
-#include "code\game\atmoalter.dm"
 #include "code\game\blob.dm"
 #include "code\game\bomb.dm"
 #include "code\game\chemical.dm"

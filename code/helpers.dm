@@ -73,9 +73,6 @@
 
 	return ""
 
-/proc/trim(text)
-	return trim_left(trim_right(text))
-
 /proc/capitalize(var/t as text)
 	return uppertext(copytext(t, 1, 2)) + copytext(t, 2)
 

@@ -720,7 +720,7 @@ window "termwnd"
 		macro = ""
 		menu = ""
 		on-close = ".termclose"
-	elem "input1"
+	elem "termcmd"
 		type = INPUT
 		pos = 0,336
 		size = 448x20

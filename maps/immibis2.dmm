@@ -342,7 +342,7 @@
 "gD" = (/obj/machinery/atmospherics/pipes{tag = "icon-3"; icon_state = "3"},/turf/simulated/floor{icon_state = "white"},/area)
 "gE" = (/turf/simulated/floor{icon_state = "white"},/area)
 "gF" = (/turf/simulated/floor/plating,/area/maintenance/research_e)
-"gG" = (/obj/machinery/computer2/supply,/turf/simulated/floor,/area/cargobay)
+"gG" = (/obj/machinery/terminal/computer,/turf/simulated/floor,/area/cargobay)
 "gH" = (/obj/start{name = "Captain"},/turf/simulated/floor,/area/cargobay)
 "gI" = (/turf/simulated/floor,/area/cargobay)
 "gJ" = (/obj/cable{tag = "icon-0-2"; icon_state = "0-2"},/obj/grille,/obj/window/reinforced{tag = "icon-rwindow (WEST)"; icon_state = "rwindow"; dir = 8},/obj/window/reinforced{tag = "icon-rwindow (EAST)"; icon_state = "rwindow"; dir = 4},/obj/window/reinforced{tag = "icon-rwindow (NORTH)"; icon_state = "rwindow"; dir = 1},/turf/simulated/floor,/area/brig)
