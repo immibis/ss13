@@ -4,7 +4,7 @@ datum/os/thinkdos
 	var/datum/fs_dir/cur_dir
 	var/datum/fs_file/copied = null
 
-	var/datum/program/cur_prog = null
+	var/datum/comp_program/cur_prog = null
 
 	boot()
 		. = ..()
