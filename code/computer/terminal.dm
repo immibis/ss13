@@ -2,6 +2,10 @@ obj/machinery/terminal
 	var/base_icon_state
 	var/msg_history
 
+	density = 1
+	opacity = 0
+	anchored = 1
+
 	New()
 		. = ..()
 		base_icon_state = icon_state
@@ -60,7 +64,7 @@ obj/machinery/terminal
 	// override these
 	proc/opened(mob/M)
 	proc/closed()
-	proc/command(cmd as text)
+	proc/command(cmd, user)
 
 
 client
@@ -70,7 +74,7 @@ client
 		set hidden = 1
 		set name = ".termcmd"
 		if(term_current != null)
-			term_current.command(cmd)
+			term_current.command(cmd, usr)
 
 	verb/termclose()
 		set hidden = 1
@@ -100,4 +104,3 @@ client
 		term_current.closed()
 		term_current = null
 
-	verb/

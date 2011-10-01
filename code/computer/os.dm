@@ -3,7 +3,7 @@ datum/os
 
 	proc/boot()
 	proc/unboot() // apparently "shutdown" is a reserved word...
-	proc/command(cmd)
+	proc/command(cmd, user)
 
 	// can be called from a program to return to the OS
 	proc/quitprog()

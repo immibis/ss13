@@ -2,6 +2,7 @@ var/changes = {"<FONT color='blue'>
 <html><head><title>Changelog</title></head><body>
 Most recent entries first.
 <ul>
+<li>Many missing entries here. Check Git log instead.</li>
 <li>New map (again)</li>
 <li>Fixed fire so that tiles need oxygen and plasma to burn</li>
 <li>(probably a lot of missing entries here)</li>

@@ -170,7 +170,7 @@ obj/proc/allowed(mob/M)
 	if(src.check_access(null))
 		return 1
 	if(istype(M, /mob/ai))
-		//AI can do whatever he wants
+		//AI can do whatever s/he wants
 		return 1
 	else if(istype(M, /mob/human))
 		var/mob/human/H = M

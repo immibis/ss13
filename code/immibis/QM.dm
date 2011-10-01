@@ -97,7 +97,7 @@
 
 
 var/list/QM_crates = list(
-	list("Empty", /obj/crate, 10),
+	list("Empty crate", /obj/crate, 10),
 	list("50 Metal Sheets", /obj/crate/qm/metal, 500),
 	list("50 Glass Sheets", /obj/crate/qm/glass, 500),
 	list("Internals", /obj/crate/qm/internals, 500),
@@ -115,12 +115,25 @@ var/list/QM_crates = list(
 	//list("Spec Ops. NOT IMPLEMENTED", /obj/crate/qm/spec_ops, 2500)
 )
 
+/datum/qm_request
+	var/requestor = "Unknown"
+	var/item = "Empty"
+
+var/datum/qm_request/QM_requests[] = new
+
+/obj/machinery/terminal/computer/supply_request
+	name = "Request console"
+	New()
+		. = ..()
+		var/datum/os/thinkdos/td = os
+		td.FS.root.put("RequestMaster", new/datum/fs_file(FILETYPE_PROG, /datum/comp_program/requestmaster))
+
 /obj/machinery/terminal/computer/supply
 	name = "Supply console"
 	New()
 		. = ..()
 		var/datum/os/thinkdos/td = os
-		td.FS.root.contents["SupplyMaster"] = new/datum/fs_file(FILETYPE_PROG, /datum/comp_program/supplymaster)
+		td.FS.root.put("SupplyMaster", new/datum/fs_file(FILETYPE_PROG, /datum/comp_program/supplymaster))
 
 var/const/QM_DOCK_ZLEVEL = 4
 
@@ -135,9 +148,15 @@ world/New()
 
 /datum/comp_program/supplymaster
 	start()
-		term.print("Welcome to SupplyMaster!")
+		term.print("Welcome to SupplyMaster, type 'help' for help.")
+
+	var/approval_mode = 0
+	var/datum/qm_request/approval_request = null
 
 	command2(cmd, c_args)
+		if(approval_mode)
+			approval_cmd(cmd, c_args)
+			return
 		var/name = join(" ", c_args)
 		if(cmd == "order")
 			for(var/list/data in QM_crates)
@@ -156,6 +175,8 @@ world/New()
 			term.print("    shows current orders")
 			term.print("  requests")
 			term.print("    shows current requests")
+			term.print("  approval")
+			term.print("    enter request approval mode")
 			term.print("  call")
 			term.print("    calls the supply shuttle")
 			term.print("  status")
@@ -168,6 +189,8 @@ world/New()
 			show_orders()
 		else if(cmd == "requests")
 			show_requests()
+		else if(cmd == "approval")
+			approval_start()
 		else if(cmd == "call")
 			call_shuttle()
 		else if(cmd == "status")
@@ -180,10 +203,10 @@ world/New()
 	proc/order_crate(list/data)
 		if(QM_shuttle.cur_zlevel != QM_DOCK_ZLEVEL)
 			term.print("Must be at dock to order items.")
-			return
+			return 0
 		if(supply_budget < data[3])
 			term.print("Insufficient funds.")
-			return
+			return 0
 		var/turf/simulated/shuttle/floor/T
 		for(T in locate(QM_shuttle.area))
 			if(T.z != QM_DOCK_ZLEVEL)
@@ -196,9 +219,58 @@ world/New()
 				break
 		if(!T)
 			term.print("Shuttle is full.")
-			return
+			return 0
 		term.print("Crate ordered.")
 		term.print("Supply budget is now $[supply_budget]")
+		return 1
+
+	proc/approval_start()
+		approval_mode = 1
+		approval_next()
+	proc/approval_stop()
+		approval_request = null
+		approval_mode = 0
+		term.print("Exited approval mode.")
+
+	proc/approval_next()
+		if(QM_requests.len == 0)
+			term.print("No requests left.")
+			approval_stop()
+			return
+		approval_request = QM_requests[1]
+		term.print("[approval_request.item] requested by [approval_request.requestor]")
+		term.print("Accept, reject, skip or exit? ([QM_requests.len] item\s remaining)")
+	proc/approval_cmd(cmd, c_args)
+		if(cmd == "accept")
+			for(var/list/data in QM_crates)
+				if(cmptext(data[1], approval_request.item))
+					if(order_crate(data))
+						QM_requests -= approval_request
+						term.print("Request accepted.")
+						// todo: notify the requestor somehow?
+					else
+						term.print("Error ordering item.")
+					approval_next()
+					return
+			term.print("No such crate: '[approval_request.item]'")
+			QM_requests -= approval_request
+			approval_next()
+		else if(cmd == "reject")
+			QM_requests -= approval_request
+			term.print("Request rejected.")
+			approval_next()
+			// todo: notify the requestor somehow?
+		else if(cmd == "skip")
+			QM_requests -= approval_request
+			QM_requests += approval_request
+			term.print("Request moved to end of queue.")
+			approval_next()
+		else if(cmd == "exit")
+			approval_stop()
+		else
+			term.print("Unknown command.")
+			term.print("[approval_request.item] requested by [approval_request.requestor]")
+			term.print("Accept, reject, skip or exit? ([QM_requests.len] item\s remaining)")
 
 	proc/list_crates()
 		for(var/list/data in QM_crates)
@@ -210,8 +282,91 @@ world/New()
 		term.print("Shuttle called.")
 
 	proc/show_orders()
+
 	proc/show_requests()
+		for(var/datum/qm_request/R in QM_requests)
+			term.print("[R.item] requested by [R.requestor]")
+		if(QM_requests.len == 0)
+			term.print("No current requests")
+
 	proc/show_status()
+		if(QM_shuttle.cur_zlevel == QM_DOCK_ZLEVEL)
+			term.print("Shuttle is at dock.")
+		else if(QM_shuttle.cur_zlevel == 1)
+			term.print("Shuttle is at station.")
+		else
+			term.print("Shuttle is moving.")
+		term.print("Supply budget: $[supply_budget]")
+
+/datum/comp_program/requestmaster
+	command2(cmd, c_args)
+		var/name = join(" ", c_args)
+		if(cmd == "help")
+			term.print("Current supply budget: $[supply_budget]")
+			term.print("RequestMaster commands:")
+			term.print("  list")
+			term.print("    shows a list of crates")
+			term.print("  request CRATE NAME")
+			term.print("    orders a crate")
+			term.print("  requests")
+			term.print("    shows current requests")
+			term.print("  status")
+			term.print("    shows status information")
+			term.print("  quit")
+			term.print("    quits the program")
+		else if(cmd == "list")
+			list_crates()
+		else if(cmd == "request")
+			for(var/list/data in QM_crates)
+				if(cmptext(data[1], name))
+					request_crate(data)
+					return
+			term.print("No such crate: '[name]'")
+		else if(cmd == "requests")
+			show_requests()
+		else if(cmd == "status")
+			show_status()
+		else if(cmd == "quit")
+			term.print("Now quitting RequestMaster. Remember to logout!")
+			quitprog()
+		else
+			term.print("Unknown command")
+
+	start()
+		var/datum/os/thinkdos/td = os
+		if(!td.login_name)
+			term.print("Please log in before starting RequestMaster.")
+			quitprog()
+		else
+			term.print("Welcome to RequestMaster, type 'help' for help.")
+
+	proc/list_crates()
+		for(var/list/data in QM_crates)
+			term.print("[data[1]]: $[data[3]]")
+
+	proc/show_requests()
+		for(var/datum/qm_request/R in QM_requests)
+			term.print("[R.item] requested by [R.requestor]")
+		if(QM_requests.len == 0)
+			term.print("No current requests")
+
+	proc/request_crate(data)
+		var/datum/os/thinkdos/td = os
+		var/datum/qm_request/R = new
+		R.item = data[1]
+		R.requestor = td.login_name
+		QM_requests += R
+		term.print("Request placed.")
+		// TODO: Notify QM's somehow?
+
+	proc/show_status()
+		if(QM_shuttle.cur_zlevel == QM_DOCK_ZLEVEL)
+			term.print("Shuttle is at dock.")
+		else if(QM_shuttle.cur_zlevel == 1)
+			term.print("Shuttle is at station.")
+		else
+			term.print("Shuttle is moving.")
+		term.print("Supply budget: $[supply_budget]")
 
 /area/supply_shuttle
 	name = "Supply shuttle"

@@ -6,8 +6,8 @@ obj/machinery/terminal/computer
 		os = new/datum/os/thinkdos
 		os.term = src
 
-	command(cmd)
-		os.command(cmd)
+	command(cmd, user)
+		os.command(cmd, user)
 
 	var/prev_power = 0
 

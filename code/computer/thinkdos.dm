@@ -6,10 +6,17 @@ datum/os/thinkdos
 
 	var/datum/comp_program/cur_prog = null
 
+	var/obj/item/weapon/card/id/login = null
+	var/login_name = null
+
+	// If an AI or cyborg logs in, login is null and login_name is "AIUSR"
+	// Use login_name to check whether someone is logged in or not.
+
 	boot()
 		. = ..()
 		cur_dir = FS.root
 		term.print("Welcome to ThinkDOS.")
+		term.print("Copyright (C) 2250 ThinkTronic Industries")
 
 	quitprog()
 		del(cur_prog)
@@ -20,7 +27,7 @@ datum/os/thinkdos
 			cur_prog.crash()
 			del(cur_prog)
 
-	command(cmd)
+	command(cmd, mob/user)
 		term.print("> [cmd]")
 
 		if(cur_prog != null)
@@ -63,20 +70,20 @@ datum/os/thinkdos
 			else
 				var/oldn = c_args[1]
 				var/newn = c_args[2]
-				if(!(oldn in cur_dir.contents))
+				if(!cur_dir.get(oldn))
 					term.print("File not found")
 				else
-					cur_dir.contents[newn] = cur_dir.contents[oldn]
-					cur_dir.contents.Remove(oldn)
+					cur_dir.put(newn, cur_dir.get(oldn))
+					cur_dir.remove(oldn)
 					term.print("File renamed")
 		else if(cmd == "copy")
 			if(c_args.len != 1)
 				term.print("Usage: copy FILENAME")
 			else
-				if(!(c_args[1] in cur_dir.contents))
+				if(!cur_dir.get(args[1]))
 					term.print("File not found")
 				else
-					file = cur_dir.contents[args[1]]
+					file = cur_dir.get(args[1])
 					if(!istype(file))
 						term.print("Cannot copy directories.")
 					else
@@ -86,29 +93,31 @@ datum/os/thinkdos
 			if(c_args.len != 1)
 				term.print("Usage: paste FILENAME")
 			else
-				if(c_args[1] in cur_dir.contents)
+				if(cur_dir.get(c_args[1]))
 					term.print("A file or directory already exists with that name.")
 				else
-					cur_dir.contents[c_args[1]] = copied
+					cur_dir.put(c_args[1], new/datum/fs_file(copied.filetype, copied.data))
 					term.print("File pasted.")
 		else if(cmd == "makedir" || cmd == "mkdir")
 			if(c_args.len != 1)
 				term.print("Usage: mkdir FILENAME")
 			else
-				if(c_args[1] in cur_dir.contents)
+				if(cur_dir.get(c_args[1]))
 					term.print("A file or directory already exists with that name.")
 				else
-					dir = new/datum/fs_dir
-					cur_dir.contents[c_args[1]] = dir
-					term.print("Directory created.")
+					var/err = FS.set_path(cur_dir, c_args[1], new/datum/fs_dir)
+					if(err)
+						term.print(err)
+					else
+						term.print("Directory created.")
 		else if(cmd == "delete" || cmd == "del" || cmd == "rm")
 			if(c_args.len != 1)
 				term.print("Usage: rm FILENAME")
 			else
-				if(!(c_args[1] in cur_dir.contents))
+				if(!cur_dir.get(c_args[1]))
 					term.print("File not found.")
 				else
-					file = cur_dir.contents[c_args[1]]
+					file = cur_dir.get(c_args[1])
 					if(!istype(file))
 						dir = file
 						if(dir == FS.root)
@@ -117,7 +126,7 @@ datum/os/thinkdos
 						else if(dir.contents.len > 0)
 							term.print("Cannot remove non-empty directory.")
 							return
-					cur_dir.contents.Remove(c_args[1])
+					cur_dir.remove(c_args[1])
 					term.print("Deleted.")
 		else if(cmd == "read")
 			if(c_args.len != 1)
@@ -132,13 +141,35 @@ datum/os/thinkdos
 					term.print("Not a text file.")
 				else
 					term.print(file.data)
-		/*else if(cmd == "login")
-			term.print("TODO")
+		else if(cmd == "login")
+			if(login_name)
+				term.print("Logout first")
+			else if(istype(user, /mob/ai))
+				login_name = "AIUSR"
+			else
+				var/mob/human/H = user
+				if(istype(user.equipped(), /obj/item/weapon/card/id))
+					login = user.equipped()
+				else if(istype(H) && istype(H.wear_id, /obj/item/weapon/card/id))
+					login = H.wear_id
+				else
+					term.print("You need an ID card to log in.")
+					return
+				login_name = login.registered
+			term.print("Now logged in as [login_name].")
 		else if(cmd == "logout")
-			term.print("TODO")
+			if(!login_name)
+				term.print("You are not logged in.")
+			else
+				login_name = ""
+				login = null
+				term.print("Logged out.")
 		else if(cmd == "user")
-			term.print("TODO")
-		else if(cmd == "time")
+			if(login_name)
+				term.print("Currently logged in as [login_name].")
+			else
+				term.print("Not currently logged in.")
+		/*else if(cmd == "time")
 			term.print("TODO")
 		else if(cmd == "drive")
 			term.print("TODO")
