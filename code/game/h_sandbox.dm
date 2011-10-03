@@ -10,7 +10,7 @@ var
 					"hsbfilter" = "Spawn Air Filter",
 					"hsbcanister" = "Spawn Canister",
 					"hsbfueltank" = "Spawn Welding Fuel Tank",
-					"hsbwater	tank" = "Spawn Water Tank",
+					"hsbwatertank" = "Spawn Water Tank",
 					"hsbtoolbox" = "Spawn Toolbox",
 					"hsbmedkit" = "Spawn Medical Kit")
 

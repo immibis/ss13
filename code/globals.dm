@@ -1,39 +1,5 @@
-/*  To-do list
-
-	Bugs:
-	hearing inside closets/pods
-	check head protection when hit by tank etc.
-	bug with two single-length pipes overlaying - pipeline ends up with no members
-	alarm continuing when power out?
-
-	New:
-	make regular glass melt in fire
-	Blood splatters, can sample DNA & analyze
-	also blood stains on clothing - attacker & defender
-	whole body anaylzer in medbay - shows damage areas in popup?
-	try station map maximizing use of image rather than icon
-	useful world/Topic commands
-	flow rate maximum for pipes - slowest of two connected notes
-	system for breaking / making pipes, handle deletion, pipeline spliting/rejoining etc.
-	?give nominal values to all gas.maximum since turf_take depends on them
-	add power-off mode for computers & other equipment (with reboot time)
-	make grilles conductive for shocks (again)
-	for prison warden/sec - baton allows precise targeting
-	portable generator - hook to wire system
-	modular repair/construction system
-	maintainance key
-	diagnostic tool
-	modules - module construction
-	hats/caps
-	suit?
-	build/unbuild engine floor with rf sheet
-	finish compressor/turbine - think about control system, throttle, etc.
-	crowbar opens airlocks when no power
-*/
-
 var
 	savefile_ver = "3"
-	SS13_version = "Plasma engine; New pipe system; Modified Kurper Stable/Goonstation"
 	datum/air_tunnel/air_tunnel1/SS13_airtunnel = null
 	datum/control/cellular/cellcontrol = null
 	datum/control/gameticker/ticker = null

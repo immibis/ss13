@@ -39,8 +39,7 @@
 	return
 
 /world/proc/update_stat()
-	src.status = "Space Station 13";
-	src.status += " ([SS13_version])"
+	src.status = "Mongrel Codebase 13 (Plasma engine; New pipe system; Modified Kurper Stable/Goonstation)"
 
 	var/list/features = list()
 

@@ -2237,7 +2237,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/empty =  null
 /obj/machinery/atmoalter/siphs/fullairsiphon
 	name = "Air siphon"
-	icon = 'icons/ss13/turfs.dmi'
+	icon = 'icons/immibis/atmos.dmi'
 	icon_state = "siphon:0"
 /obj/machinery/atmoalter/siphs/fullairsiphon/air_vent
 	name = "Air regulator"
@@ -2248,13 +2248,13 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	density = 0	//*****
 /obj/machinery/atmoalter/siphs/fullairsiphon/port
 	name = "Portable Siphon"
-	icon = 'icons/ss13/stationobjs.dmi'
+	icon = 'icons/immibis/atmos-port.dmi'
 	flags = FPRINT
 	anchored = 0.0
 /obj/machinery/atmoalter/siphs/scrubbers
-	name = "scrubbers"
-	icon = 'icons/ss13/turfs2.dmi'
-	icon_state = "siphon:0"
+	name = "Air Scrubber"
+	icon = 'icons/immibis/atmos.dmi'
+	icon_state = "scrubber:0"
 /obj/machinery/atmoalter/siphs/scrubbers/air_filter
 	name = "air filter"
 	icon = 'icons/ss13/aircontrol.dmi'
@@ -2265,7 +2265,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 
 /obj/machinery/atmoalter/siphs/scrubbers/port
 	name = "Portable Siphon"
-	icon = 'icons/ss13/stationobjs.dmi'
+	icon = 'icons/immibis/atmos-port.dmi'
 	icon_state = "scrubber:0"
 	flags = FPRINT
 	anchored = 0.0

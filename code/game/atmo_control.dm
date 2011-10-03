@@ -301,6 +301,20 @@
 	src.updateDialog()
 	return
 
+/obj/machinery/atmoalter/siphs/scrubbers/setstate()
+
+	if(stat & NOPOWER)
+		icon_state = "scrubber:0"
+		return
+
+	if (src.t_status == 4)
+		src.icon_state = "scrubber:T"
+	else
+		if (src.t_status == 3)
+			src.icon_state = "scrubber:"
+		else
+			src.icon_state = "scrubber:1"
+
 /obj/machinery/atmoalter/siphs/scrubbers/air_filter/setstate()
 
 	if(stat & NOPOWER)
