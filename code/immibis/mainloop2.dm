@@ -185,7 +185,7 @@
 		return n
 	else if (T == "status")
 		var/list/s = list()
-		s["version"] = SS13_version
+//		s["version"] = SS13_version
 		s["mode"] = master_mode
 		s["respawn"] = config ? abandon_allowed : 0
 		s["enter"] = enter_allowed

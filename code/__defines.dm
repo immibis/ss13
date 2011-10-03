@@ -56,7 +56,7 @@
 
 // generator constants
 #define COMPFRICTION 5e5					// gas turbine compressor friction
-#define GENRATE 1							// kJ per kJ. Please don't set to anything other than 1 :p
+#define GENRATE 1							// kJ per kJ. Please don't set to anything other than 1.
 
 // gas
 #define ONE_ATMOSPHERE 101325				// pascals
@@ -118,13 +118,10 @@
 // bitflags for machine stat variable
 #define BROKEN 1
 #define NOPOWER 2
-#define POWEROFF 4		// tbd
-#define MAINT 8			// under maintaince
 
 // misc
 #define ENGINE_EJECT_Z 3
 #define MIN_RECYCLE_WEIGHT 200000
-//#define CONVEYOR_DELAY 5					// byond ticks per item, no longer used
 
 var/const
 	GAS_O2 = 1 << 0
