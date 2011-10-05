@@ -25,6 +25,8 @@ obj/machinery/autolathe
 	var/metal = 0
 	var/glass = 0
 
+	var/busy = 0
+
 	attack_hand(mob/user)
 		add_fingerprint(user)
 		interact(user)
@@ -42,7 +44,7 @@ obj/machinery/autolathe
 			glass += 3750 * S.amount
 		else if(istype(W, /obj/item/weapon/sheet/r_metal))
 			metal += 7500 * S.amount
-		else if(istype(W, /obj/item/weapon/sheet/r_glass))
+		else if(istype(W, /obj/item/weapon/sheet/rglass))
 			metal += 1875 * S.amount
 			glass += 3750 * S.amount
 		else
@@ -51,13 +53,18 @@ obj/machinery/autolathe
 		del(W)
 
 	proc/interact(mob/user)
-		var/html = "Metal: [metal] cc<br>"
-		html += "Glass: [glass] cc<br><br>"
-		for(var/list/item in autolathe_items)
-			if(item.len == 4)
-				html += "<a href=\"?src=\ref[src];item=\ref[item]\">[item[1]]</a> ([item[2]] cc metal, [item[3]] cc glass)<br>"
-			else
-				html += "[item[1]] ([item[2]] cc metal, [item[3]] cc glass) (BROKEN)<br>"
+		var/html
+		user.machine = src
+		if(busy)
+			html = "The autolathe is currently busy."
+		else
+			html = "Metal: [metal] cc<br>"
+			html += "Glass: [glass] cc<br><br>"
+			for(var/list/item in autolathe_items)
+				if(item.len == 4)
+					html += "<a href=\"?src=\ref[src];item=\ref[item]\">[item[1]]</a> ([item[2]] cc metal, [item[3]] cc glass)<br>"
+				else
+					html += "[item[1]] ([item[2]] cc metal, [item[3]] cc glass) (BROKEN)<br>"
 		user << browse(html, "window=autolathe")
 
 	Topic(href, href_list)
@@ -68,7 +75,16 @@ obj/machinery/autolathe
 			usr << "Not enough raw material."
 		else
 			var/path = item_data[4]
-			new path(loc)
 			metal -= item_data[2]
 			glass -= item_data[3]
-		interact(usr)
+			busy = 1
+			flick("autolathe_c", src)
+			icon_state = "autolathe1"
+			spawn(34)
+				flick("autolathe_o", src)
+				spawn(16)
+					icon_state = "autolathe"
+					busy = 0
+					new path(loc)
+					UpdateInteraction(src)
+		UpdateInteraction(src)
