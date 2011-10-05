@@ -1,4 +1,4 @@
-// This is actually just a copy of the previous cellautomata.dm currently.
+// This is actually mostly just a copy of the previous cellautomata.dm currently.
 // I intend to rewrite it.
 
 

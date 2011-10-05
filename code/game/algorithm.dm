@@ -334,3 +334,8 @@ var/const
 		for(var/mob/ai/M in world)
 			if ((M.client && M.machine == subject))
 				subject.attack_ai(M)
+
+/proc/UpdateInteraction(obj/machine)
+	for(var/mob/M)
+		if(M.client && M.machine == machine)
+			machine:interact(M)
