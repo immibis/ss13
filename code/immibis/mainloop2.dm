@@ -39,7 +39,7 @@
 	return
 
 /world/proc/update_stat()
-	src.status = "Mongrel Codebase 13 (Plasma engine; New pipe system; Modified Kurper Stable/Goonstation)"
+	src.status = "Mongrel Codebase 13 (Plasma engine; New pipe system; Based on GS/Kurper Stable)"
 
 	var/list/features = list()
 

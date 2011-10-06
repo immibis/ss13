@@ -1,3 +1,18 @@
 RCD
 QM crates
 autolathe objects
+shields
+
+TODO rooms:
+* Armoury
+* Arrival checkpoint
+* Proper atmospherics
+* More medical stuff
+* Bar/Cafe/Kitchen
+* Remake bridge?
+* Crew quarters/locker room
+* Heads' quarters
+* Hydroponics
+* Janitor's closet
+
+Supermatter/singularity/antimatter/fission/fusion/gas turbine engine?
