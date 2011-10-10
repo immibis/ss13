@@ -1,6 +1,31 @@
 // the power cable object
 
-/obj/cable/New()
+var/list/nwnets = new
+
+/obj/net_cable
+	level = 1
+	anchored =1
+	var/netnum = 0
+	name = "power cable"
+	desc = "A flexible superconducting cable for heavy-duty power transfer."
+	icon = 'icons/immibis/network.dmi'
+	icon_state = "0-1"
+	var/d1 = 0
+	var/d2 = 1
+	layer = 2.5
+
+/obj/item/weapon/net_cable_coil
+	name = "cable coil"
+	var/amount = MAXCOIL
+	icon = 'icons/immibis/network.dmi'
+	icon_state = "coil"
+	desc = "A coil of network cable."
+	w_class = 2
+	flags = TABLEPASS|USEDELAY|FPRINT
+	s_istate = "coil"
+
+
+/obj/net_cable/New()
 	..()
 
 
@@ -17,7 +42,7 @@
 	if(level==1) hide(T.intact)
 
 
-/obj/cable/Del()		// called when a cable is deleted
+/obj/net_cable/Del()		// called when a cable is deleted
 
 	if(!defer_powernet_rebuild)	// set if network will be rebuilt manually
 
@@ -28,19 +53,19 @@
 		if(Debug) world.log << "Defered cable deletion at [x],[y]: #[netnum]"
 	..()													// then go ahead and delete the cable
 
-/obj/cable/hide(var/i)
+/obj/net_cable/hide(var/i)
 
 	invisibility = i ? 101 : 0
 	updateicon()
 
-/obj/cable/proc/updateicon()
+/obj/net_cable/proc/updateicon()
 	if(invisibility)
 		icon_state = "[d1]-[d2]-f"
 	else
 		icon_state = "[d1]-[d2]"
 
 
-/obj/cable/attackby(obj/item/weapon/W, mob/user)
+/obj/net_cable/attackby(obj/item/weapon/W, mob/user)
 
 	var/turf/T = src.loc
 	if(T.intact)
@@ -49,118 +74,40 @@
 	if(istype(W, /obj/item/weapon/wirecutters))
 
 		if(src.d1)	// 0-X cables are 1 unit, X-X cables are 2 units long
-			new/obj/item/weapon/cable_coil(T, 2)
+			new/obj/item/weapon/net_cable_coil(T, 2)
 		else
-			new/obj/item/weapon/cable_coil(T, 1)
+			new/obj/item/weapon/net_cable_coil(T, 1)
 
 		for(var/mob/O in viewers(src, null))
 			O.show_message("\red [user] cuts the cable.", 1)
 
-		shock(user, 50)
-
 		defer_powernet_rebuild = 0		// to fix no-action bug
 		del(src)
 
-	else if(istype(W, /obj/item/weapon/cable_coil) && src.type == W:cable_type)
+	else if(istype(W, /obj/item/weapon/net_cable_coil) && src.type == W:cable_type)
 
-		var/obj/item/weapon/cable_coil/coil = W
+		var/obj/item/weapon/net_cable_coil/coil = W
 
 		coil.cable_join(src, user)
-		//note do shock in cable_join
-	else
-		shock(user, 10)
 
 	src.add_fingerprint(user)
 
-// shock the user with probability prb
-
-/obj/cable/proc/shock(mob/user, prb)
-	if(!netnum)		// unconnected cable is unpowered
-		return 0
-
-	return src.electrocute(user, prb, netnum)
-
-
-/atom/proc/electrocute(mob/user, prb, netnum)
-	if(!prob(prb))
-		return 0
-
-	if(!netnum)		// unconnected cable is unpowered
-		return 0
-
-	var/datum/powernet/PN			// find the powernet
-	if(powernets && powernets.len >= netnum)
-		PN = powernets[netnum]
-
-	if(PN && PN.avail > 0)		// is it powered?
-		var/prot = 0
-
-		if(istype(user, /mob/human))
-			var/mob/human/H = user
-			if(H.gloves)
-				var/obj/item/weapon/clothing/gloves/G = H.gloves
-
-				prot = G.elec_protect
-		else if (istype(user, /mob/ai))
-			return 0
-
-		if(prot == 10)		// elec insulted gloves protect completely
-			return 0
-
-		prot++
-
-		var/obj/effects/sparks/O = new /obj/effects/sparks( src.loc )
-		O.dir = pick(NORTH, SOUTH, EAST, WEST)
-		spawn( 0 )
-			O.Life()
-
-		var/shock_damage = 0
-		if(PN.avail > 750000)	//someone juiced up the grid enough, people going to die!
-			shock_damage = min(rand(70,145),rand(70,145))/prot
-		else if(PN.avail > 100000)
-			shock_damage = min(rand(35,110),rand(35,110))/prot
-		else if(PN.avail > 75000)
-			shock_damage = min(rand(30,100),rand(30,100))/prot
-		else if(PN.avail > 50000)
-			shock_damage = min(rand(25,90),rand(25,90))/prot
-		else if(PN.avail > 25000)
-			shock_damage = min(rand(20,80),rand(20,80))/prot
-		else if(PN.avail > 10000)
-			shock_damage = min(rand(20,65),rand(20,65))/prot
-		else
-			shock_damage = min(rand(20,45),rand(20,45))/prot
-
-//		messageadmins("\blue <B>ADMIN: </B>DEBUG: shock_damage = [shock_damage] PN.avail = [PN.avail] user = [user] netnum = [netnum]")
-
-		user.burn_skin(shock_damage)
-		user << "\red <B>You feel a powerful shock course through your body!</B>"
-		sleep(1)
-
-		if(user.stunned < shock_damage)	user.stunned = shock_damage
-		if(user.weakened < 20/prot)	user.weakened = 20/prot
-		for(var/mob/M in viewers(src))
-			if(M == user)	continue
-			M.show_message("\red [user.name] was shocked by the [src.name]!", 3, "\red You hear a heavy electrical crack", 2)
-		return 1
-	return 0
-
-
-/obj/cable/ex_act(severity)
+/obj/net_cable/ex_act(severity)
 	switch(severity)
 		if(1.0)
 			del(src)
 		if(2.0)
 			if (prob(50))
-				new /obj/item/weapon/cable_coil(src.loc, src.d1 ? 2 : 1)
+				new /obj/item/weapon/net_cable_coil(src.loc, src.d1 ? 2 : 1)
 				del(src)
 
 		if(3.0)
 			if (prob(25))
-				new /obj/item/weapon/cable_coil(src.loc, src.d1 ? 2 : 1)
+				new /obj/item/weapon/net_cable_coil(src.loc, src.d1 ? 2 : 1)
 				del(src)
 	return
 
-/obj/cable/burn(fi_amount)
+/obj/net_cable/burn(fi_amount)
 	if(fi_amount > 1800000)
 		var/turf/T = src.loc
 		if(!T.intact)
@@ -168,26 +115,23 @@
 				defer_powernet_rebuild = 0
 				del(src)
 
-/obj/item/weapon/cable_coil
-	var/cable_type = /obj/cable
-
 // the cable coil object, used for laying cable
 
-/obj/item/weapon/cable_coil/New(loc, length = MAXCOIL)
+/obj/item/weapon/net_cable_coil/New(loc, length = MAXCOIL)
 	src.amount = length
 	pixel_x = rand(-2,2)
 	pixel_y = rand(-2,2)
 	updateicon()
 	..(loc)
 
-/obj/item/weapon/cable_coil/cut/New(loc)
+/obj/item/weapon/net_cable_coil/cut/New(loc)
 	..(loc)
 	src.amount = rand(1,2)
 	pixel_x = rand(-2,2)
 	pixel_y = rand(-2,2)
 	updateicon()
 
-/obj/item/weapon/cable_coil/proc/updateicon()
+/obj/item/weapon/net_cable_coil/proc/updateicon()
 	if(amount == 1)
 		icon_state = "coil1"
 		name = "cable piece"
@@ -198,17 +142,17 @@
 		icon_state = "coil"
 		name = "cable coil"
 
-/obj/item/weapon/cable_coil/examine()
+/obj/item/weapon/net_cable_coil/examine()
 	set src in view(1)
 
 	if(amount == 1)
-		usr << "A short piece of power cable."
+		usr << "A short piece of network cable."
 	else if(amount == 2)
-		usr << "A piece of power cable."
+		usr << "A piece of network cable."
 	else
-		usr << "A coil of power cable. There are [amount] lengths of cable in the coil."
+		usr << "A coil of network cable. There are [amount] lengths of cable in the coil."
 
-/obj/item/weapon/cable_coil/attackby(obj/item/weapon/W, mob/user)
+/obj/item/weapon/net_cable_coil/attackby(obj/item/weapon/W, mob/user)
 	if( istype(W, /obj/item/weapon/wirecutters) && src.amount > 1)
 		src.amount--
 		new src.type(user.loc, 1)
@@ -217,7 +161,7 @@
 		return
 
 	else if( W.type == src.type )
-		var/obj/item/weapon/cable_coil/C = W
+		var/obj/item/weapon/net_cable_coil/C = W
 		if(C.amount == MAXCOIL)
 			user << "The coil is too long, you cannot add any more cable to it."
 			return
@@ -237,7 +181,7 @@
 			C.updateicon()
 			return
 
-/obj/item/weapon/cable_coil/proc/use(var/used)
+/obj/item/weapon/net_cable_coil/proc/use(var/used)
 	if(src.amount < used)
 		return 0
 	else if (src.amount == used)
@@ -247,9 +191,9 @@
 		updateicon()
 		return 1
 
-// called when cable_coil is clicked on a turf/simulated/floor
+// called when net_cable_coil is clicked on a turf/simulated/floor
 
-/obj/item/weapon/cable_coil/proc/turf_place(turf/simulated/floor/F, mob/user)
+/obj/item/weapon/net_cable_coil/proc/turf_place(turf/simulated/floor/F, mob/user)
 
 	if(!isturf(user.loc))
 		return
@@ -270,12 +214,12 @@
 		else
 			dirn = get_dir(F, user)
 
-		for(var/obj/cable/LC in F)
+		for(var/obj/net_cable/LC in F)
 			if(LC.d1 == dirn || LC.d2 == dirn)
 				user << "There's already a cable at that position."
 				return
 
-		var/obj/cable/C = new(F)
+		var/obj/net_cable/C = new(F)
 		C.d1 = 0
 		C.d2 = dirn
 		C.add_fingerprint(user)
@@ -286,9 +230,9 @@
 		//last = C
 
 
-// called when cable_coil is click on an installed obj/cable
+// called when net_cable_coil is click on an installed obj/net_cable
 
-/obj/item/weapon/cable_coil/proc/cable_join(obj/cable/C, mob/user)
+/obj/item/weapon/net_cable_coil/proc/cable_join(obj/net_cable/C, mob/user)
 
 
 	var/turf/U = user.loc
@@ -313,28 +257,24 @@
 	if(C.d1 == dirn || C.d2 == dirn)		// one end of the clicked cable is pointing towards us
 		if(U.intact)						// can't place a cable if the floor is complete
 			user << "You can't lay cable there unless the floor tiles are removed."
-			return
 		else
 			// cable is pointing at us, we're standing on an open tile
 			// so create a stub pointing at the clicked cable on our tile
 
 			var/fdirn = turn(dirn, 180)		// the opposite direction
 
-			for(var/obj/cable/LC in U)		// check to make sure there's not a cable there already
+			for(var/obj/net_cable/LC in U)		// check to make sure there's not a cable there already
 				if(LC.d1 == fdirn || LC.d2 == fdirn)
 					user << "There's already a cable at that position."
 					return
 
-			var/obj/cable/NC = new(U)
+			var/obj/net_cable/NC = new(U)
 			NC.d1 = 0
 			NC.d2 = fdirn
 			NC.add_fingerprint()
 			NC.updateicon()
 			NC.update_network()
 			use(1)
-			C.shock(user, 25)
-
-			return
 	else if(C.d1 == 0)		// exisiting cable doesn't point at our position, so see if it's a stub
 							// if so, make it a full cable pointing from it's old direction to our dirn
 
@@ -346,15 +286,14 @@
 			nd2 = C.d2
 
 
-		for(var/obj/cable/LC in T)		// check to make sure there's no matching cable
+		for(var/obj/net_cable/LC in T)		// check to make sure there's no matching cable
 			if(LC == C)			// skip the cable we're interacting with
 				continue
 			if(LC.d1 == nd1 || LC.d2 == nd1 || LC.d1 == nd2 || LC.d2 == nd2)	// make sure no cable matches either direction
 				user << "There's already a cable at that position."
 				return
-		C.shock(user, 25)
 		del(C)
-		var/obj/cable/NC = new(T)
+		var/obj/net_cable/NC = new(T)
 		NC.d1 = nd1
 		NC.d2 = nd2
 		NC.add_fingerprint()
@@ -362,8 +301,6 @@
 		NC.update_network()
 
 		use(1)
-
-		return
 
 
 // called when a new cable is created
@@ -374,9 +311,9 @@
 
 
 
-/obj/cable/proc/update_network()
+/obj/net_cable/proc/update_network()
 	// easy way: do /makepowernets again
-	makepowernets()
+	makenwnets()
 	// do things more logically if this turns out to be too slow
 	// may just do this for case 3 anyway (simpler than refreshing list)
 
