@@ -2103,7 +2103,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 
 
 /obj/machinery
-	name = "machinery"
 	var/p_dir = 0
 	var/h_dir = 0		// used for heat-exchange
 	var/capmult = 0

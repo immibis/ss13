@@ -671,16 +671,14 @@
 
 /turf/simulated/floor/updatecell()
 	..()
-	if (src.checkfire)
-		if (src.firelevel >= 2700000.0)
-			src.health--
-			if (src.health <= 0)
-				src.burnt = 1
-				src.intact = 0
-				levelupdate()
-				del(src)
-			else
-				if (src.health <= 100)
-					src.burnt = 1
-					src.intact = 0
-					levelupdate()
+	if (src.checkfire && src.firelevel >= 2700000)
+		src.health--
+		if (src.health <= 0)
+			src.burnt = 1
+			src.intact = 0
+			levelupdate()
+			del(src)
+		else if (src.health <= 100 && !src.burnt && src.intact)
+			src.burnt = 1
+			src.intact = 0
+			levelupdate()

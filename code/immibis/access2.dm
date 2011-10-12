@@ -29,7 +29,8 @@ var/permissions = list(
 	"access_detective" = "Access detective's office",
 	"access_quartermaster" = "Access the cargo bay",
 	"access_solars" = "Access solar substations",
-	"access_ai" = "Access AI Upload"
+	"access_ai" = "Access AI Upload",
+	"access_netmon" = "Access Network Monitoring"
 	)
 var/jobs = list(
 	"Genetic Researcher" = list(

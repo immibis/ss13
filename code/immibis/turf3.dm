@@ -249,7 +249,6 @@ turf/simulated
 	proc/report()
 		return "[src.type] [x] [y] [z]"
 
-
 	updatecell()
 		if(atmos_sleeping)
 			return

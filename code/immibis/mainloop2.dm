@@ -444,6 +444,10 @@
 	set invisibility = 0
 	set background = 1
 
+	#ifdef DISABLE_ATMOS
+	world << "Atmospheric simulation is currently disabled."
+	#endif
+
 	while(1)
 		while(!( ticker ))
 			for(var/mob/M in world)
@@ -460,6 +464,7 @@
 		//		if (space.updatecell)
 		//			space.updatecell()
 
+#ifndef DISABLE_ATMOS
 		sleep(1)
 		for(var/turf/simulated/T)
 			if(T.updatecell)
@@ -473,6 +478,7 @@
 				T.replace_gas()
 
 		reset_unsimulated()
+#endif
 
 		sleep(1)
 		for(var/mob/M in world)

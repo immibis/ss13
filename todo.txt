@@ -16,3 +16,7 @@ TODO rooms:
 * Janitor's closet
 
 Supermatter/singularity/antimatter/fission/fusion/gas turbine engine?
+
+Servers make heat.
+
+Implement /datum/nwnet/cut_cable

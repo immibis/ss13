@@ -5,14 +5,33 @@ var/list/nwnets = new
 /obj/net_cable
 	level = 1
 	anchored =1
-	var/netnum = 0
-	name = "power cable"
-	desc = "A flexible superconducting cable for heavy-duty power transfer."
+	var/datum/nwnet/nwnet
+	name = "network cable"
+	desc = "A flexible cable for data transfer."
 	icon = 'icons/immibis/network.dmi'
 	icon_state = "0-1"
 	var/d1 = 0
 	var/d2 = 1
 	layer = 2.5
+
+	proc/get_connections()
+		var/list/L = new
+		if(d1)
+			// full cable connects to matching cables on adjacent tiles
+			var/d = turn(d1, 180)
+			for(var/obj/net_cable/C in get_step(loc, d1))
+				if(C.d1 == d || C.d2 == d)
+					L += C
+		else
+			// half-cable connects to all other half-cables on the same tile
+			for(var/obj/net_cable/C in loc)
+				if(!C.d1)
+					L += C
+		var/d = turn(d2, 180)
+		for(var/obj/net_cable/C in get_step(loc, d2))
+			if(C.d1 == d || C.d2 == d)
+				L += C
+		return L
 
 /obj/item/weapon/net_cable_coil
 	name = "cable coil"
@@ -42,16 +61,10 @@ var/list/nwnets = new
 	if(level==1) hide(T.intact)
 
 
-/obj/net_cable/Del()		// called when a cable is deleted
-
+/obj/net_cable/Del()
 	if(!defer_powernet_rebuild)	// set if network will be rebuilt manually
-
-		if(netnum && powernets && powernets.len >= netnum)		// make sure cable & powernet data is valid
-			var/datum/powernet/PN = powernets[netnum]
-			PN.cut_cable(src)									// updated the powernets
-	else
-		if(Debug) world.log << "Defered cable deletion at [x],[y]: #[netnum]"
-	..()													// then go ahead and delete the cable
+		nwnet.cut_cable(src)
+	..()
 
 /obj/net_cable/hide(var/i)
 
