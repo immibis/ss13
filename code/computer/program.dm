@@ -18,3 +18,5 @@
 		cmd = c_args[1]
 		c_args.Cut(1,2)
 		command2(cmd, c_args)
+
+	proc/receive_packet(sender, packet)

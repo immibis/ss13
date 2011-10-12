@@ -10,7 +10,7 @@ proc/random_network_address()
 
 		// check nothing else is using it
 		var/ok = 1
-		for(var/obj/machinery/network/M)
+		for(var/obj/machinery/M)
 			if(M.nw_address == a)
 				ok = 0
 				break
@@ -20,16 +20,24 @@ proc/random_network_address()
 			return a
 
 
-obj/machinery/network
+obj/machinery
 	var/datum/nwnet/nwnet
 
 	var/nw_address
 
-	anchored = 1
-	density = 1
+	var/list/nw_tdns_cache = new
+
+	var/tdns_name = null
+
+	// if nonzero, this machine receives packets destined for other machines
+	// in addition to packets destined for itself
+	var/nw_promiscuous = 0
+
+	var/networked = 0
 
 	New()
-		nw_address = random_network_address()
+		if(networked)
+			nw_address = random_network_address()
 		. = ..()
 
 	// Packets can be strings or lists. Lists are converted to strings
@@ -38,25 +46,44 @@ obj/machinery/network
 	// A tag is a short string describing the packet type for non-data packets - eg "ping"
 	// This is always "data" for data packets.
 
-	proc/receive_packet(packet, sender)
+	// If a destination starting with a # is given, it will
+	// be resolved using ThinkDNS. If the address cannot be resolved the
+	// packet is dropped, as it usually is if the destination doesn't exist.
 
-	proc/receive_tagged_packet(packet, sender, tag)
+	// You may set the tdns_name var to alter a machine's ThinkDNS name.
+
+	proc/receive_packet(sender, packet)
+
+	proc/receive_tagged_packet(sender, packet, tag, dest, datum/nwnet/net)
 		if(tag == "data")
-			receive_packet(packet)
+			receive_packet(sender, packet)
 		else if(tag == "ping")
 			send_packet(sender, nw_address, "pong")
+		else if(tag == "tdns_announce")
+			nw_tdns_cache[packet] = sender
+		else if(tag == "tdns_request")
+			if(packet == tdns_name)
+				send_packet(sender, tdns_name, "tdns_announce")
+
+	proc/nw_resolve_tdns(name)
+		if(!(name in nw_tdns_cache))
+			broadcast_packet(name, "tdns_request")
+		if(name in nw_tdns_cache)
+			return nw_tdns_cache[name]
+		return null
+
+	proc/nw_resolve_addr(addr)
+		if(copytext(addr, 1, 2) == "#")
+			return nw_resolve_tdns(copytext(addr, 2))
+		return addr
 
 	proc/send_packet(dest, packet, tag="data")
-		if(nwnet)
-			if(istype(packet, /list))
-				packet = list2params(packet)
-			for(var/obj/machinery/network/N in nwnet.nodes)
-				if(N.nw_address == dest)
-					N.receive_tagged_packet(packet, nw_address, tag)
+		if(!networked) CRASH("Cannot send packet from non-networked machine [src.type]")
+		dest = nw_resolve_addr(dest)
+		if(nwnet && dest)
+			nwnet.send_packet(nw_address, packet, tag, dest)
 
 	proc/broadcast_packet(packet, tag="data")
+		if(!networked) CRASH("Cannot send packet from non-networked machine [src.type]")
 		if(nwnet)
-			if(istype(packet, /list))
-				packet = list2params(packet)
-			for(var/obj/machinery/network/N in nwnet.nodes)
-				N.receive_tagged_packet(packet, nw_address, tag)
+			nwnet.send_packet(nw_address, packet, tag, null)

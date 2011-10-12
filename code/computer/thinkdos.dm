@@ -27,6 +27,10 @@ datum/os/thinkdos
 			cur_prog.crash()
 			del(cur_prog)
 
+	receive_packet(sender, packet)
+		if(cur_prog != null)
+			cur_prog.receive_packet(sender, packet)
+
 	command(cmd, mob/user)
 		term.print("> [cmd]")
 

@@ -1,12 +1,17 @@
-/obj/machinery/network/server_rack
+/obj/machinery/server_rack
 	icon = 'icons/immibis/network_device.dmi'
 	icon_state = "rack-preview"
 
 	name = "server rack"
 
+	nw_promiscuous = 1 // needs to receive messages for the servers in it
+	networked = 1
+	anchored = 1
+	density = 1
+
 	// these are set to paths in the map
 	// New() turns them into objects
-	var/obj/machinery/network/server
+	var/obj/machinery/server
 		slot1
 		slot2
 		slot3
@@ -14,7 +19,7 @@
 		slot5
 
 	proc/init_server(path)
-		var/obj/machinery/network/server/obj = new path
+		var/obj/machinery/server/obj = new path
 		obj.rack = src
 		obj.loc = src
 		return obj
@@ -32,7 +37,7 @@
 	attackby(obj/item/weapon/network_server/item, mob/user)
 		add_fingerprint(user)
 		if(istype(item))
-			var/obj/machinery/network/server/S = item.server
+			var/obj/machinery/server/S = item.server
 			if(!slot1) slot1 = S
 			else if(!slot2) slot2 = S
 			else if(!slot3) slot3 = S
@@ -62,7 +67,7 @@
 		user << browse(get_interact_html(0), "window=server-rack")
 		user.machine = src
 
-	proc/get_status_line(obj/machinery/network/server/server, is_ai)
+	proc/get_status_line(obj/machinery/server/server, is_ai)
 		if(!server)
 			return "empty"
 		var/a = server.get_status_line()
@@ -72,7 +77,7 @@
 
 	Topic(href, href_list[])
 		if("eject" in href_list)
-			var/obj/machinery/network/server/S = locate(href_list["eject"])
+			var/obj/machinery/server/S = locate(href_list["eject"])
 			if(S.loc != src)
 				return
 			var/obj/item/weapon/network_server/I = new(src.loc, S)
@@ -120,22 +125,34 @@
 		if(slot5) overlays += slot5
 		overlays += image(icon='icons/immibis/network_device.dmi', icon_state="rack-over", layer=OBJ_LAYER+0.1)
 
-/obj/machinery/network/server
-	var/obj/machinery/network/server_rack/rack = null
+	receive_tagged_packet(sender, packet, tag, dest)
+		for(var/obj/machinery/server/S in list(slot1, slot2, slot3, slot4, slot5))
+			if(S)
+				if(dest == S.nw_address || S.nw_promiscuous || dest == null)
+					S.receive_tagged_packet(sender, packet, tag, dest)
+
+/obj/machinery/server
+	var/obj/machinery/server_rack/rack = null
 
 	icon = 'icons/immibis/network_device.dmi'
 	icon_state = "server"
 
 	name = "server"
 
+	send_packet()
+		nwnet = rack ? rack.nwnet : null
+		..()
+
+	broadcast_packet()
+		nwnet = rack ? rack.nwnet : null
+		..()
+
 	proc/get_status_line()
 		return "[name] - online"
 
-	QM
-		name = "QM server"
 
 /obj/item/weapon/network_server
-	var/obj/machinery/network/server/server = null
+	var/obj/machinery/server/server = null
 
 	// replaced by the actual server's icon and name when New is called
 	icon = 'icons/immibis/network_device.dmi'
@@ -149,7 +166,7 @@
 
 	pixel_y = 2
 
-	New(loc, obj/machinery/network/server/server)
+	New(loc, obj/machinery/server/server)
 		src.server = server
 		if(server)
 			src.icon = server.icon

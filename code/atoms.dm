@@ -2346,14 +2346,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/obj/item/weapon/card/data/modify2 = null
 	var/mode = null
 	var/temp = null
-/obj/machinery/computer/engine
-	name = "Engine Control"
-	icon = 'icons/ss13/enginecomputer.dmi'
-	var/temp = null
-	var/id = 1
-	var/obj/machinery/gas_sensor/gs
-	req_access = list()
-	var/can_eject = 0
+
 
 /obj/machinery/computer/hologram_comp
 	name = "Hologram Computer"
@@ -2514,6 +2507,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	desc = "A remote sensor for atmospheric gas composition."
 	var/id
 	anchored = 1
+	networked = 1
 
 /obj/machinery/hologram_proj
 	name = "Hologram Projector"

@@ -7,3 +7,5 @@ datum/os
 
 	// can be called from a program to return to the OS
 	proc/quitprog()
+
+	proc/receive_packet(sender, packet)

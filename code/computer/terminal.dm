@@ -2,6 +2,8 @@ obj/machinery/terminal
 	var/base_icon_state
 	var/msg_history
 
+	networked = 1
+
 	density = 1
 	opacity = 0
 	anchored = 1

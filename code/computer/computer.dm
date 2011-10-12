@@ -21,3 +21,6 @@ obj/machinery/terminal/computer
 			if(!prev_power)
 				os.boot()
 				prev_power = 1
+
+	receive_packet(sender, packet)
+		os.receive_packet(sender, packet)

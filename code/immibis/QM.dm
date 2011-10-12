@@ -119,8 +119,6 @@ var/list/QM_crates = list(
 	var/requestor = "Unknown"
 	var/item = "Empty"
 
-var/datum/qm_request/QM_requests[] = new
-
 /obj/machinery/terminal/computer/supply_request
 	name = "Request console"
 	New()
@@ -153,17 +151,27 @@ world/New()
 	var/approval_mode = 0
 	var/datum/qm_request/approval_request = null
 
+	proc/order_crate(name)
+		begin_packet_wait("confirm-order")
+		term.send_packet("#qmserver", list(action = "order", item = name))
+		var/list/p = wait_for_packet()
+		if(!p)
+			term.print("Server is not responding.")
+			return 0
+		else
+			term.print(p["msg"])
+			if("success" in p)
+				term.print("Supply budget is now $[supply_budget]")
+				return 1
+			return 0
+
 	command2(cmd, c_args)
 		if(approval_mode)
 			approval_cmd(cmd, c_args)
 			return
 		var/name = join(" ", c_args)
 		if(cmd == "order")
-			for(var/list/data in QM_crates)
-				if(cmptext(data[1], name))
-					order_crate(data)
-					return
-			term.print("No such crate: '[name]'")
+			order_crate(name)
 		else if(cmd == "help")
 			term.print("Current supply budget: $[supply_budget]")
 			term.print("SupplyMaster commands:")
@@ -171,8 +179,8 @@ world/New()
 			term.print("    shows a list of crates")
 			term.print("  order CRATE NAME")
 			term.print("    orders a crate")
-			term.print("  orders")
-			term.print("    shows current orders")
+//			term.print("  orders")
+//			term.print("    shows current orders")
 			term.print("  requests")
 			term.print("    shows current requests")
 			term.print("  approval")
@@ -185,8 +193,8 @@ world/New()
 			term.print("    quits the program")
 		else if(cmd == "list")
 			list_crates()
-		else if(cmd == "orders")
-			show_orders()
+//		else if(cmd == "orders")
+//			show_orders()
 		else if(cmd == "requests")
 			show_requests()
 		else if(cmd == "approval")
@@ -200,13 +208,142 @@ world/New()
 		else
 			term.print("Unknown command.")
 
-	proc/order_crate(list/data)
+	proc/approval_start()
+		approval_mode = 1
+		approval_next()
+	proc/approval_stop()
+		approval_request = null
+		approval_mode = 0
+		term.print("Exited approval mode.")
+
+	proc/approval_next()
+		begin_packet_wait("approval-next")
+		term.send_packet("#qmserver", list(action = "approval-pull"))
+		var/list/p = wait_for_packet()
+		if(!p)
+			term.print("Server is not responding.")
+			approval_stop()
+			return
+		if(!("item" in p))
+			term.print("No requests left.")
+			approval_stop()
+			return
+		approval_request = new
+		approval_request.item = p["item"]
+		approval_request.requestor = p["requestor"]
+		term.print("[approval_request.item] requested by [approval_request.requestor]")
+		term.print("Accept, reject, skip or exit? ([text2num(p["remaining"])] item\s remaining)")
+
+	proc/approval_cmd(cmd, c_args)
+		if(cmd == "accept")
+			if(order_crate(approval_request.item))
+				begin_packet_wait("confirm-remove")
+				term.send_packet("#qmserver", list(action = "remove-request", item = approval_request.item, requestor = approval_request.requestor))
+				if(!wait_for_packet())
+					term.print("Server is not responding.")
+				else
+					term.print("Request accepted.")
+				// todo: notify the requestor somehow?
+			else
+				term.print("Error ordering item.")
+			approval_next()
+		else if(cmd == "reject")
+			begin_packet_wait("confirm-remove")
+			term.send_packet("#qmserver", list(action = "remove-request", item = approval_request.item, requestor = approval_request.requestor))
+			if(!wait_for_packet())
+				term.print("Server is not responding.")
+			else
+				term.print("Request rejected.")
+			approval_next()
+			// todo: notify the requestor somehow?
+		else if(cmd == "skip")
+			begin_packet_wait("confirm-remove")
+			term.send_packet("#qmserver", list(action = "remove-request", item = approval_request.item, requestor = approval_request.requestor))
+			if(!wait_for_packet())
+				term.print("Server is not responding.")
+			else
+				begin_packet_wait("confirm-request")
+				term.send_packet("#qmserver", list(action = "request", item = approval_request.item, requestor = approval_request.requestor))
+				if(!wait_for_packet())
+					term.print("Server is not responding.")
+				else
+					term.print("Request moved to end of queue.")
+			approval_next()
+		else if(cmd == "exit")
+			approval_stop()
+		else
+			term.print("Unknown command.")
+			term.print("[approval_request.item] requested by [approval_request.requestor]")
+			term.print("Accept, reject, skip or exit?")
+
+	proc/list_crates()
+		for(var/list/data in QM_crates)
+			term.print("[data[1]]: $[data[3]]")
+
+	proc/call_shuttle()
+		spawn
+			QM_shuttle.take_off()
+		term.print("Shuttle called.")
+
+//	proc/show_orders()
+
+	var/waiting_for_packet = 0
+	var/waiting_for_action = ""
+	var/waited_for_packet = null
+
+	proc/begin_packet_wait(action)
+		waiting_for_packet = 1
+		waiting_for_action = action
+
+	proc/wait_for_packet()
+		for(var/k = 1 to 30)
+			if(!waiting_for_packet)
+				return waited_for_packet
+			sleep(1)
+		waiting_for_packet = 0
+		return null
+
+	receive_packet(sender, packet)
+		packet = params2list(packet)
+		if(packet == null)
+			return
+		if(waiting_for_packet && waiting_for_action == packet["action"])
+			waited_for_packet = packet
+			waiting_for_packet = 0
+		switch(packet["action"])
+			if("request-list-item")
+				term.print("[packet["item"]] requested by [packet["requestor"]]")
+			if("request-list-empty")
+				term.print("No current requests")
+
+	proc/show_requests()
+		begin_packet_wait("request-list-end")
+		term.send_packet("#qmserver", list(action = "list-requests"))
+		if(!wait_for_packet())
+			term.print("Server is not responding.")
+
+	proc/show_status()
+		if(QM_shuttle.cur_zlevel == QM_DOCK_ZLEVEL)
+			term.print("Shuttle is at dock.")
+		else if(QM_shuttle.cur_zlevel == 1)
+			term.print("Shuttle is at station.")
+		else
+			term.print("Shuttle is moving.")
+		term.print("Supply budget: $[supply_budget]")
+
+/obj/machinery/server/QM
+	name = "QM server"
+	tdns_name = "qmserver"
+
+	var/datum/qm_request/QM_requests[] = new
+
+	proc/order_crate(sender, list/data)
 		if(QM_shuttle.cur_zlevel != QM_DOCK_ZLEVEL)
-			term.print("Must be at dock to order items.")
-			return 0
+			send_packet(sender, list(action = "confirm-order", msg = "Must be at dock to order items."))
+			return
 		if(supply_budget < data[3])
-			term.print("Insufficient funds.")
-			return 0
+			send_packet(sender, list(action = "confirm-order", msg = "Insufficient funds."))
+			return
 		var/turf/simulated/shuttle/floor/T
 		for(T in locate(QM_shuttle.area))
 			if(T.z != QM_DOCK_ZLEVEL)
@@ -218,85 +355,47 @@ world/New()
 				crate.loc = T
 				break
 		if(!T)
-			term.print("Shuttle is full.")
-			return 0
-		term.print("Crate ordered.")
-		term.print("Supply budget is now $[supply_budget]")
-		return 1
-
-	proc/approval_start()
-		approval_mode = 1
-		approval_next()
-	proc/approval_stop()
-		approval_request = null
-		approval_mode = 0
-		term.print("Exited approval mode.")
-
-	proc/approval_next()
-		if(QM_requests.len == 0)
-			term.print("No requests left.")
-			approval_stop()
+			send_packet(sender, list(action = "confirm-order", msg = "Shuttle is full."))
 			return
-		approval_request = QM_requests[1]
-		term.print("[approval_request.item] requested by [approval_request.requestor]")
-		term.print("Accept, reject, skip or exit? ([QM_requests.len] item\s remaining)")
-	proc/approval_cmd(cmd, c_args)
-		if(cmd == "accept")
-			for(var/list/data in QM_crates)
-				if(cmptext(data[1], approval_request.item))
-					if(order_crate(data))
-						QM_requests -= approval_request
-						term.print("Request accepted.")
-						// todo: notify the requestor somehow?
-					else
-						term.print("Error ordering item.")
-					approval_next()
+		send_packet(sender, list(action = "confirm-order", msg = "Crate ordered.", success=1))
+
+	receive_packet(sender, packet)
+		packet = params2list(packet)
+		if(packet == null)
+			return
+		switch(packet["action"])
+			if("request")
+				var/datum/qm_request/R = new
+				R.item = packet["item"]
+				R.requestor = packet["requestor"]
+				if(!R.item || !R.requestor)
 					return
-			term.print("No such crate: '[approval_request.item]'")
-			QM_requests -= approval_request
-			approval_next()
-		else if(cmd == "reject")
-			QM_requests -= approval_request
-			term.print("Request rejected.")
-			approval_next()
-			// todo: notify the requestor somehow?
-		else if(cmd == "skip")
-			QM_requests -= approval_request
-			QM_requests += approval_request
-			term.print("Request moved to end of queue.")
-			approval_next()
-		else if(cmd == "exit")
-			approval_stop()
-		else
-			term.print("Unknown command.")
-			term.print("[approval_request.item] requested by [approval_request.requestor]")
-			term.print("Accept, reject, skip or exit? ([QM_requests.len] item\s remaining)")
-
-	proc/list_crates()
-		for(var/list/data in QM_crates)
-			term.print("[data[1]]: $[data[3]]")
-
-	proc/call_shuttle()
-		spawn
-			QM_shuttle.take_off()
-		term.print("Shuttle called.")
-
-	proc/show_orders()
-
-	proc/show_requests()
-		for(var/datum/qm_request/R in QM_requests)
-			term.print("[R.item] requested by [R.requestor]")
-		if(QM_requests.len == 0)
-			term.print("No current requests")
-
-	proc/show_status()
-		if(QM_shuttle.cur_zlevel == QM_DOCK_ZLEVEL)
-			term.print("Shuttle is at dock.")
-		else if(QM_shuttle.cur_zlevel == 1)
-			term.print("Shuttle is at station.")
-		else
-			term.print("Shuttle is moving.")
-		term.print("Supply budget: $[supply_budget]")
+				QM_requests += R
+				send_packet(sender, list(action = "confirm-request"))
+			if("list-requests")
+				for(var/datum/qm_request/R in QM_requests)
+					send_packet(sender, list(action = "request-list-item", item = R.item, requestor = R.requestor))
+				if(QM_requests.len == 0)
+					send_packet(sender, list(action = "request-list-empty"))
+				send_packet(sender, list(action = "request-list-end"))
+			if("order")
+				var/name = packet["item"]
+				for(var/list/data in QM_crates)
+					if(cmptext(data[1], name))
+						order_crate(sender, data)
+						return
+				send_packet(sender, list(action = "confirm-order", msg = "No such crate: '[name]'"))
+			if("remove-request")
+				for(var/datum/qm_request/k in QM_requests)
+					if(k.item == packet["item"] && k.requestor == packet["requestor"])
+						QM_requests -= k
+				send_packet(sender, list(action = "confirm-remove"))
+			if("approval-pull")
+				if(QM_requests.len == 0)
+					send_packet(sender, list(action = "approval-next"))
+				else
+					var/datum/qm_request/R = QM_requests[1]
+					send_packet(sender, list(action = "approval-next", item = R.item, requestor = R.requestor, remaining = QM_requests.len - 1))
 
 /datum/comp_program/requestmaster
 	command2(cmd, c_args)
@@ -340,23 +439,53 @@ world/New()
 		else
 			term.print("Welcome to RequestMaster, type 'help' for help.")
 
+	var/waiting_for_packet = 0
+	var/waiting_for_action = ""
+	var/waited_for_packet = null
+
+	proc/begin_packet_wait(action)
+		waiting_for_packet = 1
+		waiting_for_action = action
+
+	proc/wait_for_packet()
+		for(var/k = 1 to 30)
+			if(!waiting_for_packet)
+				return waited_for_packet
+			sleep(1)
+		waiting_for_packet = 0
+		return null
+
+	receive_packet(sender, packet)
+		packet = params2list(packet)
+		if(packet == null)
+			return
+		if(waiting_for_packet && waiting_for_action == packet["action"])
+			waited_for_packet = packet
+			waiting_for_packet = 0
+		switch(packet["action"])
+			if("request-list-item")
+				term.print("[packet["item"]] requested by [packet["requestor"]]")
+			if("request-list-empty")
+				term.print("No current requests")
+
 	proc/list_crates()
 		for(var/list/data in QM_crates)
 			term.print("[data[1]]: $[data[3]]")
 
 	proc/show_requests()
-		for(var/datum/qm_request/R in QM_requests)
-			term.print("[R.item] requested by [R.requestor]")
-		if(QM_requests.len == 0)
-			term.print("No current requests")
+		begin_packet_wait("request-list-end")
+		term.send_packet("#qmserver", list(action = "list-requests"))
+		if(!wait_for_packet())
+			term.print("Server is not responding.")
 
 	proc/request_crate(data)
 		var/datum/os/thinkdos/td = os
-		var/datum/qm_request/R = new
-		R.item = data[1]
-		R.requestor = td.login_name
-		QM_requests += R
-		term.print("Request placed.")
+		begin_packet_wait("confirm-request")
+		term.send_packet("#qmserver", list(action = "request", item = data[1], requestor = td.login_name))
+		if(wait_for_packet())
+			term.print("Request placed.")
+		else
+			term.print("Server is not responding.")
 		// TODO: Notify QM's somehow?
 
 	proc/show_status()
@@ -370,3 +499,4 @@ world/New()
 
 /area/supply_shuttle
 	name = "Supply shuttle"
+	requires_power = 0

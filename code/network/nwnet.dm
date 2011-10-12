@@ -7,11 +7,18 @@
 	proc/merge_into(datum/nwnet/N)
 		N.cables += cables
 		N.nodes += nodes
-		for(var/obj/machinery/network/M in nodes)
+		for(var/obj/machinery/M in nodes)
 			M.nwnet = N
 		for(var/obj/net_cable/C in cables)
 			C.nwnet = N
 		del(src)
+
+	proc/send_packet(sender, packet, tag, dest)
+		if(istype(packet, /list))
+			packet = list2params(packet)
+		for(var/obj/machinery/N in nodes)
+			if((!dest && N.nw_address != sender) || N.nw_address == dest || N.nw_promiscuous)
+				N.receive_tagged_packet(sender, packet, tag, dest, src)
 
 	proc/add_cable(obj/net_cable/C)
 		if(C.nwnet == src)
@@ -23,9 +30,11 @@
 		C.nwnet = src
 		propagate_queue += C
 		if(!C.d1)
-			for(var/obj/machinery/network/M in C.loc)
-				nodes += M
-				M.nwnet = src
+			for(var/obj/machinery/M in C.loc)
+				if(M.networked)
+					if(!(M in nodes))
+						nodes += M
+					M.nwnet = src
 
 	proc/update_cable(obj/net_cable/C)
 		propagate_queue += C
@@ -33,7 +42,7 @@
 
 	proc/propagate()
 		while(propagate_queue.len > 0)
-			var/obj/net_cable/C = propagate_queue[0]
+			var/obj/net_cable/C = propagate_queue[1]
 			propagate_queue -= C
 			for(var/obj/net_cable/C2 in C.get_connections())
 				add_cable(C2)
@@ -47,12 +56,12 @@
 
 	nwnets = list()
 
-	for(var/obj/net_cable/C in world)
+	for(var/obj/net_cable/C)
 		C.nwnet = null
-	for(var/obj/machinery/network/M in machines)
+	for(var/obj/machinery/M)
 		M.nwnet = null
 
-	for(var/obj/net_cable/C in world)
+	for(var/obj/net_cable/C)
 		if(!C.nwnet)
 			var/datum/nwnet/net = new
 			net.add_cable(C)
