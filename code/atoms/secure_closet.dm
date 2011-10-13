@@ -29,6 +29,11 @@
 /obj/secloset/security2
 	name = "Forensics Locker"
 	req_access = list("access_forensics_lockers")
+/obj/secloset/highsec
+	req_access = list("access_security_lockers")
+/obj/secloset/briglocker
+	name = "Security locker"
+	req_access = list("access_security_lockers")
 
 // todo: remove
 /obj/secloset/toxin

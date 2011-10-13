@@ -128,7 +128,7 @@
 	receive_tagged_packet(sender, packet, tag, dest)
 		for(var/obj/machinery/server/S in list(slot1, slot2, slot3, slot4, slot5))
 			if(S)
-				if(dest == S.nw_address || S.nw_promiscuous || dest == null)
+				if(dest == S.nw_address || S.nw_promiscuous || (!dest && sender != S.nw_address))
 					S.receive_tagged_packet(sender, packet, tag, dest)
 
 /obj/machinery/server
@@ -138,6 +138,8 @@
 	icon_state = "server"
 
 	name = "server"
+
+	networked = 1
 
 	send_packet()
 		nwnet = rack ? rack.nwnet : null

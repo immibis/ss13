@@ -58,7 +58,10 @@ obj/machinery
 		if(tag == "data")
 			receive_packet(sender, packet)
 		else if(tag == "ping")
-			send_packet(sender, nw_address, "pong")
+			var/list/L = new
+			L["name"] = name
+			if(tdns_name) L["tdns"] = tdns_name
+			send_packet(sender, L, "pong")
 		else if(tag == "tdns_announce")
 			nw_tdns_cache[packet] = sender
 		else if(tag == "tdns_request")

@@ -49,6 +49,7 @@ area
 		name = "Maintenance"
 		security
 		southwest
+		southeast
 		research_n
 		research_c
 		research_e
@@ -62,3 +63,4 @@ area
 	turret_protected
 		ai_upload/name = "AI Upload"
 		ai_core/name = "AI Core"
+	netmon/name = "Network Monitoring"
