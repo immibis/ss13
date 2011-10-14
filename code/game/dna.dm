@@ -195,20 +195,6 @@
 		src.updateUsrDialog()
 	return
 
-/obj/machinery/computer/dna/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			//SN src = null
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				//SN src = null
-				del(src)
-				return
-		else
-	return
-
 /obj/machinery/dna_scanner/allow_drop()
 	return 0
 

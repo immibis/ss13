@@ -14,6 +14,9 @@ var/list/nwnets = new
 	var/d2 = 1
 	layer = 2.5
 
+	pixel_x = 3
+	pixel_y = 3
+
 	proc/get_connections()
 		var/list/L = new
 		if(d1)

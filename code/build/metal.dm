@@ -87,17 +87,19 @@ var/list/buildable_with_metal = list(
 	"stool" = list("Make stool", 1, /obj/stool),
 	"chair" = list("Make chair", 1, "make_chair"),
 	"rack" = list("Make rack parts", 1, /obj/item/weapon/rack_parts),
-	"o2can" = list("Make O2 canister", 2, "make_oxycan"),
-	"plcan" = list("Make plasma canister", 2, "make_plcan"),
-	"n2can" = list("Make N2 canister", 2, "make_n2can"),
-	"n2ocan" = list("Make N2O canister", 2, "make_n2ocan"),
-	"co2can" = list("Make CO2 canister", 2, "make_co2can"),
-	"aircan" = list("Make air canister", 2, "make_aircan"),
+	"o2can" = list("Make empty O2 canister", 2, "make_oxycan"),
+	"plcan" = list("Make empty plasma canister", 2, "make_plcan"),
+	//"n2can" = list("Make empty N2 canister", 2, "make_n2can"),
+	//"n2ocan" = list("Make empty N2O canister", 2, "make_n2ocan"),
+	//"co2can" = list("Make empty CO2 canister", 2, "make_co2can"),
+	//"aircan" = list("Make empty air canister", 2, "make_aircan"),
 	"closet" = list("Make closet", 2, /obj/closet),
 	"reinforced" = list("Make reinforced sheet", 2, "make_reinforced"),
 	"tiles" = list("Make 4 floor tiles", 1, "make_tiles"),
 	"bed" = list("Make bed", 1, /obj/stool/bed),
 	"wall" = list("Construct wall", 1, "construct_wall")
+
+	// Why the fuck did I ever add these?
 //	"generator" = list("Construct thermo-electric generator", 3, "construct_teg"),
 //	"turbine" = list("Construct gas turbine", 2, "construct_turbine")
 	)

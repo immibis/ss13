@@ -717,7 +717,6 @@
 	O.showLaws(0)
 	O << "<b>These laws may be changed by other players, or by you being the traitor.</b>"
 	//SN src = null
-	O.verbs += /mob/ai/proc/ai_call_shuttle
 	O.verbs += /mob/ai/proc/show_laws
 	O.verbs += /mob/ai/proc/ai_camera_track
 	O.verbs += /mob/ai/proc/ai_alerts

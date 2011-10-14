@@ -746,20 +746,6 @@
 
 	return
 
-/obj/machinery/computer/sleep_console/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			//SN src = null
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				//SN src = null
-				del(src)
-				return
-		else
-	return
-
 /obj/machinery/computer/sleep_console/New()
 	..()
 	spawn( 5 )
@@ -822,8 +808,8 @@
 	return
 
 /obj/machinery/computer/sleep_console/power_change()
-	return
 	// no change - sleeper works without power (you just can't inject more)
+	return
 
 /obj/machinery/atmospherics/unary/freezer
 	name = "Freezer"

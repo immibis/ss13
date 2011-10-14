@@ -1,7 +1,9 @@
 obj/machinery/computer/shuttle
 	name = "Shuttle Controller"
-	icon = 'icons/ss13/shuttle.dmi'
-	icon_state = "shuttlecom"
+
+	var/auth_need = 3.0
+
+	var/list/authorized = list(  )
 
 	var/area = null // string with path to area
 
@@ -17,24 +19,6 @@ obj/machinery/computer/shuttle
 		shuttle.end_zlevel = end_zlevel
 		shuttle.area = text2path(area)
 		shuttle.cur_zlevel = src.z
-
-	ex_act(severity)
-		switch(severity)
-			if(1.0)
-				del(src)
-				return
-			if(2.0)
-				if (prob(50))
-					for(var/x in src.verbs)
-						src.verbs -= x
-					src.icon_state = "broken"
-			if(3.0)
-				if (prob(25))
-					for(var/x in src.verbs)
-						src.verbs -= x
-					src.icon_state = "broken"
-			else
-		return
 
 	verb/take_off()
 		if(src.z == transit_zlevel)

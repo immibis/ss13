@@ -11,3 +11,4 @@ Easy-to-forget things that all maps need:
 - Wizard's den
 - Wall-mounted status displays
 - Mail chutes
+- Blobstarts

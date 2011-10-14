@@ -46,7 +46,7 @@ obj/machinery/pneumotube
 	proc/receive_item(obj/item/weapon/item, from)
 		var/indir = get_dir(src, from)
 		if(indir != dir1 && indir != dir2)
-			world.log << "In-dir [dir2text(indir)] isn't in direction ([dir2text(dir1)]/[dir2text(dir2)]) of [x],[y],[z]"
+			//world.log << "Input direction [dir2text(indir)] isn't in direction ([dir2text(dir1)]/[dir2text(dir2)]) of [x],[y],[z]"
 			indir = get_random_source_dir()
 		var/outdir = indir ^ (dir1 ^ dir2)
 		animate(indir, outdir)

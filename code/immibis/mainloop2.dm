@@ -380,7 +380,7 @@
 	shuttle_location = shuttle_z
 
 	world.update_stat()
-	world << "<B>Welcome to the Space Station 13!</B>\n\n"
+	world << "<B>Welcome to Space Station 13!</B>\n\n"
 
 	switch (master_mode)
 		if("secret")
@@ -423,7 +423,18 @@
 
 /datum/control/cellular/proc/AtmosStep(var/time)
 	set background = 1
+	//var/start_time = world.timeofday
+#ifdef ASYNC_ATMOS
+	var/count
+	var/maxcount = 1000
+#endif
 	for(var/turf/simulated/T)
+#ifdef ASYNC_ATMOS
+		count++
+		if(count >= maxcount)
+			count = 0
+			sleep(1)
+#endif
 		if(!T.atmos_sleeping && T.updatecell)
 			T.updatecell()
 			if(!time)
@@ -435,6 +446,8 @@
 			T.replace_gas()
 
 	reset_unsimulated()
+	//var/duration = world.timeofday - start_time
+	//world << duration
 
 /datum/control/cellular/proc/AtmosLoop()
 	var/time = 0

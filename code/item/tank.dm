@@ -203,7 +203,8 @@
 
 
 /obj/item/weapon/tank/plasmatank/proc/ignite()
-	var/strength = ((src.gas.plasma + src.gas.o2/2.0) / 1600000.0) * src.gas.temperature
+	// this makes the strength about 500 for a 500 degree bomb with default pressure.
+	var/strength = ((src.gas.plasma + src.gas.o2/2.0) / 32.0) * src.gas.temperature
 	//if ((src.gas.plasma < 1600000.0 || src.gas.temperature < 773))		//500degC
 	if (strength < 773.0)
 		var/turf/T = get_turf(src.loc)

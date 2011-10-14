@@ -1,6 +1,5 @@
 obj/machinery/computer/engine
 	name = "Engine Control"
-	icon = 'icons/ss13/enginecomputer.dmi'
 	var/temp = null
 	var/id = 1
 	var/obj/machinery/gas_sensor/gs
@@ -8,21 +7,6 @@ obj/machinery/computer/engine
 	var/can_eject = 0
 
 	networked = 1
-
-	ex_act(severity)
-		switch(severity)
-			if(1)
-				del(src)
-			if(2)
-				if (prob(50))
-					for(var/x in src.verbs)
-						src.verbs -= x
-					src.icon_state = "broken"
-			if(3)
-				if (prob(25))
-					for(var/x in src.verbs)
-						src.verbs -= x
-					src.icon_state = "broken"
 
 	New()
 		if(!engine_eject_control)
@@ -175,7 +159,8 @@ obj/machinery/computer/engine
 
 		src.status = 1
 		for(var/obj/machinery/computer/engine/E in machines)
-			E.icon_state = "engaging"
+			E.display = "1"
+			E.updateicon()
 			//Foreach goto(113)
 		spawn( 0 )
 			src.countdown()
@@ -233,7 +218,8 @@ obj/machinery/computer/engine
 	makepowernets()
 	world << "\red <B>Engine Ejected!</B>"
 	for(var/obj/machinery/computer/engine/CE in machines)
-		CE.icon_state = "engaged"
+		CE.display = "2"
+		CE.updateicon()
 	return
 
 /datum/engine_eject/proc/stopcount()
@@ -249,7 +235,8 @@ obj/machinery/computer/engine
 			A.updateicon()
 
 		for(var/obj/machinery/computer/engine/CE in machines)
-			CE.icon_state = null
+			CE.display = null
+			CE.updateicon()
 			//Foreach goto(84)
 	return
 

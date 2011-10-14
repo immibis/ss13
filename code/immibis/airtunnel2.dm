@@ -111,8 +111,6 @@ datum/airtunnel
 
 obj/machinery/computer/airtunnel
 	name = "Air Tunnel Control"
-	icon = 'icons/immibis/airtunnelcomputer.dmi'
-	icon_state = "0"
 
 	var/datum/airtunnel/tunnel = null
 
@@ -120,13 +118,12 @@ obj/machinery/computer/airtunnel
 
 	New()
 		. = ..()
-		stat = BROKEN
 		spawn(10)
 			tunnel = airtunnels[at_id]
-			if(tunnel)
-				stat = 0
-			else
+			if(!tunnel)
 				world.log << "No such airtunnel: [at_id]"
+				stat |= BROKEN
+				updateicon()
 
 	attack_ai(mob/user)
 		add_fingerprint(user)
@@ -178,21 +175,16 @@ obj/machinery/computer/airtunnel
 			tunnel.stop()
 		else
 			. = ..()
-		update_icon()
+		updateicon()
 
-	proc/update_icon()
-		if(stat & NOPOWER)
-			icon_state = "c_unpowered"
-		else if(stat & BROKEN)
-			icon_state = "broken"
-		else
-			switch(tunnel.state)
-				if(tunnel.RETRACTED) icon_state = "0"
-				if(tunnel.EXTENDED) icon_state = "1"
-				if(tunnel.MIDWAY) icon_state = "2"
-				if(tunnel.RETRACTING) icon_state = "r"
-				if(tunnel.EXTENDING) icon_state = "e"
-
-	power_change()
+	updateicon()
+		if(!tunnel)
+			display = "0"
+			return ..()
+		switch(tunnel.state)
+			if(tunnel.RETRACTED) display = "0"
+			if(tunnel.EXTENDED) display = "1"
+			if(tunnel.MIDWAY) display = "2"
+			if(tunnel.RETRACTING) display = "r"
+			if(tunnel.EXTENDING) display = "e"
 		. = ..()
-		update_icon()

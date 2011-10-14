@@ -127,7 +127,6 @@
 
 	process()
 		var/turf/simulated/T = loc
-		var/otemp = T.gas.temperature
 		if(!thermal_shutdown)
 			if(!istype(T)) return
 			if(T.gas.temperature > SERVER_TEMP_THRESHOLD_HIGH)
@@ -135,7 +134,6 @@
 			else
 				T.atmos_sleeping = 0
 				T.gas.set_heat(T.gas.get_heat() + SERVER_RACK_HEAT)
-				world << "[otemp] -> [T.gas.temperature]"
 				if(T.gas.temperature >= SERVER_TEMP_THRESHOLD_HIGH)
 					T.gas.set_temp(SERVER_TEMP_THRESHOLD_HIGH)
 					begin_thermal_shutdown()

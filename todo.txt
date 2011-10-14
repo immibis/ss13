@@ -20,3 +20,7 @@ Supermatter/singularity/antimatter/fission/fusion/gas turbine engine?
 Servers make heat.
 
 Implement /datum/nwnet/cut_cable
+
+
+
+Some sort of SpaceChem-like system for scientists. That would be fucking awesome.

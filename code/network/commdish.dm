@@ -1,7 +1,9 @@
-// Any packet sent to #commdish will be received by all other comm dishes.
-// The packet must be wrapped in a packet of the form:
-// target=TARGET_ADDRESS&packet=WRAPPED_PACKET
-// When received the packet will be unwrapped.
+// Any packet sent to #commdish will be received by any available comms dish.
+// If a comms dish is cut, packets sent to #commdish may be dropped until
+// the sender's DNS cache is flushed.
+
+// NT's dishes are abstracted away - any message received by a dish is
+// acted on as if it were received by NT.
 
 /obj/machinery/commdish
 	icon_state = "commdish"
@@ -13,51 +15,16 @@
 	networked = 1
 
 	receive_packet(sender, packet)
-		spawn(rand(1,2))
-			for(var/obj/machinery/commdish/D)
-				if(D.nwnet != nwnet)
-					packet = params2list(packet)
-					if(!packet) packet = list()
-					packet["comm-received"] = 1
-					D.send_packet("#commserver", packet)
-
-/obj/machinery/server/comms
-	tdns_name = "commserver"
-
-	name = "Communications server"
-
-	var/online = 0
-	var/dish_addr
-
-	receive_tagged_packet(sender, packet, tag, dest)
-		if(tag == "pong")
-			online = 2
-			dish_addr = sender
-		else
-			. = ..()
-
-	receive_packet(sender, packet)
-		packet = params2list(packet)
-		if(!packet || !("comm-received" in packet))
-			if(dish_addr)
-				send_packet(dish_addr, packet)
-			else
-				send_packet(sender, list2params(list(action="comms-error",msg="no dish")))
-			return
-		if(sender == dish_addr)
-			// do nothing
+		// All cross-space packets must be signed.
+		var/sign_result = CheckPacketSignature(packet)
+		if(!sign_result)
 			return
 
-	New()
-		. = ..()
-		spawn while(1)
-			online--
-			if(online <= 0) dish_addr = null
-			send_packet("#commdish", "", "ping")
-			sleep(10)
-			online--
-			sleep(90)
+		var/sig_id = sign_result[1]
+		packet = sign_result[2]
 
-	get_status_line()
-		return "[name] - [online ? "Connected to [dish_addr]" : "Not connected"]"
-
+		if(sig_id == "emshuttle")
+			if(packet == "call")
+				call_shuttle_proc()
+			else if(packet == "recall")
+				cancel_call_proc()

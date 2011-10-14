@@ -10,55 +10,6 @@
 	user.reset_view(src.current)
 	return 1
 
-/obj/machinery/computer/meteorhit(var/obj/O as obj)
-	for(var/x in src.verbs)
-		src.verbs -= x
-	src.icon_state = "broken"
-	stat |= BROKEN
-	var/obj/effects/smoke/pasta = new /obj/effects/smoke( src.loc )
-	pasta.dir = pick(NORTH, SOUTH, EAST, WEST)
-	spawn( 0 )
-		pasta.Life()
-	return
-
-/obj/machinery/computer/communications/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				for(var/x in src.verbs)
-					src.verbs -= x
-				src.icon_state = "broken"
-				stat |= BROKEN
-		if(3.0)
-			if (prob(25))
-				for(var/x in src.verbs)
-					src.verbs -= x
-				src.icon_state = "broken"
-				stat |= BROKEN
-		else
-
-/obj/machinery/computer/blob_act()
-	if (prob(50))
-		for(var/x in src.verbs)
-			src.verbs -= x
-		src.icon_state = "broken"
-		src.stat |= BROKEN
-		src.density = 0
-
-/obj/machinery/computer/power_change()
-	if(stat & BROKEN)
-		icon_state = "broken"
-	else if(powered())
-		icon_state = initial(icon_state)
-		stat &= ~NOPOWER
-	else
-		spawn(rand(0, 15))
-			src.icon_state = "c_unpowered"
-			stat |= NOPOWER
-
 /obj/machinery/Topic(href, href_list)
 	if(stat & (NOPOWER|BROKEN))
 		return 1
@@ -93,11 +44,6 @@
 	src.add_fingerprint(user)
 	return 0
 
-/obj/machinery/computer/process()
-	if(stat & (NOPOWER|BROKEN))
-		return
-	use_power(COMPUTER_POWER)
-
 /obj/machinery/computer/communications/process()
 	..()
 	src.updateDialog()
@@ -114,20 +60,23 @@
 		if("main")
 			src.state = STATE_DEFAULT
 		if("login")
-			var/mob/M = usr
+			var/mob/human/M = usr
 			var/obj/item/weapon/card/id/I = M.equipped()
-			if (I && istype(I))
-				if(src.check_access(I))
-					authenticated = 1
+			if(I && istype(I) && src.check_access(I))
+				authenticated = I
+			else if(istype(M))
+				I = M.wear_id
+				if(I && istype(I) && src.check_access(I))
+					authenticated = I
 		if("logout")
-			authenticated = 0
+			authenticated = null
 		if("callshuttle")
 			src.state = STATE_DEFAULT
 			if(src.authenticated)
 				src.state = STATE_CALLSHUTTLE
 		if("callshuttle2")
 			if(src.authenticated)
-				call_shuttle_proc(usr)
+				send_packet("#commdish", SignPacket("emshuttle", "call"))
 			src.state = STATE_DEFAULT
 		if("cancelshuttle")
 			src.state = STATE_DEFAULT
@@ -135,7 +84,7 @@
 				src.state = STATE_CANCELSHUTTLE
 		if("cancelshuttle2")
 			if(src.authenticated)
-				cancel_call_proc(usr)
+				send_packet("#commdish", SignPacket("emshuttle", "recall"))
 			src.state = STATE_DEFAULT
 		if("messagelist")
 			src.currmsg = 0
@@ -195,12 +144,6 @@
 			src.aistate = STATE_MESSAGELIST
 	src.updateUsrDialog()
 
-/obj/machinery/computer/communications/attack_ai(var/mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/computer/communications/attack_paw(var/mob/user as mob)
-	return src.attack_hand(user)
-
 /obj/machinery/computer/communications/attack_hand(var/mob/user as mob)
 	if(..())
 		return
@@ -213,9 +156,12 @@
 	if (istype(user, /mob/ai))
 		var/dat2 = src.interact_ai(user) // give the AI a different interact proc to limit its access
 		if(dat2)
-			dat +=  dat2
+			dat += dat2
 			user << browse(dat, "window=communications;size=400x500")
 		return
+
+	if(!authenticated)
+		state = STATE_DEFAULT
 
 	switch(src.state)
 		if(STATE_DEFAULT)
@@ -288,76 +234,23 @@
 	dat += "<BR>\[ [(src.aistate != STATE_DEFAULT) ? "<A HREF='?src=\ref[src];operation=ai-main'>Main Menu</A> | " : ""]<A HREF='?src=\ref[user];mach_close=communications'>Close</A> \]"
 	return dat
 
-/mob/ai/proc/ai_call_shuttle()
-	set category = "AI Commands"
-	set name = "Call Emergency Shuttle"
-	if(usr.stat == 2)
-		usr << "You can't call the shuttle because you are dead!"
-		return
-	call_shuttle_proc(src)
-	return
-
-/proc/call_shuttle_proc(var/mob/user)
+/proc/call_shuttle_proc()
 	if ((!( ticker ) || ticker.shuttle_location == 1))
-		return
-
-	if(ticker.mode.name == "blob" || ticker.mode.name == "Corporate Restructuring" || ticker.mode.name == "sandbox")
-		user << "Under directive 7-10, SS13 is quarantined until further notice."
 		return
 
 	if (!( ticker.timeleft ))
 		ticker.timeleft = shuttle_time_to_arrive
 	world << "\blue <B>Alert: The emergency shuttle has been called. It will arrive in [ticker.timeleft/600] minutes.</B>"
 	ticker.timing = 1
-	return
 
-/proc/cancel_call_proc(var/mob/user)
+/proc/cancel_call_proc()
 	if ((!( ticker ) || ticker.shuttle_location == 1 || ticker.timing == 0 || ticker.timeleft < 300))
 		return
 	if( ticker.mode.name == "blob" )
 		return
 
 	world << "\blue <B>Alert: The shuttle is going back!</B>"
-	ticker.timing = -1.0
-
-	return
-
-/obj/machinery/computer/card/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				for(var/x in src.verbs)
-					src.verbs -= x
-				src.icon_state = "broken"
-				stat |= BROKEN
-		if(3.0)
-			if (prob(25))
-				for(var/x in src.verbs)
-					src.verbs -= x
-				src.icon_state = "broken"
-				stat |= BROKEN
-		else
-	return
-
-/obj/machinery/computer/card/power_change()
-	if(stat & BROKEN)
-		icon_state = "broken"
-	else if( powered() )
-		icon_state = initial(icon_state)
-		stat &= ~NOPOWER
-	else
-		spawn(rand(0, 15))
-			src.icon_state = "id_unpowered"
-			stat |= NOPOWER
-
-/obj/machinery/computer/card/attack_ai(var/mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/computer/card/attack_paw(var/mob/user as mob)
-	return src.attack_hand(user)
+	ticker.timing = -1
 
 /obj/machinery/computer/card/attack_hand(var/mob/user as mob)
 	if(..())
@@ -497,27 +390,6 @@
 
 /obj/machinery/computer/card/attackby(I as obj, user as mob)
 	src.attack_hand(user)
-	return
-
-/obj/machinery/computer/pod/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			//SN src = null
-			del(src)
-			return
-		if(2.0)
-			if (prob(50))
-				for(var/x in src.verbs)
-					src.verbs -= x
-				src.icon_state = "broken"
-				stat |= BROKEN
-		if(3.0)
-			if (prob(25))
-				for(var/x in src.verbs)
-					src.verbs -= x
-				src.icon_state = "broken"
-				stat |= BROKEN
-		else
 	return
 
 /obj/machinery/computer/pod/proc/alarm()
