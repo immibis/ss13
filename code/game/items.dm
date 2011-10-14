@@ -2153,14 +2153,9 @@
 	return
 
 /obj/item/weapon/pen/sleepypen/New()
-
-	src.chem = new /obj/substance/chemical(  )
-	src.chem.maximum = 5
-	var/datum/chemical/s_tox/C = new /datum/chemical/s_tox( null )
-	C.moles = C.density * 5 / C.molarmass
-	src.chem.chemicals[text("[]", C.name)] = C
+	src.chem = new /datum/reagent_container()
+	src.chem.init(/datum/reagent/sleep_toxin, 5)
 	..()
-	return
 
 /obj/item/weapon/pen/sleepypen/attack(mob/M as mob, mob/user as mob)
 
@@ -2172,7 +2167,7 @@
 		for(var/mob/O in viewers(M, null))
 			O.show_message(text("\red [] has been stabbed with [] by [].", M, src, user), 1)
 			//Foreach goto(57)
-		var/amount = src.chem.transfer_mob(M, src.chem.maximum)
+		var/amount = src.chem.transfer_mob(M)
 		user.show_message(text("\red You inject [] units into the [].", amount, M))
 		src.desc = "It's a normal black ink pen."
 	return
@@ -2218,14 +2213,7 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/paper/photograph/examine()
-	set src in view()
-
-	..()
-	return
-
 /obj/item/weapon/paper/New()
-
 	..()
 	src.pixel_y = rand(1, 16)
 	src.pixel_x = rand(1, 16)
@@ -2894,12 +2882,9 @@
 	new /obj/item/weapon/ointment( src )
 	new /obj/item/weapon/ointment( src )
 	new /obj/item/weapon/healthanalyzer( src )
-	var/obj/item/weapon/syringe/S = new /obj/item/weapon/syringe( src )
-	var/datum/chemical/rejuv/C = new /datum/chemical/rejuv( null )
-	C.moles = C.density * 15 / C.molarmass
-	S.chem.chemicals[text("[]", C.name)] = C
+	var/obj/item/weapon/syringe/S = new /obj/item/weapon/syringe(src)
+	S.chem.init(/datum/reagent/rejuvenators, S.chem.max_volume)
 	S.icon_state = "syringe_15"
-	return
 
 /obj/item/weapon/storage/firstaid/syringes/New()
 	..()
@@ -2913,7 +2898,6 @@
 	return
 
 /obj/item/weapon/storage/firstaid/regular/New()
-
 	..()
 	new /obj/item/weapon/brutepack( src )
 	new /obj/item/weapon/brutepack( src )
@@ -2922,37 +2906,26 @@
 	new /obj/item/weapon/ointment( src )
 	new /obj/item/weapon/healthanalyzer( src )
 	var/obj/item/weapon/syringe/S = new /obj/item/weapon/syringe( src )
-	var/datum/chemical/rejuv/C = new /datum/chemical/rejuv( null )
-	C.moles = C.density * 15 / C.molarmass
-	S.chem.chemicals[text("[]", C.name)] = C
+	S.chem.init(/datum/reagent/rejuvenators, S.chem.max_volume)
 	S.icon_state = "syringe_15"
-	return
 
 /obj/item/weapon/storage/firstaid/toxin/New()
-
 	..()
 	new /obj/item/weapon/pill_canister/antitoxin( src )
 	new /obj/item/weapon/pill_canister/antitoxin( src )
-	var/t = null
-	t = 1
-	while(t <= 4)
+	for(var/t in 1 to 4)
 		var/obj/item/weapon/syringe/S = new /obj/item/weapon/syringe( src )
-		var/datum/chemical/pl_coag/C = new /datum/chemical/pl_coag( null )
-		C.moles = C.density * 15 / C.molarmass
-		S.chem.chemicals[text("[]", C.name)] = C
+		S.chem.init(/datum/reagent/antitoxins, S.chem.max_volume)
 		S.icon_state = "syringe_15"
-		t++
 	new /obj/item/weapon/healthanalyzer( src )
 	return
 
 /obj/item/weapon/storage/firstaid/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
 	if (src.contents.len >= 7)
 		return
 	if ((W.w_class >= 2 || istype(W, /obj/item/weapon/storage)))
 		return
 	..()
-	return
 
 /obj/item/weapon/tile/New()
 
@@ -3823,7 +3796,7 @@
 	return
 
 /obj/item/weapon/dropper/proc/update_is()
-	var/t1 = round(src.chem.volume())
+	var/t1 = round(src.chem.cur_volume)
 	if (istype(src.loc, /mob))
 		if (src.mode == "inject")
 			src.icon_state = text("dropper_[]_I", t1)
@@ -3837,7 +3810,6 @@
 /obj/item/weapon/dropper/dropped()
 	..()
 	src.update_is()
-	return
 
 /obj/item/weapon/dropper/attack_self()
 	if (src.mode == "inject")
@@ -3845,14 +3817,10 @@
 	else
 		src.mode = "inject"
 	src.update_is()
-	return
 
 /obj/item/weapon/dropper/New()
-
-	src.chem = new /obj/substance/chemical(  )
-	src.chem.maximum = 5
+	src.chem = new /datum/reagent_container(5)
 	..()
-	return
 
 /obj/item/weapon/dropper/attack(mob/M as mob, mob/user as mob)
 	if (!istype(M, /mob))
@@ -3860,17 +3828,17 @@
 	if (!(istype(usr, /mob/human) || ticker) && ticker.mode.name != "monkey")
 		user << "\red You don't have the dexterity to do this!"
 		return
-	if(!src.chem.volume())
+	if(!src.chem.cur_volume)
 		user << "\red The dropper is empty!"
 		return
 	if (user)
 		for(var/mob/O in viewers(M, null))
-			O.show_message(text("\red [] has been eyedropped with [] by [].", M, src, user), 1)
-		var/amount = src.chem.dropper_mob(M, 1)
+			O.show_message("\red [M] has been eyedropped with [src] by [user].", 1)
+		var/datum/reagent_container/chem2 = src.chem.split_and_remove(1)
+		var/amount = chem2.dropper_mob(M)
 		src.update_is()
-		user.show_message(text("\red You drop [] units into []'s eyes. The dropper contains [] millimeters.", amount, M, src.chem.volume()))
+		user.show_message("\red You drop [amount] units into [M]'s eyes. The dropper now contains [src.chem.describe()].")
 		src.add_fingerprint(user)
-	return
 
 /obj/item/weapon/implantcase/proc/update()
 	if (src.imp)
@@ -4075,7 +4043,7 @@
 	return
 
 /obj/item/weapon/syringe/proc/update_is()
-	var/t1 = round(src.chem.volume(), 5)
+	var/t1 = round(src.chem.cur_volume, 5)
 	if (istype(src.loc, /mob))
 		if (src.mode == "inject")
 			src.icon_state = text("syringe_[]_I", t1)
@@ -4088,7 +4056,7 @@
 
 /obj/item/weapon/syringe/proc/inject(mob/M as mob)
 	var/amount = 5
-	var/volume = src.chem.volume()
+	var/volume = src.chem.cur_volume
 	if (volume < 0.01)
 		return
 	else
@@ -4112,10 +4080,8 @@
 	return
 
 /obj/item/weapon/syringe/New()
-	src.chem = new /obj/substance/chemical(  )
-	src.chem.maximum = 15
+	src.chem = new /datum/reagent_container(15)
 	..()
-	return
 
 /obj/item/weapon/syringe/attack(mob/M as mob, mob/user as mob)
 	if (!istype(M, /mob))
@@ -4123,7 +4089,7 @@
 	if (!(istype(usr, /mob/human) || ticker) && ticker.mode.name != "monkey")
 		user << "\red You don't have the dexterity to do this!"
 		return
-	if (!src.chem.volume())
+	if (!src.chem.cur_volume)
 		user << "\red The syringe is empty!"
 		return
 	if (user)
@@ -4146,7 +4112,7 @@
 			var/amount = src.chem.transfer_mob(M, 5)
 			src.update_is()
 
-			user.show_message(text("\red You inject [] units into the []. The syringe contains [] millimeters.", amount, M, src.chem.volume()))
+			user.show_message(text("\red You inject [] units into the []. The syringe contains [] millimeters.", amount, M, src.chem.cur_volume))
 	return
 
 /obj/item/weapon/brutepack/attack_hand(mob/user as mob)
@@ -4344,32 +4310,28 @@
 
 /obj/item/weapon/bottle/examine()
 	set src in usr
-
-	usr << text("\blue The bottle \icon[] contains [] millimeters of chemicals", src, round(src.chem.volume(), 0.1))
-	return
+	usr << "\blue The bottle \icon[src] contains [chem.describe()]"
 
 /obj/item/weapon/bottle/New()
-
-	src.chem = new /obj/substance/chemical(  )
+	src.chem = new /datum/reagent_container()
 	..()
-	return
 
 /obj/item/weapon/bottle/attackby(obj/item/weapon/B as obj, mob/user as mob)
 
 	if (istype(B, /obj/item/weapon/bottle))
-		var/t1 = src.chem.maximum
-		var/volume = src.chem.volume()
+		var/t1 = src.chem.max_volume
+		var/volume = src.chem.cur_volume
 		if (volume < 0.1)
 			return
 		else
 			t1 = volume - 0.1
 		t1 = src.chem.transfer_from(B:chem, t1)
 		if (t1)
-			user.show_message(text("\blue You pour [] unit\s into the bottle. The bottle now contains [] millimeters.", round(t1, 0.1), round(src.chem.volume(), 0.1)))
+			user.show_message(text("\blue You pour [] unit\s into the bottle. The bottle now contains [] millimeters.", round(t1, 0.1), round(src.chem.cur_volume, 0.1)))
 	if (istype(B, /obj/item/weapon/syringe))
 		if (B:mode == "inject")
 			var/t1 = 5
-			var/volume = src.chem.volume()
+			var/volume = src.chem.cur_volume
 			if (volume < 0.01)
 				return
 			else
@@ -4378,10 +4340,10 @@
 			t1 = src.chem.transfer_from(B:chem, t1)
 			B:update_is()
 			if (t1)
-				user.show_message(text("\blue You inject [] unit\s into the bottle. The syringe contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
+				user.show_message(text("\blue You inject [] unit\s into the bottle. The syringe contains [] units.", round(t1, 0.1), round(B:chem.cur_volume, 0.1)))
 		else
 			var/t1 = 5
-			var/volume = src.chem.volume()
+			var/volume = src.chem.cur_volume
 			if (volume < 0.05)
 				return
 			else
@@ -4390,13 +4352,13 @@
 			t1 = B:chem.transfer_from(src.chem, t1)
 			B:update_is()
 			if (t1)
-				user.show_message(text("\blue You draw [] unit\s from the bottle. The syringe contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
+				user.show_message(text("\blue You draw [] unit\s from the bottle. The syringe contains [] units.", round(t1, 0.1), round(B:chem.cur_volume, 0.1)))
 		src.add_fingerprint(user)
 	else
 		if (istype(B, /obj/item/weapon/dropper))
 			if (B:mode == "inject")
 				var/t1 = 1
-				var/volume = src.chem.volume()
+				var/volume = src.chem.cur_volume
 				if (volume < 0.0050)
 					return
 				else
@@ -4405,10 +4367,10 @@
 				t1 = src.chem.transfer_from(B:chem, t1)
 				B:update_is()
 				if (t1)
-					user.show_message(text("\blue You deposit [] unit\s into the bottle. The dropper contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
+					user.show_message(text("\blue You deposit [] unit\s into the bottle. The dropper contains [] units.", round(t1, 0.1), round(B:chem.cur_volume, 0.1)))
 			else
 				var/t1 = 1
-				var/volume = src.chem.volume()
+				var/volume = src.chem.cur_volume
 				if (volume < 0.0050)
 					return
 				else
@@ -4417,69 +4379,29 @@
 				t1 = B:chem.transfer_from(src.chem, t1)
 				B:update_is()
 				if (t1)
-					user.show_message(text("\blue You extract [] unit\s from the bottle. The dropper contains [] units.", round(t1, 0.1), round(B:chem.volume(), 0.1)))
+					user.show_message(text("\blue You extract [] unit\s from the bottle. The dropper contains [] units.", round(t1, 0.1), round(B:chem.cur_volume, 0.1)))
 	return
 
 /obj/item/weapon/bottle/toxins/New()
-
 	..()
-	src.chem.maximum = 60
-	var/datum/chemical/l_plas/C = new /datum/chemical/l_plas( null )
-	C.moles = C.density * 50 / C.molarmass
-	src.chem.chemicals[text("[]", C.name)] = C
-	return
+	src.chem.init(/datum/reagent/liquid_plasma, 60)
 
 /obj/item/weapon/bottle/antitoxins/New()
-
 	..()
-	src.chem.maximum = 60
-	var/datum/chemical/pl_coag/C = new /datum/chemical/pl_coag( null )
-	C.moles = C.density * 50 / C.molarmass
-	src.chem.chemicals[text("[]", C.name)] = C
-	return
-
-/obj/item/weapon/bottle/r_epil/New()
-
-	..()
-	src.chem.maximum = 60
-	var/datum/chemical/epil/C = new /datum/chemical/epil( null )
-	C.moles = C.density * 50 / C.molarmass
-	src.chem.chemicals[text("[]", C.name)] = C
-	return
-
-/obj/item/weapon/bottle/r_ch_cough/New()
-
-	..()
-	src.chem.maximum = 60
-	var/datum/chemical/ch_cou/C = new /datum/chemical/ch_cou( null )
-	C.moles = C.density * 50 / C.molarmass
-	src.chem.chemicals[text("[]", C.name)] = C
-	return
+	src.chem.init(/datum/reagent/antitoxins, 60)
 
 /obj/item/weapon/bottle/rejuvenators/New()
-
 	..()
-	src.chem.maximum = 60
-	var/datum/chemical/rejuv/C = new /datum/chemical/rejuv( null )
-	C.moles = C.density * 50 / C.molarmass
-	src.chem.chemicals[text("[]", C.name)] = C
-	return
+	src.chem.init(/datum/reagent/rejuvenators, 60)
 
 /obj/item/weapon/bottle/s_tox/New()
-
 	..()
-	src.chem.maximum = 60
-	var/datum/chemical/s_tox/C = new /datum/chemical/s_tox( null )
-	C.moles = C.density * 50 / C.molarmass
-	src.chem.chemicals[text("[]", C.name)] = C
-	return
+	src.chem.init(/datum/reagent/sleep_toxin, 60)
 
 /obj/item/weapon/bottle/New()
-
 	..()
 	src.pixel_y = rand(-8.0, 8)
 	src.pixel_x = rand(-8.0, 8)
-	return
 
 // welding tool functions ported from unstable r386
 

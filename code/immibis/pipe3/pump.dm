@@ -17,7 +17,5 @@
 		if(powered(ENVIRON))
 			stat &= ~NOPOWER
 		else
-
 			stat |= NOPOWER
-		spawn(rand(1,15))	// So they don't all turn off at the same time
-			updateicon()
+		updateicon()

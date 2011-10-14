@@ -1825,7 +1825,7 @@ var/const/HUMAN_O2_REQ = 0.001
 			var/a = S.inject(src.target)
 			for(var/mob/O in viewers(src.source, null))
 				O.show_message(text("\red [] injects [] with the syringe!", src.source, src.target), 1)
-			src.source << text("\red You inject [] units into []. The syringe contains [] units.", a, src.target, S.chem.volume())
+			src.source << "\red You inject [a] units into [src.target]. The syringe contains [S.chem.describe()]"
 		if("pill")
 			var/obj/item/weapon/m_pill/S = src.item
 			if (!( istype(S, /obj/item/weapon/m_pill) ))

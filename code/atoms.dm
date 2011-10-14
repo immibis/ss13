@@ -598,7 +598,7 @@
 	s_istate = "w_suit"
 /obj/item/weapon/bottle
 	name = "bottle"
-	var/obj/substance/chemical/chem = null
+	var/datum/reagent_container/chem = null
 	throw_speed = 4
 	throw_range = 20
 	w_class = 1.0
@@ -1164,7 +1164,7 @@ obj/item/weapon/clothing/suit/labcoat
 	name = "dropper"
 	desc = "A dropper that can hold a small amount of liquid."
 	icon_state = "dropper_0"
-	var/obj/substance/chemical/chem = null
+	var/datum/reagent_container/chem = null
 	var/mode = "inject"
 	throw_speed = 1
 	throw_range = 5
@@ -1686,7 +1686,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throw_range = 15
 /obj/item/weapon/pen/sleepypen
 	desc = "It's a normal black ink pen with a sharp point."
-	var/obj/substance/chemical/chem = null
+	var/datum/reagent_container/chem = null
 /obj/item/weapon/pill_canister
 	name = "Pill Canister"
 	icon_state = "pill_canister"
@@ -1957,7 +1957,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/item/weapon/syringe
 	name = "syringe"
 	icon_state = "syringe_0"
-	var/obj/substance/chemical/chem = null
+	var/datum/reagent_container/chem = null
 	var/mode = "inject"
 	var/s_time = 1.0
 	throw_speed = 1
@@ -3094,11 +3094,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/last_time = 1.0
 /obj/substance
 	name = "substance"
-/obj/substance/chemical
-	name = "chemical"
-	var/maximum = null
-	var/list/chemicals = list(  )		// contains /datum/chemical
-
 /obj/table
 	name = "table"
 	icon = 'icons/ss13/table.dmi'
