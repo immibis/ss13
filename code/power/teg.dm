@@ -36,8 +36,8 @@
 		if(circ1 && circ2 && circ2.gas2.temperature > 0)
 
 
-			var/gc = circ1.gas2.specific_heat_capacity()
-			var/gh = circ2.gas2.specific_heat_capacity()
+			var/gc = circ1.gas2.heat_capacity
+			var/gh = circ2.gas2.heat_capacity
 
 			var/tc = circ1.gas2.temperature
 			var/th = circ2.gas2.temperature

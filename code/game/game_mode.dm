@@ -1,8 +1,6 @@
 /datum/game_mode
 	var/name = "invalid"
-	var/config_tag = null
 	var/votable = 1
-	var/probability = 1
 
 // Default check win
 /datum/game_mode/proc/announce()

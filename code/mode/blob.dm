@@ -1,6 +1,5 @@
 /datum/game_mode/blob
 	name = "blob"
-	config_tag = "blob"
 
 	var/stage = 0
 	var/next_stage = 0

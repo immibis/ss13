@@ -87,8 +87,7 @@
 			HTML += "<b>Which occupation would you like if you couldn't have the others?</b><br><br>"
 		else
 	for(var/job in uniquelist(occupations + assistant_occupations) )
-		if (job!="AI" || config.allow_ai)
-			HTML += text("<a href=\"byond://?src=\ref[];occ=[];job=[]\">[]</a><br>", src, occ, job, job)
+		HTML += text("<a href=\"byond://?src=\ref[];occ=[];job=[]\">[]</a><br>", src, occ, job, job)
 	HTML += text("<a href=\"byond://?src=\ref[];occ=[];job=Captain\">Captain</a><br>", src, occ)
 	HTML += "<br>"
 	HTML += text("<a href=\"byond://?src=\ref[];occ=[];job=No Preference\">\[No Preference\]</a><br>", src, occ)
@@ -103,8 +102,6 @@
 	if (job == null)
 		job = "Captain"
 	if ((!( occupations.Find(job) ) && !( assistant_occupations.Find(job) ) && job != "Captain"))
-		return
-	if (job=="AI" && (!config.allow_ai))
 		return
 	switch(occ)
 		if(1.0)

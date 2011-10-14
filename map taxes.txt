@@ -10,3 +10,4 @@ Easy-to-forget things that all maps need:
 - Syndicate shuttle
 - Wizard's den
 - Wall-mounted status displays
+- Mail chutes

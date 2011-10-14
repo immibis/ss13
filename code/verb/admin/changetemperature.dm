@@ -4,7 +4,7 @@
 	set name = "mass edit temperature"
 	set desc="edit temperature of all turfs in view"
 
-	for(var/turf/T in view())
+	for(var/turf/simulated/T in view())
 		if(!T.updatecell)	continue
 		T.gas.set_temp(newtemp)
 		world.log_admin("[src.key] set [T]'s temp to [newtemp]")

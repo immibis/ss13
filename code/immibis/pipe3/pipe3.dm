@@ -34,8 +34,8 @@ datum/pipe_network
 				else
 					var/delta_T = (T.gas.temperature - P.gas.temperature) / P.insulation / n
 					P.gas.temperature += delta_T
-					var/tot_turf = max(1, T.gas.specific_heat_capacity())
-					var/tot_node = P.gas.specific_heat_capacity()
+					var/tot_turf = max(1, T.gas.heat_capacity)
+					var/tot_node = P.gas.heat_capacity
 					T.gas.temperature -= delta_T*min(10, tot_node/tot_turf)
 			else
 				if(istype(T, /turf/space))

@@ -1728,6 +1728,47 @@
 		return
 	return
 
+/client/proc/ParseSize(size)
+	var/i = findtextEx(size, "x")
+	if(i == 0)
+		i = findtextEx(size, ",")
+		if(i == 0)
+			CRASH("/client/proc/ParseSize: Not a valid size or position: [size]")
+	var/x = text2num(copytext(size, 1, i))
+	var/y = text2num(copytext(size, i + 1))
+	return list(x, y)
+
+/client/proc/SetupWindow()
+	// Is there really no way to get the maximized window size without doing this?
+	winset(src, "mainwindow", "pos=0x0;size=1000000x1000000")
+
+	winset(src, "mainwindow", "is-maximized=true")
+	var/list/L = params2list(winget(src, "info1;browser1;output1;input1;mainwindow", "pos;size"))
+
+	var/mw_size = ParseSize(L["mainwindow.size"])
+	var/i_pos = ParseSize(L["info1.pos"])
+	var/o_pos = ParseSize(L["output1.pos"])
+	var/b_pos = ParseSize(L["browser1.pos"])
+	var/in_pos = ParseSize(L["input1.pos"])
+	var/i_size = ParseSize(L["info1.size"])
+	var/o_size = ParseSize(L["output1.size"])
+	var/b_size = ParseSize(L["browser1.size"])
+
+	i_size[1] = mw_size[1] - i_pos[1]
+	o_size[1] = mw_size[1]
+	o_size[2] = in_pos[2] - o_pos[2]
+	b_size[1] = mw_size[1] - b_pos[1]
+
+	i_pos = "[i_pos[1]],[i_pos[2]]"
+	b_pos = "[b_pos[1]],[b_pos[2]]"
+	o_pos = "[o_pos[1]],[o_pos[2]]"
+	in_pos = "[in_pos[1]],[in_pos[2]]"
+	i_size = "[i_size[1]]x[i_size[2]]"
+	b_size = "[b_size[1]]x[b_size[2]]"
+	o_size = "[o_size[1]]x[o_size[2]]"
+
+	winset(src, null, "info1.pos=[i_pos];input1.pos=[in_pos];browser1.pos=[b_pos];output1.pos=[o_pos];info1.size=[i_size];browser1.size=[b_size];output1.size=[o_size]")
+
 /client/New()
 	//Crispy fullban
 	for (var/X in crban_ipranges)
@@ -1795,7 +1836,7 @@
 	..()
 	src << "\blue <B>[join_motd]</B>"
 
-	winset(src, "mainwindow", "is-maximized=true")
+	SetupWindow()
 
 	if(ckey(world.host) == "guest")
 		// hosting in Dream Seeker.

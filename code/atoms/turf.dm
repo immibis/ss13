@@ -6,7 +6,6 @@
 /turf/space
 	name = "space"
 	var/previousArea = null
-	updatecell = 1.0
 
 /turf/simulated
 	intact = 1
@@ -28,7 +27,8 @@
 	icon_state = "CCWall"
 	opacity = 1
 	density = 1
-	updatecell = 0.0
+	atmos_sleeping = 1
+	updatecell = 0
 
 /turf/simulated/command/wall/other
 	icon_state = "r_wall"
@@ -40,7 +40,7 @@
 /turf/simulated/engine/floor
 	name = "floor"
 	icon_state = "floor"
-	updatecell = 1
+	atmos_sleeping = 1
 
 	n2/name = "N2 storage"
 	co2/name = "CO2 storage"
@@ -78,7 +78,6 @@
 	icon_state = "Floor"
 	var/health = 150.0
 	var/burnt = null
-	updatecell = 1
 
 	grid
 		icon = 'icons/goonstation/floor.dmi'
@@ -99,7 +98,7 @@
 	density = 1
 	var/state = 2
 	var/d_state = 0
-	updatecell = 0
+	atmos_sleeping = 1
 
 /turf/simulated/shuttle
 	name = "shuttle"
@@ -108,7 +107,6 @@
 /turf/simulated/shuttle/floor
 	name = "floor"
 	icon_state = "floor"
-	updatecell = 1
 	floor2/icon_state = "floor2"
 	floor3/icon_state = "floor3"
 	floor4/icon_state = "floor4"
@@ -128,6 +126,7 @@
 	opacity = 1
 	density = 1
 	var/state = 2
+	atmos_sleeping = 1
 	updatecell = 0
 
 /turf/DblClick()

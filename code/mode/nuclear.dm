@@ -1,6 +1,5 @@
 /datum/game_mode/nuclear
 	name = "nuclear emergency"
-	config_tag = "nuclear"
 
 /datum/game_mode/nuclear/announce()
 	world << "<B>The current game mode is - Nuclear Emergency!</B>"

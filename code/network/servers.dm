@@ -1,3 +1,9 @@
+#define SERVER_TEMP_THRESHOLD_HIGH (80 + T0C)
+#define SERVER_TEMP_THRESHOLD_LOW (20 + T0C)
+
+// At standard pressure, this keeps the server rack about 10 degrees above ambient.
+#define SERVER_RACK_HEAT 25000
+
 /obj/machinery/server_rack
 	icon = 'icons/immibis/network_device.dmi'
 	icon_state = "rack-preview"
@@ -8,6 +14,8 @@
 	networked = 1
 	anchored = 1
 	density = 1
+
+	var/thermal_shutdown = 0
 
 	// these are set to paths in the map
 	// New() turns them into objects
@@ -22,6 +30,7 @@
 		var/obj/machinery/server/obj = new path
 		obj.rack = src
 		obj.loc = src
+		obj.force_offline = thermal_shutdown
 		return obj
 
 	New()
@@ -49,6 +58,7 @@
 			del(item)
 			S.Move(src)
 			S.rack = src
+			S.force_offline = thermal_shutdown
 			updateicon()
 			for(var/mob/M)
 				if(M.machine == src)
@@ -70,7 +80,11 @@
 	proc/get_status_line(obj/machinery/server/server, is_ai)
 		if(!server)
 			return "empty"
-		var/a = server.get_status_line()
+		var/a
+		if(server.force_offline)
+			a = "[server.name] - offline"
+		else
+			server.get_status_line()
 		if(!is_ai)
 			a += " <a href=\"?src=\ref[src]&eject=\ref[server]\">Eject</a>"
 		return a
@@ -89,19 +103,55 @@
 			if(slot4 == S) slot4 = null
 			if(slot5 == S) slot5 = null
 			updateicon()
-			for(var/mob/M)
-				if(M.machine == src)
-					if(istype(M, /mob/ai))
-						attack_ai(M)
-					else if(istype(M, /mob/human))
-						attack_hand(M)
+			update_interaction()
 		else
 			. = ..()
 
+	proc/update_interaction()
+		for(var/mob/M)
+			if(M.machine == src)
+				if(istype(M, /mob/ai))
+					attack_ai(M)
+				else if(istype(M, /mob/human))
+					attack_hand(M)
+
+	proc/begin_thermal_shutdown()
+		thermal_shutdown = 1
+		for(var/obj/machinery/server/S in list(slot1, slot2, slot3, slot4, slot5))
+			S.force_offline = 1
+
+	proc/end_thermal_shutdown()
+		thermal_shutdown = 0
+		for(var/obj/machinery/server/S in list(slot1, slot2, slot3, slot4, slot5))
+			S.force_offline = 0
+
+	process()
+		var/turf/simulated/T = loc
+		var/otemp = T.gas.temperature
+		if(!thermal_shutdown)
+			if(!istype(T)) return
+			if(T.gas.temperature > SERVER_TEMP_THRESHOLD_HIGH)
+				begin_thermal_shutdown()
+			else
+				T.atmos_sleeping = 0
+				T.gas.set_heat(T.gas.get_heat() + SERVER_RACK_HEAT)
+				world << "[otemp] -> [T.gas.temperature]"
+				if(T.gas.temperature >= SERVER_TEMP_THRESHOLD_HIGH)
+					T.gas.set_temp(SERVER_TEMP_THRESHOLD_HIGH)
+					begin_thermal_shutdown()
+		else
+			if(!istype(T) || T.gas.temperature < SERVER_TEMP_THRESHOLD_LOW)
+				end_thermal_shutdown()
+
+
 	proc/get_interact_html(is_ai)
 		var/html = "<pre>ThinkTronic Server Rack Monitoring Interface\n"
-		html += "Network Status: [nwnet ? "connected" : "disconnected"]\n"
+		html += "Network Status: [nwnet ? "connected" : "not connected"]\n"
 		html += "\n"
+		if(thermal_shutdown)
+			html += "Automatically shut down due to thermal overload.\n"
+			html += "Will restart when colder than [SERVER_TEMP_THRESHOLD_LOW - T0C] C.\n"
+			html += "\n"
 		html += "Slot 1: [get_status_line(slot1, is_ai)]\n"
 		html += "Slot 2: [get_status_line(slot2, is_ai)]\n"
 		html += "Slot 3: [get_status_line(slot3, is_ai)]\n"
@@ -127,7 +177,7 @@
 
 	receive_tagged_packet(sender, packet, tag, dest)
 		for(var/obj/machinery/server/S in list(slot1, slot2, slot3, slot4, slot5))
-			if(S)
+			if(S && !S.force_offline)
 				if(dest == S.nw_address || S.nw_promiscuous || (!dest && sender != S.nw_address))
 					S.receive_tagged_packet(sender, packet, tag, dest)
 
@@ -141,11 +191,15 @@
 
 	networked = 1
 
+	var/force_offline = 0
+
 	send_packet()
+		if(force_offline) return
 		nwnet = rack ? rack.nwnet : null
 		..()
 
 	broadcast_packet()
+		if(force_offline) return
 		nwnet = rack ? rack.nwnet : null
 		..()
 

@@ -33,8 +33,7 @@ var/list/adminranks = list(
 	/obj/admins/verb/show_dna = list("Administrator", "Primary Administrator"),
 	/obj/admins/verb/toggle_ooc = list("Moderator", "Administrator", "Primary Administrator"),
 	/obj/admins/verb/start_now = list("Administrator", "Primary Administrator"),
-	/obj/admins/verb/toggle_enter = list("Administrator", "Primary Administrator"),
-	/obj/admins/verb/toggle_ai = list("Administrator", "Primary Administrator")
+	/obj/admins/verb/toggle_enter = list("Administrator", "Primary Administrator")
 	)
 
 obj/admins/verb
@@ -393,16 +392,6 @@ obj/admins/verb
 			world << "<B>You may now enter the game.</B>"
 		world.log_admin("[usr.key] toggled new player game entering.")
 		messageadmins("\blue[usr.key] toggled new player game entering.")
-		world.update_stat()
-
-	toggle_ai(var/v as anything in list("on", "off"))
-		set category = "Admin"
-		config.allow_ai = (v == "on")
-		if (!( config.allow_ai ))
-			world << "<B>The AI job is no longer chooseable.</B>"
-		else
-			world << "<B>The AI job is chooseable now.</B>"
-		world.log_admin("[usr.key] toggled AI allowed.")
 		world.update_stat()
 
 	toggle_respawn(var/v as anything in list("on", "off"))

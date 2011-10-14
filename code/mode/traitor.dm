@@ -1,6 +1,5 @@
 /datum/game_mode/traitor
 	name = "traitor"
-	config_tag = "traitor"
 
 	var/const/prob_int_murder_target = 50 // intercept names the assassination target half the time
 	var/const/prob_right_murder_target_l = 25 // lower bound on probability of naming right assassination target

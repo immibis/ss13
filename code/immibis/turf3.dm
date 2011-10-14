@@ -4,7 +4,6 @@ turf
 		gas
 		ngas
 
-	var/updatecell = null
 	var/ignite = 0
 
 	proc/isempty()
@@ -23,6 +22,8 @@ turf/simulated
 	var/airforce = null
 	var/checkfire = 1.0
 	var/atmoalt = null
+
+	var/updatecell = 1
 
 	var/tmp/atmos_sleeping = null
 
@@ -82,9 +83,9 @@ turf/simulated
 	proc/FindTurfs()
 		var/list/L = list()
 		for(var/dir in src.Neighbors())
-			var/turf/T = get_step(src, dir)
+			var/turf/simulated/T = get_step(src, dir)
 
-			if(!T || !T.updatecell)
+			if(!T || !istype(T) || !T.updatecell)
 				continue
 
 			L += T
@@ -204,7 +205,9 @@ turf/simulated
 
 
 		for(var/dir in cardinal)
-			var/turf/T = get_step(src, dir)
+			var/turf/simulated/T = get_step(src, dir)
+			if(!T || !istype(T))
+				continue
 			setlink(dir,T)
 
 			if(!T || !T.updatecell || !(dir in NL))
@@ -233,6 +236,9 @@ turf/simulated
 					setairlink(dir, null)
 					setcondlink(dir, 1+D.reinf)
 
+		airlist = list(airN, airS, airE, airW)
+		linklist = list(linkN, linkS, linkE, linkW)
+
 	proc/FindLinkedTurfs()
 		var/list/L = list()
 		if(airN)
@@ -249,6 +255,11 @@ turf/simulated
 	proc/report()
 		return "[src.type] [x] [y] [z]"
 
+	var/list
+		airlist
+		linklist
+		dirlist = list(NORTH, SOUTH, EAST, WEST)
+
 	updatecell()
 		if(atmos_sleeping)
 			return
@@ -260,20 +271,16 @@ turf/simulated
 		var/adiff
 		var/burn = 0
 
-		ngas.copy_from(gas)
+		//ngas.copy_from(gas)
 
 		var/obj/substance/gas/total = new
 		total.copy_from(gas)
 		var/total_temp = gas.temperature
-		var/total_shc = gas.specific_heat_capacity()
-
-		var/list/air = list(airN, airS, airE, airW)
-		var/list/link = list(linkN, linkS, linkE, linkW)
-		var/list/dir = list(NORTH, SOUTH, EAST, WEST)
+		var/total_shc = gas.heat_capacity
 
 		for(var/k in 1 to 4)
-			if(air[k])
-				var/turf/simulated/T = link[k]
+			if(airlist[k])
+				var/turf/simulated/T = linklist[k]
 				if(T.type == /turf/space)
 					space = 1
 					break
@@ -281,13 +288,13 @@ turf/simulated
 					continue
 				total.add_delta(T.gas)
 				total_temp += T.gas.temperature
-				total_shc += T.gas.specific_heat_capacity()
+				total_shc += T.gas.heat_capacity
 				divideby++
 				if(!checkfire)
 					adiff = gas.pressure - T.gas.pressure
 					if (adiff > src.airforce)
 						src.airforce = adiff
-						src.airdir = dir[k]
+						src.airdir = dirlist[k]
 				else if(T.hotspot)
 					burn = 1
 
@@ -310,8 +317,10 @@ turf/simulated
 			var/total_movement = abs(ngas.pressure - gas.pressure)
 
 			if(total_movement < GAS_SLEEP_FLOW && !(locate(/obj/machinery) in src))
+				//world << "sleeping [x],[y],[z]"
 				atmos_sleeping = 1
 			else if(total_movement > GAS_WAKE_FLOW)
+				//world << "waking [x],[y],[z]"
 				for(var/turf/simulated/T in list(linkN, linkS, linkE, linkW))
 					if(T && isturf(T))
 						T.atmos_sleeping = 0

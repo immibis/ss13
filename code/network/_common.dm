@@ -52,6 +52,11 @@ obj/machinery
 
 	// You may set the tdns_name var to alter a machine's ThinkDNS name.
 
+	// Multiple machines on a network may have the same ThinkDNS name.
+	// In this case, any of them may be returned when resolving the name.
+	// It will always resolve to the same one on each client, because of
+	// the DNS cache, unless the DNS cache is flushed.
+
 	proc/receive_packet(sender, packet)
 
 	proc/receive_tagged_packet(sender, packet, tag, dest, datum/nwnet/net)

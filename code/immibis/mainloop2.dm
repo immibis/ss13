@@ -1,7 +1,3 @@
-// This is actually mostly just a copy of the previous cellautomata.dm currently.
-// I intend to rewrite it.
-
-
 
 /obj/landmark/New()
 
@@ -9,65 +5,48 @@
 	src.tag = text("landmark*[]", src.name)
 	src.invisibility = 101
 
-	if (name == "shuttle")
-		shuttle_z = src.z
-		del(src)
-
-	if (name == "monkey")
-		monkeystart += src.loc
-		del(src)
-
-	//prisoners
-	if (name == "prisonwarp")
-		prisonwarp += src.loc
-		del(src)
-	//not prisoners
-	if (name == "prisonsecuritywarp")
-		prisonsecuritywarp += src.loc
-		del(src)
-
-	if (name == "blobstart")
-		blobstart += src.loc
-		del(src)
-	return
+	switch(name)
+		if("monkey")
+			monkeystart += src.loc
+		if("prisonwarp")
+			prisonwarp += src.loc
+		if("prisonsecuritywarp")
+			prisonsecuritywarp += src.loc
+		if("blobstart")
+			blobstart += src.loc
+		else
+			return
+	del(src)
 
 /obj/start/New()
-
 	..()
 	src.tag = text("start*[]", src.name)
-	src.invisibility = 100
-	return
+	src.invisibility = 101
 
 /world/proc/update_stat()
+	/*var/n = 0
+	for(var/client/C)
+		n++
+	src.status = "\[EU\] Gibbed #4  Battle Station Upsilon (Goon Station 13 r7573): secret, AI allowed, ~[n] players, hosted by Galactic Order of Oppressive Neckbeards"
+	return*/
+
 	src.status = "Mongrel Codebase 13 (Plasma engine; New pipe system; Based on GS/Kurper Stable)"
 
 	var/list/features = list()
 
-
-
 	if (ticker && master_mode)
 		features += master_mode
 	else if (!ticker)
-		features += "<b>STARTING</b>"
-		src.status += ": [dd_list2text(features, ", ")]"
-		return
+		features += "STARTING"
 
 	if (!enter_allowed)
 		features += "closed"
 
-	if (abandon_allowed)
-		features += abandon_allowed ? "respawn" : "no respawn"
+//	if (abandon_allowed)
+//		features += abandon_allowed ? "respawn" : "no respawn"
 
-	if (config && config.allow_vote_mode)
-		features += "vote"
-
-	if (config && config.allow_ai)
-		features += "AI allowed"
-
-	if (host)
-		features += "hosted by <b>[host]</b>"
-	else if (config && config.hostedby)
-		features += "hosted by <b>[config.hostedby]</b>"
+//	if (config && config.allow_vote_mode)
+//		features += "vote"
 
 	if (features)
 		src.status += ": [dd_list2text(features, ", ")]"
@@ -117,7 +96,7 @@
 				admins[text("[]", m_key)] = text("[]", a_lev)
 
 	config = new /datum/configuration()
-	config.load("config.txt")
+	//config.load("config.txt")
 	// apply some settings from config..
 	abandon_allowed = config.respawn
 
@@ -190,8 +169,6 @@
 		s["respawn"] = config ? abandon_allowed : 0
 		s["enter"] = enter_allowed
 		s["vote"] = config.allow_vote_mode
-		s["ai"] = config.allow_ai
-		s["host"] = host ? host : null
 		s["players"] = list()
 		var/n = 0
 		for(var/mob/M in world)
@@ -437,23 +414,54 @@
 
 	src.mode.post_setup()
 
+	#ifdef DISABLE_ATMOS
+	world << "\red Atmospheric simulation is disabled."
+	#endif
+
 	for(var/obj/start/S in world)
 		del(S)
+
+/datum/control/cellular/proc/AtmosStep(var/time)
+	set background = 1
+	for(var/turf/simulated/T)
+		if(!T.atmos_sleeping && T.updatecell)
+			T.updatecell()
+			if(!time)
+				T.conduction()
+	space_gas.remove_all_gas()
+	space_gas.set_temp(2.7)
+	for(var/turf/simulated/T)
+		if(!T.atmos_sleeping && T.updatecell)
+			T.replace_gas()
+
+	reset_unsimulated()
+
+/datum/control/cellular/proc/AtmosLoop()
+	var/time = 0
+	while(1)
+		sleep(1)
+		time = (time + 1) % 10
+		AtmosStep(time)
 
 /datum/control/cellular/process()
 	set invisibility = 0
 	set background = 1
 
-	#ifdef DISABLE_ATMOS
-	world << "Atmospheric simulation is currently disabled."
+	while(!( ticker ))
+		for(var/mob/M in world)
+			spawn if(M) M.UpdateClothing()
+		sleep(1)
+
+	for(var/turf/simulated/T)
+		T.updatelinks()
+
+	#ifdef ASYNC_ATMOS
+	#ifndef DISABLE_ATMOS
+	spawn AtmosLoop()
+	#endif
 	#endif
 
 	while(1)
-		while(!( ticker ))
-			for(var/mob/M in world)
-				spawn
-					if(M) M.UpdateClothing()
-			sleep(10)
 
 		time = (time + 1) % 10
 
@@ -464,20 +472,11 @@
 		//		if (space.updatecell)
 		//			space.updatecell()
 
+#ifndef ASYNC_ATMOS
 #ifndef DISABLE_ATMOS
 		sleep(1)
-		for(var/turf/simulated/T)
-			if(T.updatecell)
-				T.updatecell()
-				if(!time)
-					T.conduction()
-		space_gas.remove_all_gas()
-		space_gas.set_temp(2.7)
-		for(var/turf/simulated/T)
-			if(T.updatecell)
-				T.replace_gas()
-
-		reset_unsimulated()
+		AtmosStep(src.time)
+#endif
 #endif
 
 		sleep(1)

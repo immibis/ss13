@@ -137,6 +137,8 @@ var/list/nwnets = new
 	updateicon()
 	..(loc)
 
+/obj/item/weapon/net_cable_coil/cut/icon_state = "coil2"
+
 /obj/item/weapon/net_cable_coil/cut/New(loc)
 	..(loc)
 	src.amount = rand(1,2)

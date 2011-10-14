@@ -1,6 +1,5 @@
 var
 	savefile_ver = "3"
-	datum/air_tunnel/air_tunnel1/SS13_airtunnel = null
 	datum/control/cellular/cellcontrol = null
 	datum/control/gameticker/ticker = null
 	obj/datacore/data_core = null
@@ -104,7 +103,7 @@ world
 //  Exadv1 hub
 //	hub = "Exadv1.spacestation13"
 //	hub_password = "kMZy3U5jJHSiBQjr"
-//	name = "Space Station 3.14159"
+//	name = "Space Station 13"
 
 	//visibility = 0
 	//loop_checks = 0

@@ -27,7 +27,7 @@
 	inturf.gas.sub_delta(delta)
 	gas.add_delta(delta)
 
-	var/shc = gas.specific_heat_capacity()
+	var/shc = gas.heat_capacity
 	if(shc)
 		gas.temperature += min(shc, (gas.plasma + gas.o2)*2/shc)
 

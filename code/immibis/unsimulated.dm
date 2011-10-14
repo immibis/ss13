@@ -2,8 +2,6 @@ var/obj/substance/gas/unsimulated_gas = new
 var/obj/substance/gas/default_unsimulated_gas = new
 
 turf/unsimulated
-	updatecell = 0
-
 	New()
 		. = ..()
 		gas = unsimulated_gas

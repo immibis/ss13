@@ -1,6 +1,5 @@
 /datum/game_mode/restructuring
 	name = "Corporate Restructuring"
-	config_tag = "restructuring"
 
 /datum/game_mode/restructuring/announce()
 	world << "\red <B>GLOBAL TRANSMISSION FROM HEAD OFFICE: A CORPORATE RESTRUCTURING IS TO TAKE PLACE</B>"

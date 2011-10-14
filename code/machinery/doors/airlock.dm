@@ -733,8 +733,8 @@ About the new airlock wires panel:
 				sleep(15)
 				src.density = 0
 				src.opacity = 0
-				var/turf/T = src.loc
-				if (istype(T, /turf) && checkForMultipleDoors())
+				var/turf/simulated/T = src.loc
+				if (istype(T) && checkForMultipleDoors())
 					T.updatecell = 1
 					T.buildlinks()
 				src.operating = 0
@@ -748,8 +748,8 @@ About the new airlock wires panel:
 					src.density = 1
 					if (src.visible)
 						src.opacity = 1
-					var/turf/T = src.loc
-					if (istype(T, /turf))
+					var/turf/simulated/T = src.loc
+					if (istype(T))
 						T.updatecell = 0
 						T.buildlinks()
 					sleep(15)

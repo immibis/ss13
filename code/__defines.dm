@@ -1,5 +1,6 @@
 // commonly used settings
-#define DISABLE_ATMOS
+//#define DISABLE_ATMOS
+#define ASYNC_ATMOS
 
 // power usage
 #define TELEPORTER_ENGAGE_POWER 500000		// when engaged, for one second

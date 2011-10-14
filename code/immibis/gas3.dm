@@ -43,7 +43,7 @@ obj/substance/gas
 	var/volume = 1 // cubic meters
 	var/temperature = T20C // kelvins
 	var/pressure = 0 // pascals
-
+	var/heat_capacity = 0 // joules per kelvin, updated at the same time as total_moles
 	var/total_moles = 0 // mol
 
 	var/list/minor = new // list of (path)=(/obj/minor_gas instance)
@@ -59,14 +59,16 @@ obj/substance/gas
 			_calc_pressure()
 
 		set_heat(h)
-			var/shc = specific_heat_capacity()
+			var/shc = heat_capacity
 			if(h == 0 && shc != 0)
-				CRASH("Tried to set 0 heat")
+				//CRASH("Tried to set 0 heat")
+				return
 			if(h != 0 && shc == 0)
-				CRASH("Tried to add heat to empty gas mixture")
+				//CRASH("Tried to add heat to empty gas mixture")
+				return
 			if(shc == 0)
 				return
-			temperature = h / specific_heat_capacity()
+			temperature = h / shc
 			_calc_pressure()
 
 		add_delta(obj/substance/gas/g) // add amount and heat (not temperature) and update pressure (without changing volume)
@@ -90,7 +92,7 @@ obj/substance/gas
 			set_heat(heat)
 			_calc_pressure()
 
-		sub_delta(obj/substance/gas/g) // subtract amount and heat (not temperature) and update pressure (without changing values)
+		sub_delta(obj/substance/gas/g) // subtract amount and heat (not temperature) and update pressure (without changing volume)
 			var/heat = get_heat() - g.get_heat()
 			co2 -= g.co2
 			n2 -= g.n2
@@ -111,40 +113,32 @@ obj/substance/gas
 			_calc_pressure()
 
 		get_heat()
-			return temperature * specific_heat_capacity()
-
-		// returns result in Joules per Kelvin (JK^-1)
-		specific_heat_capacity()
-			var/total = 0
-			total += co2*HEAT_CAPACITY_CO2
-			total += n2*HEAT_CAPACITY_N2
-			total += o2*HEAT_CAPACITY_O2
-			total += plasma*HEAT_CAPACITY_PLASMA
-			total += n2o*HEAT_CAPACITY_N2O
-			for(var/mg_path in minor)
-				var/obj/minor_gas/mg = minor[mg_path]
-				total += mg.heat_capacity * mg.amount
-			return total
+			return temperature * heat_capacity
 
 		add_co2(var/amt)
 			co2 += amt
-			total_moles += co2
+			total_moles += amt
+			heat_capacity += amt*HEAT_CAPACITY_CO2
 			_calc_pressure()
 		add_n2(var/amt)
 			n2 += amt
-			total_moles += n2
+			total_moles += amt
+			heat_capacity += amt*HEAT_CAPACITY_N2
 			_calc_pressure()
 		add_o2(var/amt)
 			o2 += amt
 			total_moles += amt
+			heat_capacity += amt*HEAT_CAPACITY_O2
 			_calc_pressure()
 		add_plasma(var/amt)
 			plasma += amt
 			total_moles += amt
+			heat_capacity += amt*HEAT_CAPACITY_PLASMA
 			_calc_pressure()
 		add_n2o(var/amt)
 			n2o += amt
 			total_moles += amt
+			heat_capacity += amt*HEAT_CAPACITY_N2O
 			_calc_pressure()
 
 		// you can alter the gas amounts directly if you call this afterwards
@@ -204,6 +198,7 @@ obj/substance/gas
 			pressure = g.pressure
 			temperature = g.temperature
 			total_moles = g.total_moles
+			heat_capacity = g.heat_capacity
 			volume = g.volume
 
 		get_frac(f)
@@ -214,6 +209,7 @@ obj/substance/gas
 			ret.o2 = o2 * f
 			ret.plasma = plasma * f
 			ret.n2o = n2o * f
+			ret.heat_capacity = heat_capacity * f
 			ret.temperature = temperature
 			if(minor.len > 0)
 				for(var/mg_path in minor)
@@ -235,6 +231,17 @@ obj/substance/gas
 			for(var/obj/minor_gas/mg in minor)
 				t += mg.amount
 			total_moles = t
+
+			t = 0
+			t += co2*HEAT_CAPACITY_CO2
+			t += n2*HEAT_CAPACITY_N2
+			t += o2*HEAT_CAPACITY_O2
+			t += plasma*HEAT_CAPACITY_PLASMA
+			t += n2o*HEAT_CAPACITY_N2O
+			for(var/mg_path in minor)
+				var/obj/minor_gas/mg = minor[mg_path]
+				t += mg.heat_capacity * mg.amount
+			heat_capacity = t
 
 	// compatibility procs
 	proc
