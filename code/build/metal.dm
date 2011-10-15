@@ -141,10 +141,8 @@ var/list/buildable_with_metal = list(
 
 /obj/item/weapon/sheet/metal/examine()
 	set src in view(1)
-
 	..()
-	usr << text("There are [] metal sheet\s on the stack.", src.amount)
-	return
+	usr << "There are [amount] metal sheet\s on the stack."
 
 /obj/item/weapon/sheet/metal/attack_self(mob/user as mob)
 	var/t1 = "<HTML><HEAD></HEAD><BODY><span style='font-size: small;'><TT>Amount Left: [src.amount] <BR>"

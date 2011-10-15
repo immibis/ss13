@@ -997,7 +997,17 @@
 	return 0
 
 /mob/proc/m_delay()
-	return
+	var/d = round((100 - src.health) / 20)
+	switch(src.m_intent)
+		if("run")
+			if (src.drowsyness > 0)
+				d += 6
+			d += 1
+		if("face")
+			d += 10
+		if("walk")
+			d += 7
+	return d
 
 /mob/proc/Life()
 	return
@@ -1586,29 +1596,36 @@
 			return O.relaymove(src.mob, 16)
 	return
 
-/client/Move(n, direct)
+/mob/var
+	move_delay = 1
+	moving = null
+
+// Call this for voluntary movements, such as keypresses from the client
+/mob/proc/WalkInDirection(direct)
+	var/n = get_step(loc, direct)
+	if(!n)
+		return
+
 	if (src.moving)
 		return 0
+
 	if (world.time < src.move_delay)
 		return
-	if (!( src.mob ))
+	if (src.stat == 2)
 		return
-	if (src.mob.stat == 2)
+
+	if (src.monkeyizing)
 		return
-	if(istype(src.mob, /mob/ai))
-		return AIMove(n,direct,src.mob)
-	if (src.mob.monkeyizing)
-		return
-	var/is_monkey = istype(src.mob, /mob/monkey)
-	if (locate(/obj/item/weapon/grab, locate(/obj/item/weapon/grab, src.mob.grabbed_by.len)))
+	var/is_monkey = istype(src, /mob/monkey)
+	if (locate(/obj/item/weapon/grab, locate(/obj/item/weapon/grab, src.grabbed_by.len)))
 		var/list/grabbing = list(  )
-		if (istype(src.mob.l_hand, /obj/item/weapon/grab))
-			var/obj/item/weapon/grab/G = src.mob.l_hand
+		if (istype(src.l_hand, /obj/item/weapon/grab))
+			var/obj/item/weapon/grab/G = src.l_hand
 			grabbing += G.affecting
-		if (istype(src.mob.r_hand, /obj/item/weapon/grab))
-			var/obj/item/weapon/grab/G = src.mob.r_hand
+		if (istype(src.r_hand, /obj/item/weapon/grab))
+			var/obj/item/weapon/grab/G = src.r_hand
 			grabbing += G.affecting
-		for(var/obj/item/weapon/grab/G in src.mob.grabbed_by)
+		for(var/obj/item/weapon/grab/G in src.grabbed_by)
 			if (G.state == 1)
 				if (!( grabbing.Find(G.assailant) ))
 					del(G)
@@ -1616,8 +1633,8 @@
 				if (G.state == 2)
 					src.move_delay = world.time + 10
 					if ((prob(25) && (!( is_monkey ) || prob(25))))
-						for(var/mob/O in viewers(src.mob, null))
-							O.show_message(text("\red [] has broken free of []'s grip!", src.mob, G.assailant), 1)
+						for(var/mob/O in viewers(src, null))
+							O.show_message(text("\red [] has broken free of []'s grip!", src, G.assailant), 1)
 						del(G)
 					else
 						return
@@ -1625,107 +1642,98 @@
 					if (G.state == 3)
 						src.move_delay = world.time + 10
 						if ((prob(5) && !( is_monkey ) || prob(25)))
-							for(var/mob/O in viewers(src.mob, null))
-								O.show_message(text("\red [] has broken free of []'s headlock!", src.mob, G.assailant), 1)
+							for(var/mob/O in viewers(src, null))
+								O.show_message(text("\red [] has broken free of []'s headlock!", src, G.assailant), 1)
 							del(G)
 						else
 							return
-	if (src.mob.canmove)
-
-		if(src.mob.m_intent == "face")
-			src.mob.dir = direct
-
-		var/j_pack = 0
-		if (istype(src.mob.loc, /turf/space))
-			if (!( src.mob.restrained() ))
-				if (!( (locate(/obj/grille, oview(1, src.mob)) || locate(/turf/simulated, oview(1, src.mob))) ))
-					if (istype(src.mob.back, /obj/item/weapon/tank/jetpack))
-						var/obj/item/weapon/tank/jetpack/J = src.mob.back
-						j_pack = J.allow_thrust(100, src.mob)
-						if(j_pack)
-							var/obj/effects/sparks/ion_trails/I = new /obj/effects/sparks/ion_trails( src.mob.loc )
-							flick("ion_fade", I)
-							I.icon_state = "blank"
-							src.mob.inertia_dir = 0
-							spawn( 20 )
-								del(I)
-								return
-						if (!( j_pack ))
-							return 0
-					else
-						return 0
-			else
-				return 0
-
-
-		if (isturf(src.mob.loc))
-			src.move_delay = world.time
-			if ((j_pack && j_pack < 1))
-				src.move_delay += 5
-			switch(src.mob.m_intent)
-				if("run")
-					if (src.mob.drowsyness > 0)
-						src.move_delay += 6
-					src.move_delay += 1
-				if("face")
-					src.mob.dir = direct
-					return
-				if("walk")
-					src.move_delay += 7
-
-
-			src.move_delay += src.mob.m_delay()
-
-			src.move_delay += round((100 - src.mob.health) / 20)		//*****RM fix
-
-			if (src.mob.restrained())
-				for(var/mob/M in range(src.mob, 1))
-					if (((M.pulling == src.mob && (!( M.restrained() ) && M.stat == 0)) || locate(/obj/item/weapon/grab, src.mob.grabbed_by.len)))
-						src << "\blue You're restrained! You can't move!"
-						return 0
-			src.moving = 1
-			if (locate(/obj/item/weapon/grab, src.mob))
-				src.move_delay = max(src.move_delay, world.time + 7)
-				var/list/L = src.mob.ret_grab()
-				if (istype(L, /list))
-					if (L.len == 2)
-						L -= src.mob
-						var/mob/M = L[1]
-						if ((get_dist(src.mob, M) <= 1 || M.loc == src.mob.loc))
-							var/turf/T = src.mob.loc
-							. = ..()
-							if (isturf(M.loc))
-								var/diag = get_dir(src.mob, M)
-								if ((diag - 1) & diag)
-								else
-									diag = null
-								if ((get_dist(src.mob, M) > 1 || diag))
-									step(M, get_dir(M.loc, T))
-					else
-						for(var/mob/M in L)
-							M.other_mobs = 1
-							if (src.mob != M)
-								M.animate_movement = 3
-						for(var/mob/M in L)
-							spawn( 0 )
-								step(M, direct)
-								return
-							spawn( 1 )
-								M.other_mobs = null
-								M.animate_movement = 1
-								return
-			else
-				. = ..()
-			src.moving = null
-			return .
-		else
-			if (isobj(src.mob.loc))
-				var/obj/O = src.mob.loc
-				if (src.mob.canmove)
-					return O.relaymove(src.mob, direct)
-	else
+	if(!src.canmove)
 		return
-	return
+
+	if(src.m_intent == "face")
+		src.dir = direct
+		return
+
+	var/j_pack = 0
+	if (istype(src.loc, /turf/space))
+		if (!( src.restrained() ))
+			if (!( (locate(/obj/grille, oview(1, src)) || locate(/turf/simulated, oview(1, src))) ))
+				if (istype(src.back, /obj/item/weapon/tank/jetpack))
+					var/obj/item/weapon/tank/jetpack/J = src.back
+					j_pack = J.allow_thrust(100, src)
+					if(j_pack)
+						var/obj/effects/sparks/ion_trails/I = new /obj/effects/sparks/ion_trails( src.loc )
+						flick("ion_fade", I)
+						I.icon_state = "blank"
+						src.inertia_dir = 0
+						spawn( 20 )
+							del(I)
+							return
+					if (!( j_pack ))
+						return 0
+				else
+					return 0
+		else
+			return 0
+
+
+	if (isturf(src.loc))
+		src.move_delay = world.time
+		if ((j_pack && j_pack < 1))
+			src.move_delay += 5
+
+		src.move_delay += src.m_delay()
+
+		if (src.restrained())
+			for(var/mob/M in range(src, 1))
+				if (((M.pulling == src && (!( M.restrained() ) && M.stat == 0)) || locate(/obj/item/weapon/grab, src.grabbed_by.len)))
+					src << "\blue You're restrained! You can't move!"
+					return 0
+		src.moving = 1
+		if (locate(/obj/item/weapon/grab, src))
+			src.move_delay = max(src.move_delay, world.time + 7)
+			var/list/L = src.ret_grab()
+			if (istype(L, /list))
+				if (L.len == 2)
+					L -= src
+					var/mob/M = L[1]
+					if ((get_dist(src, M) <= 1 || M.loc == src.loc))
+						var/turf/T = src.loc
+						. = ..()
+						if (isturf(M.loc))
+							var/diag = get_dir(src, M)
+							if ((diag - 1) & diag)
+							else
+								diag = null
+							if ((get_dist(src, M) > 1 || diag))
+								step(M, get_dir(M.loc, T))
+				else
+					for(var/mob/M in L)
+						M.other_mobs = 1
+						if (src != M)
+							M.animate_movement = 3
+					for(var/mob/M in L)
+						spawn( 0 )
+							step(M, direct)
+							return
+						spawn( 1 )
+							M.other_mobs = null
+							M.animate_movement = 1
+							return
+		else
+			. = Move(n, direct)
+		src.moving = null
+	else if (isobj(src.loc))
+		var/obj/O = src.loc
+		if (src.canmove)
+			return O.relaymove(src, direct)
+
+/client/Move(n, direct)
+	if (!( src.mob ))
+		return
+	if(istype(src.mob, /mob/ai))
+		return AIMove(n,direct,src.mob)
+	return src.mob.WalkInDirection(direct)
 
 /client/proc/ParseSize(size)
 	var/i = findtextEx(size, "x")

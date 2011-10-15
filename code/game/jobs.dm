@@ -112,6 +112,23 @@ var/list/occupation_eligible = null
 				candidate.Assign_Rank(occupation)
 				unassigned -= candidate
 
+	for(var/occupation in occupation_choices)
+		var/assigned = 0
+		if(occupation == "AI")
+			continue
+		for(var/mob/human/M)
+			if(M.wear_id && M.wear_id.assignment == occupation)
+				assigned = 1
+				break
+		if(assigned)
+			continue
+		var/mob/human/npc/M = CreateNPC(occupation)
+		if(M)
+			world << "[occupation] job filled by NPC"
+			M.Assign_Rank(occupation)
+		else
+			world << "Unassigned job: [occupation]"
+
 	for (var/mob/human/M in unassigned)
 		M.Assign_Rank(pick(assistant_occupations))
 

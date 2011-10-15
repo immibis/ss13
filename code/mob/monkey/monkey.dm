@@ -47,7 +47,7 @@
 	return
 
 /mob/monkey/m_delay()
-	var/tally = 0
+	var/tally = ..()
 	if (src.bodytemperature < 283.222)
 		tally += (283.222 - src.bodytemperature) / 10 * 1.75
 	return tally

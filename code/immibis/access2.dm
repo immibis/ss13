@@ -37,16 +37,40 @@ var/jobs = list(
 		"access_genetics", "access_medbay", "access_morgue", "access_medical_supplies",
 		list(/obj/item/weapon/clothing/under/genetics_white, slot_w_uniform),
 		list(/obj/item/weapon/clothing/shoes/white, slot_shoes),
-		list(/obj/item/weapon/clothing/suit/labcoat, slot_wear_suit)
+		list(/obj/item/weapon/clothing/suit/labcoat, slot_wear_suit),
+		list(/obj/item/weapon/clothing/gloves/yellow, slot_gloves)
+		),
+	"Quartermaster" = list(
+		"access_maintenance", "access_quartermaster",
+		list(/obj/item/weapon/clothing/under/green, slot_w_uniform),
+		list(/obj/item/weapon/clothing/shoes/black, slot_shoes),
+		list(/obj/item/weapon/crowbar, slot_in_backpack),
+		//list(/obj/item/weapon/storage/toolbox, slot_l_hand),
+		list(/obj/item/weapon/pen, slot_l_store)
 		),
 	"Station Engineer" = list(
-		"access_engineering", "eject_engine", "access_apcs", "access_power_remote", "access_trash_disposal",
-		"access_solars",
+		"access_engineering", "access_apcs", "access_power_remote", "access_trash_disposal",
+		"access_solars", "access_maintenance",
 		list(/obj/item/weapon/clothing/under/engineering_yellow, slot_w_uniform),
 		list(/obj/item/weapon/clothing/shoes/orange, slot_shoes),
 		list(/obj/item/weapon/crowbar, slot_in_backpack),
 		list(/obj/item/weapon/storage/toolbox, slot_l_hand),
-		list(/obj/item/weapon/t_scanner, slot_belt)
+		list(/obj/item/weapon/t_scanner, slot_belt),
+		list(/obj/item/weapon/clothing/glasses/meson, slot_glasses),
+		list(/obj/item/weapon/clothing/gloves/yellow, slot_gloves),
+		list(/obj/item/weapon/clothing/mask/gasmask, slot_wear_mask)
+		),
+	"Chief Engineer" = list(
+		"access_engineering", "eject_engine", "access_apcs", "access_power_remote", "access_trash_disposal",
+		"access_solars", "access_ai", "access_bridge", "access_teleporter", "access_maintenance", "access_eva",
+		"access_netmon",
+		list(/obj/item/weapon/clothing/under/engineering_yellow, slot_w_uniform),
+		list(/obj/item/weapon/clothing/shoes/black, slot_shoes),
+		list(/obj/item/weapon/crowbar, slot_in_backpack),
+		list(/obj/item/weapon/storage/toolbox, slot_l_hand),
+		list(/obj/item/weapon/t_scanner, slot_belt),
+		list(/obj/item/weapon/clothing/gloves/yellow, slot_gloves),
+		list(/obj/item/weapon/clothing/mask/gasmask, slot_wear_mask)
 		),
 	"Assistant" = list(
 		"access_maintenance", "open_external_airlocks", "access_trash_disposal", "access_medbay", "access_morgue",
@@ -138,16 +162,19 @@ var/list/assistant_occupations = list("Assistant")
 
 world/New()
 	. = ..()
-	for(var/job in jobs)
-		var/list/jobinfo = jobs[job]
-		for(var/permission in jobinfo)
-			if(istext(permission) && !(permission in permissions))
-				world.log << "Job [job] has unrecognized permission [permission]"
-	for(var/obj/start/S)
-		if(!(S.name in jobs))
-			world.log << "Start location found for unrecognized job [S.name]"
-		else
-			occupations += S.name
+	spawn
+		for(var/job in jobs)
+			var/list/jobinfo = jobs[job]
+			for(var/permission in jobinfo)
+				if(istext(permission) && !(permission in permissions))
+					world.log << "Job [job] has unrecognized permission [permission]"
+		for(var/obj/start/S)
+			if(!(S.name in jobs))
+				world.log << "Start location found for unrecognized job [S.name]"
+			else if(S.name in occupations)
+				occupations[S.name] = occupations[S.name] + 1
+			else
+				occupations[S.name] = 1
 
 obj/var/list/req_access = null
 obj/var/req_access_txt = ""

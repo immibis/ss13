@@ -61,7 +61,7 @@
 	return
 
 /mob/human/m_delay()
-	var/tally = 0
+	var/tally = ..()
 	if(src.wear_suit)
 		if(istype(src.wear_suit, /obj/item/weapon/clothing/suit/straight_jacket))
 			tally += 15
@@ -723,7 +723,7 @@
 		for(var/mob/M in range(src, 1))
 			if ((M.pulling == src && M.stat == 0 && !( M.restrained() )))
 				t7 = null
-	if ((t7 && (src.pulling && ((get_dist(src, src.pulling) <= 1 || src.pulling.loc == src.loc) && (src.client && src.client.moving)))))
+	if ((t7 && (src.pulling && ((get_dist(src, src.pulling) <= 1 || src.pulling.loc == src.loc) && src.moving))))
 		var/turf/T = src.loc
 		. = ..()
 		if (src.pulling && src.pulling.loc)

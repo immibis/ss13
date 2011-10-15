@@ -320,12 +320,12 @@
 	new /obj/item/weapon/clothing/under/orange( src )
 	new /obj/item/weapon/clothing/under/orange( src )
 	new /obj/item/weapon/clothing/under/orange( src )
-	new /obj/item/weapon/clothing/shoes/orange( src )
-	new /obj/item/weapon/clothing/shoes/orange( src )
-	new /obj/item/weapon/clothing/shoes/orange( src )
-	new /obj/item/weapon/clothing/shoes/orange( src )
-	new /obj/item/weapon/clothing/shoes/orange( src )
-	new /obj/item/weapon/clothing/shoes/orange( src )
+	new /obj/item/weapon/clothing/shoes/brown( src )
+	new /obj/item/weapon/clothing/shoes/brown( src )
+	new /obj/item/weapon/clothing/shoes/brown( src )
+	new /obj/item/weapon/clothing/shoes/brown( src )
+	new /obj/item/weapon/clothing/shoes/brown( src )
+	new /obj/item/weapon/clothing/shoes/brown( src )
 	return
 
 /obj/closet/wardrobe/yellow/New()

@@ -69,7 +69,7 @@
 	icon_closed = "wardrobe-bp"
 
 /obj/closet/wardrobe/orange
-	name = "Prisoners Wardrobe"
+	name = "Prisoner Wardrobe"
 	icon_state = "wardrobe-o"
 	icon_closed = "wardrobe-o"
 

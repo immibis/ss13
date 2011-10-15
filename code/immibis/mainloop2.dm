@@ -30,7 +30,7 @@
 	src.status = "\[EU\] Gibbed #4  Battle Station Upsilon (Goon Station 13 r7573): secret, AI allowed, ~[n] players, hosted by Galactic Order of Oppressive Neckbeards"
 	return*/
 
-	src.status = "Mongrel Codebase 13 (Plasma engine; New pipe system; Based on GS/Kurper Stable)"
+	src.status = "Mongrel Codebase 13 (NPCs; plasma engine; new pipe system)"
 
 	var/list/features = list()
 
@@ -467,6 +467,9 @@
 
 	for(var/turf/simulated/T)
 		T.updatelinks()
+
+	for(var/mob/human/npc/N)
+		spawn N.npc_process()
 
 	#ifdef ASYNC_ATMOS
 	#ifndef DISABLE_ATMOS

@@ -14,6 +14,7 @@
 
 // BEGIN_INCLUDE
 #include <trashhalo\bstrlib\bstrlib.dme>
+#include <theodis\priorityqueue\PriorityQueue.dme>
 #include "code\__defines.dm"
 #include "code\atom-common.dm"
 #include "code\atoms.dm"
@@ -30,6 +31,8 @@
 #include "code\admin\admin.dm"
 #include "code\admin\ban.dm"
 #include "code\admin\create_object.dm"
+#include "code\ai-mobs\common.dm"
+#include "code\ai-mobs\quartermaster.dm"
 #include "code\area\ai_monitored.dm"
 #include "code\area\space.dm"
 #include "code\atoms\chemical.dm"
@@ -238,6 +241,7 @@
 #include "code\weap_sat\plasmaball.dm"
 #include "code\weap_sat\target_prism.dm"
 #include "interface\skin.dmf"
+#include "lib\Pathfinder.dm"
 #include "maps\immibis2 areas.dm"
 #include "maps\immibis2.dmm"
 // END_INCLUDE

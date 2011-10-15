@@ -68,11 +68,11 @@
 	if (istype(W, /obj/item/weapon/wirecutters) && locked == 1) return
 	if (istype(W, /obj/item/weapon/screwdriver))
 		var/turf/T = user.loc
-		user << text("\blue []ing the access hatch... (this is a long process)", (locked) ? "Open" : "Clos")
+		user << "\blue [locked ? "Open" : "Clos"]ing the access hatch... (this is a long process)"
 		sleep(100)
 		if ((user.loc == T && user.equipped() == W && !( user.stat )))
 			src.locked ^= 1
-			user << text("\blue The access hatch is now [].", (locked) ? "closed" : "open")
+			user << "\blue The access hatch is now [locked ? "closed" : "open"]."
 
 	..() // call the parent to (de|re)activate
 

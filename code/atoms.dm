@@ -1060,7 +1060,7 @@ obj/item/weapon/clothing/suit/labcoat
 	color = "grey"
 	icon_state = "grey"
 
-/obj/item/weapon/clothing/under/orange
+/obj/item/weapon/clothing/under/qm_orange
 	name = "Orange Jumpsuit"
 	s_istate = "o_suit"
 	color = "orange"
