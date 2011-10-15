@@ -31,7 +31,7 @@
 		if(otherarea)
 			src.area = locate(text2path("/area/[otherarea]"))
 
-/obj/machinery/computer/atmosphere/siphonswitch/returnarea()
+/obj/machinery/computer/atmosphere/siphonswitch/proc/returnarea()
 	return area.contents
 
 

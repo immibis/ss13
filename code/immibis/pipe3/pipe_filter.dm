@@ -44,61 +44,75 @@
 		p_dir = dir | turn(dir, 90) | turn(dir, -90)
 
 	process()
+		// Currently disabled. They horribly break and heat stuff up to tens of thousands of degrees.
+		return
 		// transfer gas from ngas->f_ngas according to extraction rate, but only if we have power
 		if(! (stat & NOPOWER) )
 			use_power(min(src.f_per*PIPEFILTER_POWER_MULT, PIPEFILTER_POWER_MAX),ENVIRON)
 			var/obj/substance/gas/ndelta = src.get_extract()
-			m_gas.sub_delta(ndelta)
-			f_gas.add_delta(ndelta)
+			if(ndelta)
+				m_gas.sub_delta(ndelta)
+				f_gas.add_delta(ndelta)
 		AutoUpdateAI(src)
 		src.updateUsrDialog()
 
 	proc/get_extract()
-		var/obj/substance/gas/ndelta = new()
-		if (src.f_mask & GAS_O2)
-			ndelta.o2 = min(src.f_per, m_gas.o2)
-		if (src.f_mask & GAS_N2)
-			ndelta.n2 = min(src.f_per, m_gas.n2)
-		if (src.f_mask & GAS_PL)
-			ndelta.plasma = min(src.f_per, m_gas.plasma)
-		if (src.f_mask & GAS_CO2)
-			ndelta.co2 = min(src.f_per, m_gas.co2)
-		if (src.f_mask & GAS_N2O)
-			ndelta.n2o = min(src.f_per, m_gas.n2o)
-		return ndelta
+		var/obj/substance/gas
+			gas1 = m_gas
+			gas2 = f_gas
+
+		var/delta_gt = (gas1.pressure - gas2.pressure)
+
+		if(delta_gt > 0)
+			var/obj/substance/gas/ndelta = gas1.get_frac(delta_gt / gas1.pressure)
+			if(!(src.f_mask & GAS_O2))
+				ndelta.o2 = 0
+			if(!(src.f_mask & GAS_N2))
+				ndelta.n2 = 0
+			if(!(src.f_mask & GAS_PL))
+				ndelta.plasma = 0
+			if(!(src.f_mask & GAS_CO2))
+				ndelta.co2 = 0
+			if(!(src.f_mask & GAS_N2O))
+				ndelta.n2o = 0
+			ndelta.amt_changed()
+			return ndelta
+		else
+			return null
 
 	attackby(obj/item/weapon/W, mob/user as mob)
 		if(istype(W, /obj/item/weapon/f_print_scanner))
 			return ..()
 		if(istype(W, /obj/item/weapon/screwdriver))
 			if(bypassed)
-				user.show_message(text("\red Remove the foreign wires first!"), 1)
+				user.show_message("\red Remove the foreign wires first!", 1)
 				return
 			src.add_fingerprint(user)
-			user.show_message(text("\red Now []securing the access system panel...", (src.locked) ? "un" : "re"), 1)
+			user.show_message("\red Now [locked ? "un" : "re"]securing the access system panel...", 1)
 			sleep(30)
-			locked =! locked
-			user.show_message(text("\red Done!"),1)
+			locked = !locked
+			user.show_message("\red Done!",1)
 			src.updateicon()
 			return
 		if(istype(W, /obj/item/weapon/cable_coil) && !bypassed)
 			if(src.locked)
-				user.show_message(text("\red You must remove the panel first!"),1)
+				user.show_message("\red You must remove the panel first!",1)
 				return
 			var/obj/item/weapon/cable_coil/C = W
 			if(C.use(4))
-				user.show_message(text("\red You unravel some cable.."),1)
+				user.show_message("\red You unravel some cable...",1)
 			else
-				user.show_message(text("\red Not enough cable! <I>(Requires four pieces)</I>"),1)
+				user.show_message("\red Not enough cable! (Requires four pieces)",1)
+				return
 			src.add_fingerprint(user)
-			user.show_message(text("\red Now bypassing the access system... <I>(This may take a while)</I>"), 1)
+			user.show_message("\red Now bypassing the access system... <I>(This may take a while)</I>", 1)
 			sleep(100)
 			bypassed = 1
 			src.updateicon()
 			return
 		if(istype(W, /obj/item/weapon/wirecutters) && bypassed)
 			src.add_fingerprint(user)
-			user.show_message(text("\red Now removing the bypass wires... <I>(This may take a while)</I>"), 1)
+			user.show_message("\red Now removing the bypass wires... <I>(This may take a while)</I>", 1)
 			sleep(50)
 			bypassed = 0
 			src.updateicon()
@@ -107,7 +121,7 @@
 			emagged++
 			src.add_fingerprint(user)
 			for(var/mob/O in viewers(user, null))
-				O.show_message(text("\red [] has shorted out the [] with an electromagnetic card!", user, src), 1)
+				O.show_message("\red [user] has shorted out the [src] with \the [W]!", 1)
 			src.overlays += image('icons/ss13/pipes2.dmi', "filter-spark")
 			sleep(6)
 			src.updateicon()
@@ -184,8 +198,7 @@
 			stat &= ~NOPOWER
 		else
 			stat |= NOPOWER
-		spawn(rand(1,15))	//so all the filters don't come on at once
-			updateicon()
+		updateicon()
 
 	proc/updateicon()
 		src.overlays = null

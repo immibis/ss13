@@ -337,6 +337,8 @@
 /mob/monkey/var/co2overloadtime = null
 /mob/monkey/var/temperature_resistance = T0C+75
 
+var/const/MONKEY_O2_REQ = 0.001
+
 /mob/monkey/proc/aircheck(obj/substance/gas/G as obj)
 	src.t_oxygen = 0
 	src.t_plasma = 0
@@ -350,8 +352,8 @@
 		G.plasma -= a_plasma
 		G.n2o -= a_sl_gas
 
-		if (a_oxygen < 67.032)
-			src.t_oxygen = round( (67.032 - a_oxygen) / 5) + 1
+		if (a_oxygen < MONKEY_O2_REQ)
+			src.t_oxygen = round( (MONKEY_O2_REQ - a_oxygen) / 5) + 1
 		if (G.total_moles && a_co2/G.total_moles > 0.05)
 			if(!co2overloadtime)
 				co2overloadtime = world.time

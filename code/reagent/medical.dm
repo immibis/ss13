@@ -34,3 +34,4 @@
 				M.weakened = 3
 			if (M.stunned)
 				M.stunned = 3
+
