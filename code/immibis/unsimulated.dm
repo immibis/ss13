@@ -8,11 +8,15 @@ turf/unsimulated
 		ngas = unsimulated_gas
 
 	floor
-		icon = 'icons/ss13/icons.dmi'
-		icon_state = "floor"
+		icon = 'icons/goonstation/floor.dmi'
+		icon_state = "Floor"
 		goonstation/icon = 'icons/goonstation/floor.dmi'
-		shuttle/icon = 'icons/ss13/shuttle.dmi'
-		engine/icon = 'icons/ss13/engine.dmi'
+		shuttle
+			icon = 'icons/ss13/shuttle.dmi'
+			icon_state = "floor"
+		engine
+			icon = 'icons/ss13/engine.dmi'
+			icon_state = "floor"
 		name = "floor"
 		grid
 			icon = 'icons/ss13/weap_sat.dmi'
@@ -29,7 +33,9 @@ turf/unsimulated
 		icon = 'icons/ss13/wall.dmi'
 		ccwall/icon_state = "CCWall"
 		rwall/icon_state = "r_wall"
-		shuttle/icon = 'icons/ss13/shuttle.dmi'
+		shuttle
+			icon = 'icons/ss13/shuttle.dmi'
+			icon_state = "wall"
 
 	space
 		name = "space"

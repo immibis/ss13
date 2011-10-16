@@ -5,4 +5,3 @@
 /obj/machinery/Del()
 	machines -= src
 	..()
-

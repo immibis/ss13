@@ -18,15 +18,15 @@
 
 	var/list/destructive = assistant_occupations.Copy()
 	var/dat = "<html><body>"
-	dat += text("<b>Name:</b> <a href=\"byond://?src=\ref[];rname=input\"><b>[]</b></a> (<A href=\"byond://?src=\ref[];rname=random\">&reg;</A>)<br>", src, src.rname, src)
-	dat += text("<b>Gender:</b> <a href=\"byond://?src=\ref[];gender=input\"><b>[]</b></a><br>", src, (src.gender == "male" ? "Male" : "Female"))
-	dat += text("<b>Age</b> - <a href='byond://?src=\ref[];age=input'>[]</a><hr>", src, src.age)
+	dat += "<b>Name:</b> <a href=\"byond://?src=\ref[src];rname=input\"><b>[rname]</b></a> (<A href=\"byond://?src=\ref[src];rname=random\">&reg;</A>)<br>"
+	dat += "<b>Gender:</b> <a href=\"byond://?src=\ref[src];gender=input\"><b>[gender == "male" ? "Male" : "Female"]</b></a><br>"
+	dat += "<b>Age</b> - <a href='byond://?src=\ref[src];age=input'>[age]</a><hr>"
 	dat += "<hr><b>Occupation Choices</b>:<br>"
-	if (destructive.Find(src.occupation1))
-		dat += text("\t<a href=\"byond://?src=\ref[];occ=1\"><b>[]</b></a><br>", src, src.occupation1)
+	if (destructive.Find(occupation1))
+		dat += "\t<a href=\"byond://?src=\ref[src];occ=1\"><b>[occupation1]</b></a><br>"
 	else
 		if (src.occupation1 != "No Preference")
-			dat += text("\tFirst Choice: <a href=\"byond://?src=\ref[];occ=1\"><b>[]</b></a><br>", src, src.occupation1)
+			dat += "\tFirst Choice: <a href=\"byond://?src=\ref[src];occ=1\"><b>[occupation1]</b></a><br>"
 			if (destructive.Find(src.occupation2))
 				dat += text("\tSecond Choice: <a href=\"byond://?src=\ref[];occ=2\"><b>[]</b></a><BR>", src, src.occupation2)
 			else

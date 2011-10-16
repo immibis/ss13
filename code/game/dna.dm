@@ -195,9 +195,6 @@
 		src.updateUsrDialog()
 	return
 
-/obj/machinery/dna_scanner/allow_drop()
-	return 0
-
 /obj/machinery/dna_scanner/relaymove(mob/user as mob)
 	if (user.stat)
 		return
@@ -660,9 +657,6 @@
 		src.add_fingerprint(usr)
 		src.updateUsrDialog()
 	return
-
-/obj/machinery/restruct/allow_drop()
-	return 0
 
 /obj/machinery/restruct/verb/eject()
 	set src in oview(1)

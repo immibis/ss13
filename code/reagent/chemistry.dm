@@ -219,3 +219,85 @@ var/list/chemistry_base_reagents = list(
 /datum/reagent/mercury,
 /datum/reagent/silicon)
 
+obj/machinery/chem_dispenser
+	icon = 'icons/immibis/chemistry.dmi'
+	icon_state = "dispenser-goonstation"
+
+	var/list/reagent_names = list()
+	var/obj/item/weapon/container = null
+	var/datum/reagent_container/chem = null
+	New()
+		. = ..()
+		spawn
+			for(var/P in chemistry_base_reagents)
+				var/datum/reagent/R = new P
+				reagent_names["[P]"] = R.name
+				del(R)
+
+	// doesn't need power
+
+	attackby(obj/item/weapon/O, mob/user)
+		if(!container && "chem" in O.vars && O.Move(src))
+			container = O
+			chem = O:chem
+		else
+			. = ..()
+
+	attack_hand(mob/user)
+		interact(user)
+		user.machine = src
+
+	proc/interact(mob/user)
+		var/html = "<B>ChemMaster 9000 Chemical Dispenser</B><HR>"
+
+		if(!container)
+			html += "No container loaded!<BR>"
+		else
+			html += "\The [container] contains [chem.describe()]. <A href=\"?src=\ref[src];eject=1\">Eject container</A><BR>"
+
+			for(var/X in chemistry_base_reagents)
+				html += "<A href=\"?src=\ref[src];path=[X]\">Dispense [reagent_names["[X]"]]</A><BR>"
+
+		user << browse(html, "window=chemdispenser")
+
+	Topic(href, href_list)
+		if("eject" in href_list)
+			if(container.Move(loc))
+				container = null
+				chem = null
+				UpdateInteraction(src)
+		else if(chem)
+			var/P = text2path(href_list["path"])
+			if(!P) return
+			var/datum/reagent/R = new P
+			R.amount = chem.max_volume - chem.cur_volume
+			chem.add_reagent(chem)
+			UpdateInteraction(src)
+
+/obj/item/weapon/bottle/beaker
+	name = "Beaker"
+	icon_state = "beaker0"
+	icon = 'icons/goonstation/obj/chemical.dmi'
+
+	New()
+		. = ..()
+		chem.max_volume = 150
+
+/obj/item/weapon/storage/beaker_box
+	name = "Beakers"
+	icon_state = "beaker"
+	s_istate = "syringe_kit"
+	New()
+		. = ..()
+		for(var/k = 1 to 7)
+			new /obj/item/weapon/bottle/beaker(src)
+
+/obj/item/weapon/storage/syringe
+	name = "Syringes"
+	icon_state = "syringe"
+	s_istate = "syringe_kit"
+	New()
+		. = ..()
+		for(var/k = 1 to 7)
+			new /obj/item/weapon/syringe(src)
+

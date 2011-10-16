@@ -1060,7 +1060,7 @@ obj/item/weapon/clothing/suit/labcoat
 	color = "grey"
 	icon_state = "grey"
 
-/obj/item/weapon/clothing/under/qm_orange
+/obj/item/weapon/clothing/under/orange
 	name = "Orange Jumpsuit"
 	s_istate = "o_suit"
 	color = "orange"
@@ -1891,27 +1891,27 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	desc = "<FONT color=red><B>WARNING: Do not use without reading these preautions!</B></FONT>\n<B>These devices are extremely dangerous and can cause blindness or deafness if used incorrectly.</B>\nThe chemicals contained in these devices have been tuned for maximal effectiveness and due to\nextreme safety precuaiotn shave been incased in a tamper-proof pack. DO NOT ATTEMPT TO OPEN\nFLASH WARNING: Do not use continually. Excercise extreme care when detonating in closed spaces.\n\tMake attemtps not to detonate withing range of 2 meters of the intended target. It is imperative\n\tthat the targets visit a medical professional after usage. Damage to eyes increases extremely per\n\tuse and according to range. Glasses with flash resistant filters DO NOT always work on high powered\n\tflash devices such as this. <B>EXERCISE CAUTION REGARDLESS OF CIRCUMSTANCES</B>\nSOUND WARNING: Do not use continually. Visit a medical professional if hearing is lost.\n\tThere is a slight chance per use of complete deafness. Exercise caution and restraint.\nSTUN WARNING: If the intended or unintended target is too close to detonation the resulting sound\n\tand flash have been known to cause extreme sensory overload resulting in temporary\n\tincapacitation.\n<B>DO NOT USE CONTINUALLY</B>\nOperating Directions:\n\t1. Pull detonnation pin. <B>ONCE THE PIN IS PULLED THE GRENADE CAN NOT BE DISARMED!</B>\n\t2. Throw grenade. <B>NEVER HOLD A LIVE FLASHBANG</B>\n\t3. The grenade will detonste 10 seconds hafter being primed. <B>EXCERCISE CAUTION</B>\n\t-<B>Never prime another grenade until after the first is detonated</B>\nNote: Usage of this pyrotechnic device without authorization is an extreme offense and can\nresult in severe punishment upwards of <B>10 years in prison per use</B>.\n\nDefault 3 second wait till from prime to detonation. This can be switched with a screwdriver\nto 10 seconds.\n\nCopyright of Nanotrasen Industries- Military Armnaments Division\nThis device was created by Nanotrasen Labs a member of the Expert Advisor Corporation"
 	name = "Flashbangs (WARNING)"
 	icon_state = "flashbang"
-	s_istate = "syringe"
+	s_istate = "syringe_kit"
 /obj/item/weapon/storage/gl_kit
 	name = "Prescription Glasses"
 	icon_state = "id"
-	s_istate = "syringe"
+	s_istate = "syringe_kit"
 /obj/item/weapon/storage/handcuff_kit
 	name = "Spare Handcuffs"
 	icon_state = "handcuff"
-	s_istate = "syringe"
+	s_istate = "syringe_kit"
 /obj/item/weapon/storage/id_kit
 	name = "Spare IDs"
 	icon_state = "id"
-	s_istate = "syringe"
+	s_istate = "syringe_kit"
 /obj/item/weapon/storage/lglo_kit
 	name = "Latex Gloves"
 	icon_state = "latex"
-	s_istate = "syringe"
+	s_istate = "syringe_kit"
 /obj/item/weapon/storage/stma_kit
 	name = "Sterile Masks"
 	icon_state = "latex"
-	s_istate = "syringe"
+	s_istate = "syringe_kit"
 /obj/item/weapon/storage/toolbox
 	force = 8.0
 	throw_speed = 1

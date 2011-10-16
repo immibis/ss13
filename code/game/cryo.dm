@@ -1079,9 +1079,6 @@
 		rebuild_overlay()
 
 
-/obj/machinery/sleeper/allow_drop()
-	return 0
-
 /obj/machinery/sleeper/process()
 	src.updateDialog()
 	return
@@ -1290,9 +1287,6 @@
 				A.loc = src.loc
 				A.blob_act()
 			src.icon_state = "broken"
-
-	allow_drop()
-		return 0
 
 	New()
 		..()

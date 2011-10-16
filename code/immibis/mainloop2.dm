@@ -23,14 +23,31 @@
 	src.tag = text("start*[]", src.name)
 	src.invisibility = 101
 
-/world/proc/update_stat()
+world/proc/get_git_revision()
+	var/ref = file2text(".git/HEAD")
+	if(!ref)
+		return null
+	ref = copytext(ref, 1, findtext(ref, "\n"))
+	if(copytext(ref, 1, 6) == "ref: ")
+		ref = copytext(ref, 6)
+		ref = file2text(".git/[ref]")
+		ref = copytext(ref, 1, findtext(ref, "\n"))
+		if(!ref)
+			return null
+	return uppertext(copytext(ref, 1, 7))
+
+world/proc/update_stat()
 	/*var/n = 0
 	for(var/client/C)
 		n++
-	src.status = "\[EU\] Gibbed #4  Battle Station Upsilon (Goon Station 13 r7573): secret, AI allowed, ~[n] players, hosted by Galactic Order of Oppressive Neckbeards"
+	status = "\[EU\] Gibbed #5 Battle Station Upsilon (Goon Station 13 r7573): secret, AI allowed, ~[n] players, hosted by Galactic Order of Oppressive Neckbeards"
 	return*/
 
-	src.status = "Mongrel Codebase 13 (NPCs; plasma engine; new pipe system)"
+	status = "Mongrel Codebase 13"
+
+	var/revision = get_git_revision()
+	if(revision)
+		status += " (rev. [revision])"
 
 	var/list/features = list()
 
@@ -49,17 +66,17 @@
 //		features += "vote"
 
 	if (features)
-		src.status += ": [dd_list2text(features, ", ")]"
+		status += ": [dd_list2text(features, ", ")]"
 
-/world/New()
-	src.update_stat()
+world/New()
+	update_stat()
 
 	for (var/turf/simulated/T in world)
 		T.updatelinks()
 
 	sun = new /datum/sun()
 
-	// ****stuff for presistent mode picking
+	// ****stuff for persistent mode picking
 	var/newmode = null
 
 	var/modefile = file2text(persistent_file)
