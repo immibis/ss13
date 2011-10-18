@@ -443,7 +443,7 @@ world/New()
 	//var/start_time = world.timeofday
 #ifdef ASYNC_ATMOS
 	var/count
-	var/maxcount = 1000
+	var/maxcount = 500
 #endif
 	for(var/turf/simulated/T)
 #ifdef ASYNC_ATMOS
@@ -456,8 +456,17 @@ world/New()
 			T.updatecell()
 			if(!time)
 				T.conduction()
+	// reset gas in space and in gas clouds
 	space_gas.remove_all_gas()
 	space_gas.set_temp(2.7)
+	gspace_gas.temperature = 2.7
+	gspace_gas.o2 = 1000000
+	gspace_gas.plasma = 1000000
+	gspace_gas.n2 = 1000000
+	gspace_gas.co2 = 1000000
+	gspace_gas.n2o = 1000000
+	gspace_gas.amt_changed()
+
 	for(var/turf/simulated/T)
 		if(!T.atmos_sleeping && T.updatecell)
 			T.replace_gas()

@@ -70,13 +70,14 @@
 	src.flash.screen_loc = "1,1 to 15,15"
 	src.blind.layer = 0
 	src.flash.layer = 17
-	src.client.screen.len = null
-	src.client.screen -= list( src.throw_icon, src.zone_sel, src.oxygen, src.i_select, src.m_select, src.toxin, src.bodytemp, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
-	src.client.screen += list( src.throw_icon, src.zone_sel, src.oxygen, src.i_select, src.m_select, src.toxin, src.bodytemp, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
-	src.client.screen -= src.hud_used.adding
-	src.client.screen += src.hud_used.adding
+	if(client)
+		src.client.screen.len = null
+		src.client.screen -= list( src.throw_icon, src.zone_sel, src.oxygen, src.i_select, src.m_select, src.toxin, src.bodytemp, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
+		src.client.screen += list( src.throw_icon, src.zone_sel, src.oxygen, src.i_select, src.m_select, src.toxin, src.bodytemp, src.internals, src.fire, src.hands, src.healths, src.pullin, src.blind, src.flash, src.rest, src.sleep, src.mach )
+		src.client.screen -= src.hud_used.adding
+		src.client.screen += src.hud_used.adding
 
-	if (!src.start)
+	if (!src.start && client)
 		var/area/A = locate(/area/start)
 		var/list/L = list(  )
 		for(var/turf/T in A)
@@ -88,7 +89,7 @@
 		if (src.savefile_load() == 0)
 			ShowChoices()
 
-	if (!isturf(src.loc))
+	if (!isturf(src.loc) && client)
 		src.client.eye = src.loc
 		src.client.perspective = EYE_PERSPECTIVE
 
