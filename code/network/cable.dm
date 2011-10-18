@@ -4,7 +4,7 @@ var/list/nwnets = new
 
 /obj/net_cable
 	level = 1
-	anchored =1
+	anchored = 1
 	var/datum/nwnet/nwnet
 	name = "network cable"
 	desc = "A flexible cable for data transfer."

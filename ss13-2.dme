@@ -213,6 +213,7 @@
 #include "code\reagent\chemistry.dm"
 #include "code\reagent\medical.dm"
 #include "code\reagent\reagent.dm"
+#include "code\reagent\tank.dm"
 #include "code\trash_station\compactor.dm"
 #include "code\trash_station\gas_mining.dm"
 #include "code\trash_station\recycler.dm"

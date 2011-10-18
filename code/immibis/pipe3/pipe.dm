@@ -33,12 +33,12 @@ obj/machinery/atmospherics/manifold
 	process()
 		if(stat & BROKEN)
 			return
-		if(gas.pressure > 5000000)
+		/*if(gas.pressure > 5000000)
 			stat = BROKEN
 			icon_state = "[icon_state]-b"
 			var/turf/T = loc
 			if(isturf(T) && !T.density)
-				net.leaks += loc
+				net.leaks += loc*/
 
 obj/machinery/atmospherics/pipes
 	parent_type = /obj/machinery/atmospherics
@@ -61,12 +61,14 @@ obj/machinery/atmospherics/pipes
 		src.gas = gas
 
 	process()
-		if(gas.pressure > 10000000)
+		if(stat & BROKEN)
+			return
+		/*if(gas.pressure > 10000000)
 			stat = BROKEN
 			icon_state = "[icon_state]-b"
 			var/turf/T = loc
 			if(isturf(T) && !T.density)
-				net.leaks += loc
+				net.leaks += loc*/
 
 	desc = "A stretch of pipe."
 	name = "pipe"

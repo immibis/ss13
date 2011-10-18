@@ -48,6 +48,9 @@ obj/substance/gas
 
 	var/list/minor = new // list of (path)=(/obj/minor_gas instance)
 
+	proc/tostring()
+		return "v=[volume] t=[temperature] p=[pressure] hc=[heat_capacity] moles=[total_moles] co2=[co2] n2=[n2] plasma=[plasma] o2=[o2] n2o=[n2o]"
+
 	// interface procs
 	proc
 		set_volume(v) // change volume and update pressure (amount and temperature are constant)

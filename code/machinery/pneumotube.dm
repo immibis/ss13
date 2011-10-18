@@ -5,10 +5,40 @@ obj/machinery/pneumotube
 	anchored = 1
 	density = 0
 	opacity = 0
-	layer = OBJ_LAYER - 1
+	layer = 2.5
 	name = "pneumo-tube"
 
 	icon = 'icons/immibis/pneumotube.dmi'
+
+	var/fast = 0
+
+	var/broken = 0
+
+	blob_act()
+		if(prob(25))
+			broken = 1
+			updateicon()
+
+	ex_act(severity)
+		if(prob(133 - 33*severity))
+			broken = 1
+			updateicon()
+
+	attackby(obj/item/weapon/weldingtool/W, mob/user)
+		if(istype(W) && W.welding && broken)
+			for(var/mob/M in viewers(user) - user)
+				M.show_message("\blue [user] repairs \the [src].", 1)
+			user.show_message("You repair \the [src].", 1)
+			broken = 0
+			updateicon()
+
+	level = 1
+	hide(var/i)
+		invisibility = i ? 101 : 0
+		updateicon()
+
+	proc/updateicon()
+		icon_state = broken ? (invisibility ? "broken-f" : "broken") : (invisibility ? "f" : "")
 
 	New()
 		if(dir == NORTH || dir == SOUTH || dir == EAST || dir == WEST)
@@ -38,22 +68,26 @@ obj/machinery/pneumotube
 				suffix = "e"
 			if(WEST)
 				suffix = "w"
-		flick("[prefix][suffix]", src)
+		flick("[prefix][suffix][fast ? "f" : ""]", src)
 
 	proc/get_random_source_dir()
 		return pick(dir1, dir2)
 
-	proc/receive_item(obj/item/weapon/item, from)
+	proc/receive_item(obj/item/weapon/item, atom/from)
 		var/indir = get_dir(src, from)
 		if(indir != dir1 && indir != dir2)
+			if(!item.Move(loc))
+				if(!item.Move(from.loc))
+					item.loc = from.loc
+			return
 			//world.log << "Input direction [dir2text(indir)] isn't in direction ([dir2text(dir1)]/[dir2text(dir2)]) of [x],[y],[z]"
 			indir = get_random_source_dir()
 		var/outdir = indir ^ (dir1 ^ dir2)
 		animate(indir, outdir)
 		item.Move(src)
-		spawn(4) send_item(item, outdir)
+		spawn(fast ? 1 : 4) send_item(item, outdir)
 
-	proc/send_item(obj/item/weapon/item, outdir)
+	proc/send_item(obj/item, outdir)
 		if(!item)
 			return
 		var/obj/machinery/pneumotube/P = locate() in get_step(src, outdir)
@@ -67,9 +101,18 @@ obj/machinery/pneumotube
 				item.Move(T)
 			else if(Tloc.isempty())
 				item.Move(Tloc)
+			else if(!T.density)
+				item.Move(T)
+			else if(!Tloc.density)
+				item.Move(Tloc)
 			else
+				item.Move(loc)
 				//world.log << "pneumotube deleted [item] because no exit"
-				del(item)
+				//del(item)
+
+	fast
+		name = "fast pneumo-tube"
+		fast = 1
 
 	end
 		icon_state = "end"
@@ -84,7 +127,11 @@ obj/machinery/pneumotube
 
 		animate(in_dir, out_dir)
 
-		attackby(obj/item/weapon/item, mob/user)
+		send_item(obj/item)
+			world << "sending \the [item]"
+			. = ..()
+
+		attackby(obj/item, mob/user)
 			if(!istype(item))
 				return
 			if(istype(item, /obj/item/weapon/grab))
@@ -108,13 +155,15 @@ obj/machinery/pneumotube
 
 		process()
 			for(var/obj/O in loc)
-				if(O != src)
+				if(O != src && !O.anchored)
 					send_item(O, dir)
-				return
 
 
 	merge
 		icon_state = "merge"
+
+		updateicon()
+			icon_state = invisibility ? "merge-f" : "merge"
 
 		receive_item(obj/item/weapon/item, from)
 			var/indir = get_dir(src, from)
@@ -125,6 +174,9 @@ obj/machinery/pneumotube
 
 	oneway
 		icon_state = "oneway"
+
+		updateicon()
+			icon_state = invisibility ? "oneway-f" : "oneway"
 
 		receive_item(obj/item/weapon/item, from)
 			spawn(4) send_item(item, dir)

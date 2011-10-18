@@ -12,3 +12,4 @@ Easy-to-forget things that all maps need:
 - Wall-mounted status displays
 - Mail chutes
 - Blobstarts
+- Warning signs

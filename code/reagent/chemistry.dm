@@ -197,6 +197,7 @@ datum/reagent
 	space_fungus/name = "space fungus"
 	inaprovaline/name = "inaprovaline"
 	blood/name = "blood"
+	welding_fuel/name = "welding fuel"
 
 var/list/chemistry_base_reagents = list(
 /datum/reagent/chlorine,

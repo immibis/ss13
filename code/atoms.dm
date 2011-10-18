@@ -3101,21 +3101,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	density = 1
 	anchored = 1.0
 
-/obj/watertank
-	name = "watertank"
-	icon = 'icons/goonstation/obj/objects.dmi'
-	icon_state = "watertank"
-	density = 1
-	flags = FPRINT
-	weight = 5000000.0
-/obj/weldfueltank
-	name = "weldfueltank"
-	icon = 'icons/goonstation/obj/objects.dmi'
-	icon_state = "weldtank"
-	density = 1
-	flags = FPRINT
-	weight = 5000000.0
-
 
 /obj/item/weapon/mouse_drag_pointer = MOUSE_ACTIVE_POINTER
 /mob/mouse_drag_pointer = MOUSE_ACTIVE_POINTER

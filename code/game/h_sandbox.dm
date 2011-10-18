@@ -120,10 +120,10 @@ datum/hSB
 					if(!(hsbcanister == "Cancel"))
 						new hsbcanister(usr.loc)
 				if("hsbfueltank")
-					var/obj/hsb = new/obj/weldfueltank
+					var/obj/hsb = new/obj/largetank/weldfuel
 					hsb.loc = usr.loc
 				if("hsbwatertank")
-					var/obj/hsb = new/obj/watertank
+					var/obj/hsb = new/obj/largetank/water
 					hsb.loc = usr.loc
 				if("hsbtoolbox")
 					var/obj/item/weapon/storage/hsb = new/obj/item/weapon/storage/toolbox

@@ -26,7 +26,7 @@
 		src.health -= 8
 		src.update()
 
-	var/p = health * (U.gas.n2/11 + U.gas.o2 + U.gas.co2)
+	var/p = health * (U.gas.n2/66 + U.gas.o2/17 + U.gas.co2)
 
 	if(!istype(U, /turf/space))
 		p+=3
@@ -55,8 +55,8 @@
 			del(B)
 
 /obj/blob/burn(fi_amount)
-		src.health-= round(fi_amount/500000)
-		src.update()
+	src.health-= round(fi_amount/500000)
+	src.update()
 
 /obj/blob/ex_act(severity)
 	switch(severity)

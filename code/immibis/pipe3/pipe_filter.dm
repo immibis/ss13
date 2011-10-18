@@ -45,7 +45,7 @@
 
 	process()
 		// Currently disabled. They horribly break and heat stuff up to tens of thousands of degrees.
-		return
+		//return
 		// transfer gas from ngas->f_ngas according to extraction rate, but only if we have power
 		if(! (stat & NOPOWER) )
 			use_power(min(src.f_per*PIPEFILTER_POWER_MULT, PIPEFILTER_POWER_MAX),ENVIRON)
@@ -53,6 +53,7 @@
 			if(ndelta)
 				m_gas.sub_delta(ndelta)
 				f_gas.add_delta(ndelta)
+				viewers(src) << "m: [m_gas.tostring()]\nf: [f_gas.tostring()]\nd: [ndelta.tostring()]"
 		AutoUpdateAI(src)
 		src.updateUsrDialog()
 
@@ -76,6 +77,8 @@
 			if(!(src.f_mask & GAS_N2O))
 				ndelta.n2o = 0
 			ndelta.amt_changed()
+			if(ndelta.pressure < 1000)
+				return null
 			return ndelta
 		else
 			return null
