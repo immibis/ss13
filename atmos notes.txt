@@ -1,0 +1,7 @@
+New atmos:
+Features:
+* N2O/N2/O2/CO2/Plasma tanks - of course
+* Canisters of the above
+* A place to refill canisters using any combination of gasses
+* A place to empty canisters
+* A way to let gas into the main loop and suck it out - duh

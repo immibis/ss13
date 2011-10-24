@@ -1,7 +1,7 @@
-#define TRASHCONVERTER_TRASH_RATIO 0.2	// ratio of input gas to weight of trash used
-#define TRASHCONVERTER_GAS_RATIO 2		// ratio of output gas to input gas
-#define TRASHCONVERTER_MIN_GAS 1000		// how much gas to 'pretend' there is, used for starting the converter with no gas available
-#define TRASHCONVERTER_HEAT_RATIO 10	// heat energy per unit of output gas
+#define TRASHCONVERTER_TRASH_RATIO 0.0002	// ratio of input gas to weight of trash used
+#define TRASHCONVERTER_GAS_RATIO 2			// ratio of output gas to input gas
+#define TRASHCONVERTER_MIN_GAS 1			// how much gas to 'pretend' there is, used for starting the converter with no gas available
+#define TRASHCONVERTER_HEAT_RATIO 10		// heat energy per unit of output gas
 
 obj/machinery/trashconverter
 	icon = 'icons/immibis/trashconverter.dmi'
@@ -94,6 +94,7 @@ obj/machinery/trashconverter
 
 			ngas.plasma += produced_plasma
 			ngas.o2 += produced_o2
+			ngas.amt_changed()
 			if(ngas.total_moles)
 				ngas.set_heat(ngas.get_heat() + produced_heat)
 

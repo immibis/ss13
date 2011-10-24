@@ -84,6 +84,8 @@
 #include "code\game\vehicle.dm"
 #include "code\game\vote.dm"
 #include "code\game\weapons.dm"
+#include "code\game\computer\med_data.dm"
+#include "code\game\computer\secure_data.dm"
 #include "code\immibis\access2.dm"
 #include "code\immibis\airtunnel2.dm"
 #include "code\immibis\autolathe.dm"

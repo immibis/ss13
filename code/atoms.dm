@@ -2402,22 +2402,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/obj/item/weapon/radio/beacon/locked = null
 	var/id = null
 
-/obj/machinery/atmospherics/unary/inlet/filter
-	name = "filter inlet"
-	icon = 'icons/ss13/pipes.dmi'
-	icon_state = "inlet_filter-0"
-	desc = "A gas pipe inlet with a remote controlled filter on it."
-	var/control = null
-	var/f_mask = 0
-
-/obj/machinery/atmospherics/unary/vent/filter
-	name = "filter vent"
-	icon = 'icons/ss13/pipes.dmi'
-	icon_state = "vent_filter-0"
-	desc = "A gas pipe outlet vent with a remote controlled filter on it."
-	var/control = null
-	var/f_mask = 0
-
 
 /obj/machinery/dispenser
 	desc = "A simple yet bulky one-way storage device for gas tanks. Holds 10 plasma and 10 oxygen tanks."

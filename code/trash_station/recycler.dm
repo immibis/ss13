@@ -24,13 +24,15 @@ obj/machinery/recycler
 			if(O.weight < MIN_RECYCLE_WEIGHT)
 				return
 			matter += O.weight
+			world << "adding [O.weight]"
 			del(O)
 		if(matter > 0)
 			use_power(RECYCLER_POWER)
 			// convert matter into metal sheets and glass sheets randomly
 			stored_matter += matter
-			if(stored_matter > 1000000)
-				var/total_sheets = round(stored_matter / 1000000)
+			var/matter_per_sheet = 400000
+			if(stored_matter >= matter_per_sheet)
+				var/total_sheets = round(stored_matter / matter_per_sheet)
 				var/metal_sheets = round(rand() * total_sheets, 1)
 				var/glass_sheets = total_sheets - metal_sheets
 				if(metal_sheets > 0)
@@ -41,7 +43,7 @@ obj/machinery/recycler
 					var/obj/item/weapon/sheet/glass/glass = new(loc)
 					step(glass, SOUTH)
 					glass.amount = glass_sheets
-				stored_matter -= total_sheets * 1000000
+				stored_matter -= total_sheets * matter_per_sheet
 			if(!was_running)
 				icon_state = "on"
 				was_running = 1

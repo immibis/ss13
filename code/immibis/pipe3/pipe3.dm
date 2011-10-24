@@ -40,8 +40,13 @@ datum/pipe_network
 			else
 				if(istype(T, /turf/space))
 					P.gas.temperature += (T.gas.temperature - P.gas.temperature) / (SPACE_CONSTANT * P.insulation * n)
+		//for(var/turf/T in leaks)
+			//flow_to_turf(T)
+
+		var/list/leak_gas = list(gas)
 		for(var/turf/T in leaks)
-			flow_to_turf(T)
+			leak_gas += T.gas
+		equalize_gas_multiple(leak_gas)
 
 	proc/flow_to_turf(var/turf/T)
 		equalize_gas(gas, T.gas)

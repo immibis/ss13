@@ -274,3 +274,20 @@ proc/equalize_gas(obj/substance/gas/gas1, obj/substance/gas/gas2)
 		delta = gas1.get_frac(delta_gt / gas1.pressure)
 		gas1.sub_delta(delta)
 		gas2.add_delta(delta)
+
+proc/equalize_gas_multiple(list/gasses)
+	// this is O(N^2) but very simple...
+	for(var/k in 1 to gasses.len)
+		for(var/j in k+1 to gasses.len)
+			equalize_gas(gasses[k], gasses[j])
+
+
+	/*var/total_pressure_times_volume = 0
+	var/total_vol = 0
+	for(var/obj/substance/gas/G in gasses)
+		total_pressure_times_volume += G.pressure * G.volume
+		total_vol += G.volume
+
+	var/avg_pressure = total_vol
+
+	*/

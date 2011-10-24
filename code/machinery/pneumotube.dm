@@ -50,6 +50,10 @@ obj/machinery/pneumotube
 			else
 				dir1 = SOUTH
 			dir2 = dir ^ dir1
+		if(level == 1)
+			var/turf/T = loc
+			if(T && istype(T))
+				hide(T.intact)
 		. = ..()
 
 	proc/animate(in_dir, out_dir)
@@ -113,11 +117,14 @@ obj/machinery/pneumotube
 	fast
 		name = "fast pneumo-tube"
 		fast = 1
+		level = 2
 
 	end
 		icon_state = "end"
 		name = "Garbage disposal" // change this in the map individually
 		layer = OBJ_LAYER + 1
+
+		level = 2
 
 		CheckPass(O, oldloc)
 			return !ismob(O)
@@ -126,10 +133,6 @@ obj/machinery/pneumotube
 			return turn(dir, 180)
 
 		animate(in_dir, out_dir)
-
-		send_item(obj/item)
-			world << "sending \the [item]"
-			. = ..()
 
 		attackby(obj/item, mob/user)
 			if(!istype(item))

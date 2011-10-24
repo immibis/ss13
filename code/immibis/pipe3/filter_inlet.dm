@@ -1,4 +1,11 @@
 /obj/machinery/atmospherics/unary/inlet/filter
+	name = "filter inlet"
+	icon = 'icons/ss13/pipes.dmi'
+	icon_state = "inlet_filter-0"
+	desc = "A gas pipe inlet with a remote controlled filter on it."
+	var/control = null
+	var/f_mask = 0
+
 	process()
 		src.updateicon()
 		if(!(stat & NOPOWER))

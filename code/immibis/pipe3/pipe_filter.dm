@@ -53,7 +53,6 @@
 			if(ndelta)
 				m_gas.sub_delta(ndelta)
 				f_gas.add_delta(ndelta)
-				viewers(src) << "m: [m_gas.tostring()]\nf: [f_gas.tostring()]\nd: [ndelta.tostring()]"
 		AutoUpdateAI(src)
 		src.updateUsrDialog()
 
