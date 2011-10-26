@@ -24,7 +24,7 @@
 			M.paralysis += amount * 12
 			if(M.stat != 2)	M.stat = 1
 
-	rejuvenators
+	inaprovaline
 		name = "rejuvenators"
 		inject_mob(mob/M)
 			M.rejuv += amount * 3
@@ -34,4 +34,3 @@
 				M.weakened = 3
 			if (M.stunned)
 				M.stunned = 3
-

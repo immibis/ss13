@@ -91,7 +91,8 @@ datum/reagent_container
 
 	proc/transfer_from(datum/reagent_container/source, amt)
 		amt = min(amt, max_volume - cur_volume)
-		source.pour_into(src, amt / source.cur_volume)
+		if(source.cur_volume > 0 && amt > 0)
+			source.pour_into(src, amt / source.cur_volume)
 
 	proc/split_and_remove(amt)
 		if(amt <= 0)

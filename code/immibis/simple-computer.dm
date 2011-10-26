@@ -64,10 +64,7 @@
 			src.verbs -= x
 		src.icon_state = "broken"
 		stat |= BROKEN
-		var/obj/effects/smoke/pasta = new /obj/effects/smoke( src.loc )
-		pasta.dir = pick(NORTH, SOUTH, EAST, WEST)
-		spawn(0)
-			pasta.Life()
+		create_sparks(loc, 3)
 
 	blob_act()
 		if (prob(50))

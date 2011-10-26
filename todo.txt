@@ -6,7 +6,6 @@ shields
 TODO rooms:
 * Armoury
 * Arrival checkpoint
-* Proper atmospherics
 * More medical stuff
 * Bar/Cafe/Kitchen
 * Remake bridge?
@@ -17,15 +16,9 @@ TODO rooms:
 
 Supermatter/singularity/antimatter/fission/fusion/gas turbine engine?
 
-Servers make heat.
-
 Implement /datum/nwnet/cut_cable
 
-
-
-
 (when food is done) Exploding peanut butter. You eat it, and you're mute for a few minutes, and then your head explodes.
-
 
 
 Some sort of SpaceChem-like system for scientists. That would be fucking awesome.

@@ -41,28 +41,66 @@
 			var/atom/movable/O = new path()
 			O.loc = src
 
-	metal
+	metal_50
 		start_items = list(/obj/item/weapon/sheet/metal)
-		name = "Metal Sheets Crate"
-	glass
+		name = "50 Metal Sheets"
+	metal_100
+		start_items = list(/obj/item/weapon/sheet/metal,/obj/item/weapon/sheet/metal)
+		name = "100 Metal Sheets"
+	metal_200
+		start_items = list(/obj/item/weapon/sheet/metal,/obj/item/weapon/sheet/metal,/obj/item/weapon/sheet/metal,/obj/item/weapon/sheet/metal)
+		name = "200 Metal Sheets"
+	glass_50
 		start_items = list(/obj/item/weapon/sheet/glass)
-		name = "Glass Sheets Crate"
+		name = "50 Glass Sheets"
+	glass_100
+		start_items = list(/obj/item/weapon/sheet/glass,/obj/item/weapon/sheet/glass)
+		name = "100 Glass Sheets"
+	glass_200
+		start_items = list(/obj/item/weapon/sheet/glass,/obj/item/weapon/sheet/glass,/obj/item/weapon/sheet/glass,/obj/item/weapon/sheet/glass)
+		name = "200 Glass Sheets"
 	internals
-		start_items = list(/obj/item/weapon/tank/oxygentank, /obj/item/weapon/tank/oxygentank, /obj/item/weapon/tank/oxygentank,
-			/obj/item/weapon/clothing/mask/gasmask, /obj/item/weapon/clothing/mask/gasmask, /obj/item/weapon/clothing/mask/gasmask)
+		start_items = list(
+			/obj/item/weapon/tank/oxygentank,
+			/obj/item/weapon/tank/oxygentank,
+			/obj/item/weapon/tank/oxygentank,
+			/obj/item/weapon/clothing/mask/gasmask,
+			/obj/item/weapon/clothing/mask/gasmask,
+			/obj/item/weapon/clothing/mask/gasmask)
 		name = "Internals Crate"
 		icon_state = "o2crate"
-	food
-		start_items = list()
-		name = "Food Crate"
 	engineering
-		start_items = list(/obj/item/weapon/storage/toolbox/mechanical, /obj/item/weapon/storage/toolbox/mechanical, /obj/item/weapon/storage/toolbox/mechanical,
-			/obj/item/weapon/storage/toolbox/electrical, /obj/item/weapon/storage/toolbox/electrical, /obj/item/weapon/storage/toolbox/electrical,
-			/obj/item/weapon/clothing/gloves/yellow, /obj/item/weapon/clothing/gloves/yellow, /obj/item/weapon/clothing/gloves/yellow)
+		start_items = list(
+			/obj/item/weapon/storage/toolbox/mechanical,
+			/obj/item/weapon/storage/toolbox/mechanical,
+			/obj/item/weapon/storage/toolbox/mechanical,
+			/obj/item/weapon/storage/toolbox/electrical,
+			/obj/item/weapon/storage/toolbox/electrical,
+			/obj/item/weapon/storage/toolbox/electrical,
+			/obj/item/weapon/clothing/gloves/yellow,
+			/obj/item/weapon/clothing/gloves/yellow,
+			/obj/item/weapon/clothing/gloves/yellow)
 		name = "Engineering Crate"
 	medical
 		name = "Medical Crate"
 		icon_state = "medicalcrate"
+		start_items = list(
+			/obj/item/weapon/reagent/bottle/sleep_toxin,
+			/obj/item/weapon/reagent/bottle/sleep_toxin,
+			/obj/item/weapon/reagent/bottle/sleep_toxin,
+			/obj/item/weapon/reagent/bottle/inaprovaline,
+			/obj/item/weapon/reagent/bottle/inaprovaline,
+			/obj/item/weapon/reagent/bottle/inaprovaline,
+			/obj/item/weapon/reagent/bottle/antitoxin,
+			/obj/item/weapon/reagent/bottle/antitoxin,
+			/obj/item/weapon/reagent/bottle/antitoxin,
+			/obj/item/weapon/storage/syringe,
+			/obj/item/weapon/storage/firstaid/fire,
+			/obj/item/weapon/storage/firstaid/toxin,
+			/obj/item/weapon/storage/firstaid/regular)
+
+	food
+		name = "Food Crate"
 	janitorial
 		name = "Janitorial Crate"
 	hydroponics
@@ -84,6 +122,9 @@
 		lockable = 1
 	emergency
 		name = "Emergency Equipment Crate"
+		start_items = list(/obj/item/weapon/tank/oxygentank, /obj/item/weapon/tank/oxygentank, /obj/item/weapon/tank/oxygentank,
+			/obj/item/weapon/clothing/mask/gasmask, /obj/item/weapon/clothing/mask/gasmask, /obj/item/weapon/clothing/mask/gasmask,
+			/*  /obj/aibot/floorbot*/)
 	party
 		name = "Party Equipment Crate"
 	robotics
@@ -98,20 +139,26 @@
 
 var/list/QM_crates = list(
 	list("Empty crate", /obj/crate, 10),
-	list("50 Metal Sheets", /obj/crate/qm/metal, 500),
-	list("50 Glass Sheets", /obj/crate/qm/glass, 500),
+	list("50 Metal Sheets", /obj/crate/qm/metal_50, 500),
+	list("100 Metal Sheets", /obj/crate/qm/metal_100, 1000),
+	list("200 Metal Sheets", /obj/crate/qm/metal_200, 2000),
+	list("50 Glass Sheets", /obj/crate/qm/glass_50, 500),
+	list("100 Glass Sheets", /obj/crate/qm/glass_100, 1000),
+	list("200 Glass Sheets", /obj/crate/qm/glass_200, 2000),
 	list("Internals", /obj/crate/qm/internals, 500),
 	list("Food. NOT IMPLEMENTED", /obj/crate/qm/food, 250),
 	list("Engineering", /obj/crate/qm/engineering, 1000),
-	list("Medical. NOT IMPLEMENTED", /obj/crate/qm/medical, 1000),
+	list("Medical", /obj/crate/qm/medical, 1000),
 	list("Janitorial. NOT IMPLEMENTED", /obj/crate/qm/janitorial, 500),
-	//list("Hydroponics", /obj/crate/qm/hydroponics, 500),
+	list("Hydroponics. NOT IMPLEMENTED", /obj/crate/qm/hydroponics, 500),
 	list("Plasma Assembly. NOT IMPLEMENTED", /obj/crate/qm/assembly, 500),
 	list("Weapons. NOT IMPLEMENTED", /obj/crate/qm/weapons, 5000),
 	list("Experimental Weapons. NOT IMPLEMENTED", /obj/crate/qm/xp_weapons, 2500),
 	list("Emergency Equipment. NOT IMPLEMENTED", /obj/crate/qm/emergency, 1500),
 	list("Party Equipment. NOT IMPLEMENTED", /obj/crate/qm/party, 300),
 	list("Robotics. NOT IMPLEMENTED", /obj/crate/qm/robotics, 2000)
+
+	// should require emagging
 	//list("Spec Ops. NOT IMPLEMENTED", /obj/crate/qm/spec_ops, 2500)
 )
 

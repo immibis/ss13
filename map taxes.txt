@@ -13,3 +13,4 @@ Easy-to-forget things that all maps need:
 - Mail chutes
 - Blobstarts
 - Warning signs
+- Start positions

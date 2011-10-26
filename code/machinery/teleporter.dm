@@ -261,6 +261,13 @@
 		return
 	return
 
+proc/create_sparks(loc, amount)
+	for(var/k in 1 to amount)
+		var/obj/effects/smoke/pasta = new(loc)
+		pasta.dir = pick(NORTH, SOUTH, EAST, WEST)
+		spawn(0)
+			pasta.Life()
+
 /obj/effects/sparks/New()
 	..()
 	var/turf/simulated/T = src.loc

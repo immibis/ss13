@@ -596,34 +596,6 @@
 	icon_state = "sheet"
 	layer = 4.0
 	s_istate = "w_suit"
-/obj/item/weapon/bottle
-	name = "bottle"
-	var/datum/reagent_container/chem = null
-	throw_speed = 4
-	throw_range = 20
-	w_class = 1.0
-/obj/item/weapon/bottle/beer
-	name = "Space Beer"
-	icon_state = "beer"
-	var/amount = 10
-/obj/item/weapon/bottle/antitoxins
-	name = "antitoxins"
-	icon_state = "atoxinbottle"
-/obj/item/weapon/bottle/r_ch_cough
-	name = "Cough remedy"
-	icon_state = "medibottle"
-/obj/item/weapon/bottle/r_epil
-	name = "Epileptic Remedy"
-	icon_state = "medibottle"
-/obj/item/weapon/bottle/rejuvenators
-	name = "rejuvenators"
-	icon_state = "rejuvbottle"
-/obj/item/weapon/bottle/s_tox
-	name = "sleep toxins"
-	icon_state = "toxinbottle"
-/obj/item/weapon/bottle/toxins
-	name = "toxins"
-	icon_state = "toxinbottle"
 /obj/item/weapon/brutepack
 	name = "Bruise Pack"
 	desc = "A pack designed to treat blunt-force trauma."
@@ -1881,9 +1853,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "ointment"
 /obj/item/weapon/storage/firstaid/regular
 	icon_state = "firstaid"
-/obj/item/weapon/storage/firstaid/syringes
-	name = "Syringes (Biohazard Alert)"
-	icon_state = "syringe"
 /obj/item/weapon/storage/firstaid/toxin
 	name = "Toxin First Aid"
 	icon_state = "antitoxin"

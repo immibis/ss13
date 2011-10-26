@@ -8,6 +8,7 @@ obj/machinery/atmospherics/unary/vent
 	var/capacity = 6000000
 	capmult = 2
 
+#if 1
 	New()
 		. = ..()
 		spawn
@@ -16,9 +17,9 @@ obj/machinery/atmospherics/unary/vent
 			net.leaks += loc
 
 	Del()
-		. = ..()
 		if(net)
 			net.leaks -= loc
+		. = ..()
 
 	Move()
 		if(net)
@@ -26,9 +27,8 @@ obj/machinery/atmospherics/unary/vent
 		. = ..()
 		if(net)
 			net.leaks += loc
-
-/*	process()
+#else
+	process()
 		var/turf/T = src.loc
 		equalize_gas(T.gas, gas)
-
-*/
+#endif

@@ -84,7 +84,7 @@
 		if(server.force_offline)
 			a = "[server.name] - offline"
 		else
-			server.get_status_line()
+			a = server.get_status_line()
 		if(!is_ai)
 			a += " <a href=\"?src=\ref[src]&eject=\ref[server]\">Eject</a>"
 		return a

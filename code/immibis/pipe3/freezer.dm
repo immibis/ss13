@@ -11,50 +11,39 @@
 			var/gc = gas1.heat_capacity
 			var/gh = gas2.heat_capacity
 
+			if(gc < 0.0001 || gh < 0.0001)
+				return
+
 			var/tc = gas1.temperature
 			var/th = gas2.temperature
-			var/deltat = th-tc
 
-			var/eta = (1-tc/th)*0.65		// efficiency 65% of Carnot
+			var/power = 1000 // max power to consume
+			var/mintemp = T0C
 
-			if(gc > 0 && deltat >0)		// require some cold gas (for sink) and a positive temp gradient
-				var/ghoc = gh/gc
+			if(tc < mintemp)
+				world << "[tc] < [mintemp]"
+				return
 
-				//var/qc = gc*tc
-				//var/qh = gh*th
+			// cop_h = heat output / electricity consumed
+			// cop_c = cop_h - 1 = heat input / electricity consumed
 
-				var/fdt = 1/( (1-eta)*ghoc + 1)	// min timestep
+			var/cop_h = (th/max(0.01, th-tc))*0.65		// efficiency 65% of Carnot
 
-				fdt = min(fdt, 0.1)	// max timestep
+			cop_h = min(cop_h, 10) // maximum COP
 
-				var/q = fdt*(eta)*gh*(deltat)	// heat generated
+			if(!powered(ENVIRON))
+				return
 
-				// This makes it actually work at high temperatures.
-				// It probably makes the formula wrong.
-				// In this case I've favoured playability over correctness
-				q *= 0.1 / fdt
+			var/q = power // power consumed
 
-				var/thp = th - fdt * deltat
-				var/tcp = tc + fdt * (1 - eta) * (ghoc) * deltat
+			// ensure tcp >= mintemp
+			q = min(q, (tc - mintemp) / (cop_h - 1) * gc)
 
-				//lastgen = q * GENRATE
-				//add_avail(lastgen)
+			var/thp = th + q * cop_h / gh
+			var/tcp = tc - q * (cop_h - 1) / gc
 
-				gas1.set_temp(tcp)
-				gas2.set_temp(thp)
+			if(q > 0)
+				use_power(q, ENVIRON)
 
-			else
-				lastgen = 0
-
-
-
-
-
-			// update icon overlays only if displayed level has changed
-
-			var/genlev = max(0, min( round(11*lastgen / 100000), 11))
-			if(genlev != lastgenlev)
-				lastgenlev = genlev
-				updateicon()
-
-			src.updateDialog()
+			gas1.set_temp(tcp)
+			gas2.set_temp(thp)

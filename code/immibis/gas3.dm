@@ -74,7 +74,7 @@ obj/substance/gas
 			temperature = h / shc
 			_calc_pressure()
 
-		add_delta(obj/substance/gas/g) // add amount and heat (not temperature) and update pressure (without changing volume)
+		add_delta(obj/substance/gas/g) // add amount and update pressure (without changing volume or temperature)
 			var/heat = get_heat() + g.get_heat()
 			co2 += g.co2
 			n2 += g.n2
@@ -95,7 +95,7 @@ obj/substance/gas
 			set_heat(heat)
 			_calc_pressure()
 
-		sub_delta(obj/substance/gas/g) // subtract amount and heat (not temperature) and update pressure (without changing volume)
+		sub_delta(obj/substance/gas/g) // subtract amount and update pressure (without changing volume or temperature)
 			var/heat = get_heat() - g.get_heat()
 			co2 -= g.co2
 			n2 -= g.n2
@@ -264,6 +264,11 @@ obj/substance/gas
 proc/equalize_gas(obj/substance/gas/gas1, obj/substance/gas/gas2)
 	var/delta_gt = FLOWFRAC * (gas1.pressure - gas2.pressure) / 2
 
+	var/avg_temp = 0
+
+	if(gas1.heat_capacity > 0.001 && gas2.heat_capacity > 0.001)
+		avg_temp = (gas1.temperature * gas1.heat_capacity + gas2.temperature * gas2.heat_capacity) / (gas1.heat_capacity + gas2.heat_capacity)
+
 	var/obj/substance/gas/delta
 
 	if(delta_gt < 0)
@@ -274,6 +279,10 @@ proc/equalize_gas(obj/substance/gas/gas1, obj/substance/gas/gas2)
 		delta = gas1.get_frac(delta_gt / gas1.pressure)
 		gas1.sub_delta(delta)
 		gas2.add_delta(delta)
+
+	if(avg_temp > 0)
+		gas1.set_temp(avg_temp)
+		gas2.set_temp(avg_temp)
 
 proc/equalize_gas_multiple(list/gasses)
 	// this is O(N^2) but very simple...

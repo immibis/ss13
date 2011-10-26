@@ -275,14 +275,13 @@ obj/machinery/chem_dispenser
 			chem.add_reagent(chem)
 			UpdateInteraction(src)
 
-/obj/item/weapon/bottle/beaker
+/obj/item/weapon/reagent/beaker
 	name = "Beaker"
 	icon_state = "beaker0"
 	icon = 'icons/goonstation/obj/chemical.dmi'
 
-	New()
-		. = ..()
-		chem.max_volume = 150
+	max_volume = 150
+	transfer_size = 150
 
 /obj/item/weapon/storage/beaker_box
 	name = "Beakers"
@@ -291,10 +290,10 @@ obj/machinery/chem_dispenser
 	New()
 		. = ..()
 		for(var/k = 1 to 7)
-			new /obj/item/weapon/bottle/beaker(src)
+			new /obj/item/weapon/reagent/beaker(src)
 
 /obj/item/weapon/storage/syringe
-	name = "Syringes"
+	name = "Syringes (Biohazard Alert)"
 	icon_state = "syringe"
 	s_istate = "syringe_kit"
 	New()
