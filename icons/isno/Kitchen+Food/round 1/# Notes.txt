@@ -1,0 +1,123 @@
+Just a bunch of suggestions on what to put in I guess.
+
+#########
+EQUIPMENT
+#########
+
+OVEN
+Cooks more than the microwave, but more slowly
+Don't know about stuffing people in it since the chef already has the gibber
+
+BLENDER/GRINDER
+Refines some ingredients into different states
+Hack/emagging it makes it able to grind any non-food item into dust (ala will it blend?)
+
+#######
+RECIPES
+#######
+
+Any Meat/Butt/Brain + Gibber = Faggot
+Tomato + Blender = Ketchup
+Milk + Sugar + Blender = Cream
+
+Flour + Water =      Bread Dough
+Flour + Milk + Egg = Sweet Dough
+
+Bread Dough + Rolling Pin = Pizza Base
+Bread Dough + free hand =   4 Burger Buns
+Sweet Dough + Knife =       13 Unbaked Cookies (Stackable to 13)
+Sweet Dough + free hand =   Unbaked Cake
+Any Dough + Ketchup =       Fake Gibs
+
+Pizza Base + Tomato + Cheese + = Ready to cook (oven only), but toppings can be added before cooking
+No topping =          Plain Pizza
+Any Meat/Brain/Butt = Meat Pizza
+Meat + Hot Sauce =    Spicy Pizza
+Faggot =              San Francisco Special
+Space Fungus =        Mushroom Pizza
+Poo =                 Diarrizza
+
+Burgers can be cooked in microwave or oven
+Bun + Meat =                Hamburger
+Bun + Meat + Cheese =       Cheeseburger
+Bun + Monkeymeat + Cheese = Monkey Cheese Burger
+Bun + Human Meat =          (victim's name)-Burger
+Bun + Alien Meat =          Xenoburger
+Bun + Butt =                Assburger
+Bun + Brain =               Brainburger
+Bun + Robot Head =          Roburger
+Bun + Any Meat + Cheese + Bacon + Egg + Ketchup = Baconator
+
+Unbaked Cookies are ready to bake (oven only) as soon as they are made, but can be added to:
+No addition = Plain Cookies
+Candy Bar   = Chocolate Cookies
+Metal       = Steel Cookies
+Poo         = Dookies
+(All cookies can be stacked up to 13)
+
+Unbaked Cake needs additives before it can be cooked (oven only)
+Candy Bar = Chocolate Cake
+Cream =     Cream Cake
+Cheese =    Cheesecake
+Any meat =  Beefcake
+Candy Bar + Cream + Sugar = Fancy Cake
+One small to medium sized item can be hidden in a cake, which will be found by whoever eats it first
+
+Meat + Oven = Steak
+Butt + Oven = Hagganus
+Meat + Blender = Meat Soup (warm in microwave or oven before eating)
+Cooked Food + Blender = Vaguely Foodlike Substance
+Melon + Faggot = George Melon
+
+############
+FOOD EFFECTS
+############
+
+MISCELLANEOUS
+Dough Blob/Uncooked Items = No heal (still makes you fat)
+Cheese =      +1
+Tomato =      +1
+Melon Slice = +2
+Steak =       +4
+Hagganus =    +4, maybe some effect if fed to butt's owner
+Meat Soup =   +3, can counteract viruses
+George Melon Slice = Completley random effect and heal
+Vaguely Foodlike Substance = Between +1 and +3, sometimes stuns due to vile flavor
+
+ADDITIVES
+Ketchup =   No heal, can be smeared on floors, items and people to fake bloodstains
+Hot Sauce = No heal, can be smeared in someone's eyes to blind them
+Flour =     No heal, can be thrown at floor or objects to create smoke cloud
+Sugar =     No heal, makes you jittery, can be put in coffee
+Cream =     +1, goes bad if not used soon after creation
+Bad Cream = -2, can't be used in recipes
+
+PIZZAS - Can be used six times, eating a slice each time
+Diarrizza =        +1, causes Diarrhea, looks like a Meat Pizza
+Plain Pizza =      +3
+Mushroom Pizza =   +4, 25% chance of causing hallucinations
+Meat Pizza  =      +6
+San Fran Special = +6 normally, double for clown, janitor, traitors
+Spicy Pizza =      Between -4 and +8 randomly, also keeps you warm for a while
+
+BURGERS - As they are now for the most part
+All burgers = +3
+Assburger =   +3, causes The Serious
+Roburger =    No heal, may cause Robotic Transformation
+Xenoburger =  15 Burn Damage, displays sarcastic reminder about acid blood if self-inflicted
+Baconator  =  +10, but 30% chance of causing a heart attack for 50 brute damage and a long stun
+              Also makes you fat instantly regardless of current food level
+Monkey Cheese Burger = +3, 20% chance of causing a random virus (except GBS)
+
+COOKIES
+Plain Cookies =     +1
+Chocolate Cookies = +2
+Steel Cookies = Can't be eaten, good throwing weapon, maybe +2 healing to cyborgs
+Dookies = No heal, can be thrown to coat someone in poo
+
+CAKES - Can be used four times, makes you fat at x2 normal rate
+Chocolate Cake = +4
+Cream Cake =     +4
+Cheesecake =     +3
+Beefcake   =     +1, 1% chance of turning you into a Hulk
+Fancy Cake =     +5, makes you fat at x3 normal rate
