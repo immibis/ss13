@@ -257,9 +257,9 @@ obj/admins/verb
 						alert("The AI can't be sent to prison you jerk!", null, null, null, null, null)
 						return
 					//strip their stuff before they teleport into a cell :downs:
-					for(var/obj/item/weapon/W in M)
-						if(istype(W, /obj/item/weapon/organ/external))	continue	//don't strip organs
-						M.u_equip(W)
+					for(var/obj/item/W in M)
+						if(istype(W, /obj/item/organ/external))	continue	//don't strip organs
+						M.unequip(W)
 						if (M.client)
 							M.client.screen -= W
 						if (W)
@@ -272,8 +272,8 @@ obj/admins/verb
 					M.loc = pick(prisonwarp)
 					if(istype(M, /mob/human))
 						var/mob/human/prisoner = M
-						prisoner.equip_if_possible(new /obj/item/weapon/clothing/under/orange(prisoner), slot_w_uniform)
-						prisoner.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(prisoner), slot_shoes)
+						prisoner.equip_if_possible(new /obj/item/clothing/under/orange(prisoner), slot_w_uniform)
+						prisoner.equip_if_possible(new /obj/item/clothing/shoes/orange(prisoner), slot_shoes)
 					spawn(50)	M << "\red You have been sent to the prison station!"
 					world.log_admin("[usr.key] sent [M.key]/[M.rname] to the prison station.")
 					messageadmins("\blue[usr.key] sent [M.key]/[M.rname] to the prison station.")
@@ -448,15 +448,15 @@ obj/admins/verb
 				var/ok = 0
 				switch(href_list["secrets2"])
 					if("sec_clothes")
-						for(var/obj/item/weapon/clothing/under/O in world)
+						for(var/obj/item/clothing/under/O in world)
 							del(O)
 						ok = 1
 					if("sec_all_clothes")
-						for(var/obj/item/weapon/clothing/O in world)
+						for(var/obj/item/clothing/O in world)
 							del(O)
 						ok = 1
 					if("sec_classic1")
-						for(var/obj/item/weapon/clothing/suit/firesuit/O in world)
+						for(var/obj/item/clothing/suit/firesuit/O in world)
 							del(O)
 						for(var/obj/grille/O in world)
 							del(O)
@@ -469,11 +469,11 @@ obj/admins/verb
 							del(O)
 						ok = 1
 					if("clear_bombs")
-						for(var/obj/item/weapon/assembly/r_i_ptank/O in world)
+						for(var/obj/item/assembly/r_i_ptank/O in world)
 							del(O)
-						for(var/obj/item/weapon/assembly/m_i_ptank/O in world)
+						for(var/obj/item/assembly/m_i_ptank/O in world)
 							del(O)
-						for(var/obj/item/weapon/assembly/t_i_ptank/O in world)
+						for(var/obj/item/assembly/t_i_ptank/O in world)
 							del(O)
 						ok = 1
 					if("list_bombers")
@@ -515,7 +515,7 @@ obj/admins/verb
 								H.monkeyize()
 						ok = 1
 					if("power")
-						for(var/obj/item/weapon/cell/C in world)
+						for(var/obj/item/cell/C in world)
 							C.charge = C.maxcharge
 						for(var/obj/machinery/power/smes/S in world)
 							S.charge = S.capacity
@@ -530,7 +530,7 @@ obj/admins/verb
 								A.power_environ = 1
 								A.power_change()
 					if("unpower")
-						for(var/obj/item/weapon/cell/C in world)
+						for(var/obj/item/cell/C in world)
 							C.charge = 0
 						for(var/obj/machinery/power/smes/S in world)
 							S.charge = 0
@@ -556,9 +556,9 @@ obj/admins/verb
 							H.paralysis += 5
 							if(!("access_security" in H.wear_id.access))
 								//strip their stuff before they teleport into a cell :downs:
-								for(var/obj/item/weapon/W in H)
-									if(istype(W, /obj/item/weapon/organ/external))	continue	//don't strip organs
-									H.u_equip(W)
+								for(var/obj/item/W in H)
+									if(istype(W, /obj/item/organ/external))	continue	//don't strip organs
+									H.unequip(W)
 									if (H.client)
 										H.client.screen -= W
 									if (W)
@@ -567,8 +567,8 @@ obj/admins/verb
 										W.layer = initial(W.layer)
 								//teleport person to cell
 								H.loc = pick(prisonwarp)
-								H.equip_if_possible(new /obj/item/weapon/clothing/under/orange(H), slot_w_uniform)
-								H.equip_if_possible(new /obj/item/weapon/clothing/shoes/orange(H), slot_shoes)
+								H.equip_if_possible(new /obj/item/clothing/under/orange(H), slot_w_uniform)
+								H.equip_if_possible(new /obj/item/clothing/shoes/orange(H), slot_shoes)
 							else
 								//teleport security person
 								H.loc = pick(prisonsecuritywarp)

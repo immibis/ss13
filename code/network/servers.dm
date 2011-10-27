@@ -43,7 +43,7 @@
 		if(slot5) slot5 = init_server(slot5)
 		updateicon()
 
-	attackby(obj/item/weapon/network_server/item, mob/user)
+	attackby(obj/item/network_server/item, mob/user)
 		add_fingerprint(user)
 		if(istype(item))
 			var/obj/machinery/server/S = item.server
@@ -94,7 +94,7 @@
 			var/obj/machinery/server/S = locate(href_list["eject"])
 			if(S.loc != src)
 				return
-			var/obj/item/weapon/network_server/I = new(src.loc, S)
+			var/obj/item/network_server/I = new(src.loc, S)
 			S.rack = null
 			S.Move(I)
 			if(slot1 == S) slot1 = null
@@ -205,7 +205,7 @@
 		return "[name] - online"
 
 
-/obj/item/weapon/network_server
+/obj/item/network_server
 	var/obj/machinery/server/server = null
 
 	// replaced by the actual server's icon and name when New is called

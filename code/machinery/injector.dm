@@ -6,7 +6,7 @@ obj/machinery/injector
 	anchored = 1.0
 	flags = WINDOW
 
-	attackby(obj/item/weapon/tank/T as obj, mob/user as mob)
+	attackby(obj/item/tank/T as obj, mob/user as mob)
 		if(!istype(T))
 			return ..()
 

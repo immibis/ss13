@@ -14,7 +14,7 @@
 		name = "liquid plasma"
 		inject_mob(mob/M)
 			M.plasma += amount * 6
-			for(var/obj/item/weapon/implant/tracking/T in M)
+			for(var/obj/item/implant/tracking/T in M)
 				M.plasma += 1
 				del(T)
 

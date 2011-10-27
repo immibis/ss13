@@ -95,7 +95,7 @@
 			A.meteorhit(src)
 		if (--src.hits <= 0)
 			if(prob(15) && !istype(A, /obj/grille))
-				var/obj/item/weapon/tank/plasmatank/pt = new /obj/item/weapon/tank/plasmatank( src )
+				var/obj/item/tank/plasma/pt = new /obj/item/tank/plasma( src )
 				pt.gas.temperature = 475+T0C
 				pt.ignite()
 				//this is pretty crazy, but it seems to be the easiest way to get an explosion

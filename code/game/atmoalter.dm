@@ -265,15 +265,15 @@
 
 /obj/machinery/atmoalter/heater/attackby(var/obj/W as obj, var/mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/tank))
+	if (istype(W, /obj/item/tank))
 		if (src.holding)
 			return
-		var/obj/item/weapon/tank/T = W
+		var/obj/item/tank/T = W
 		user.drop_item()
 		T.loc = src
 		src.holding = T
 	else
-		if (istype(W, /obj/item/weapon/wrench))
+		if (istype(W, /obj/item/wrench))
 			var/obj/machinery/atmospherics/unary/connector/con = locate() in loc
 
 			if (src.c_status)
@@ -519,18 +519,18 @@ Pipe Valve Status: [ct]<BR>
 		return
 	return
 
-/obj/machinery/atmoalter/canister/attackby(var/obj/item/weapon/W as obj, var/mob/user as mob)
+/obj/machinery/atmoalter/canister/attackby(var/obj/item/W as obj, var/mob/user as mob)
 
-	if ((istype(W, /obj/item/weapon/tank) && !( src.destroyed )))
+	if ((istype(W, /obj/item/tank) && !( src.destroyed )))
 		if (src.holding)
 			return
-		var/obj/item/weapon/tank/T = W
+		var/obj/item/tank/T = W
 		user.drop_item()
 		T.loc = src
 		src.holding = T
 		update_icon()
 	else
-		if ((istype(W, /obj/item/weapon/wrench)))
+		if ((istype(W, /obj/item/wrench)))
 			var/obj/machinery/atmospherics/unary/connector/con = locate() in loc
 
 

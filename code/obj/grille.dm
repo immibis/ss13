@@ -43,7 +43,7 @@
 	return
 
 /obj/grille/CheckPass(var/obj/B)
-	if ((istype(B, /obj/effects) || istype(B, /obj/item/weapon/dummy) || istype(B, /obj/beam) || istype(B, /obj/meteor/small)))
+	if ((istype(B, /obj/effects) || istype(B, /obj/item/dummy) || istype(B, /obj/beam) || istype(B, /obj/meteor/small)))
 		return 1
 	else
 		if (istype(B, /obj/bullet))
@@ -52,15 +52,15 @@
 			return !( src.density )
 	return
 
-/obj/grille/attackby(obj/item/weapon/W, mob/user)
-	if (istype(W, /obj/item/weapon/wirecutters))
+/obj/grille/attackby(obj/item/W, mob/user)
+	if (istype(W, /obj/item/wirecutters))
 		if(!shock(user, 100))
 			src.health = 0
-	else if ((istype(W, /obj/item/weapon/screwdriver) && (istype(src.loc, /turf/simulated) || src.anchored)))
+	else if ((istype(W, /obj/item/screwdriver) && (istype(src.loc, /turf/simulated) || src.anchored)))
 		if(!shock(user, 90))
 			src.anchored = !( src.anchored )
 			user << (src.anchored ? "You have fastened the grille to the floor." : "You have unfastened the grill.")
-	else if(istype(W, /obj/item/weapon/shard))	// can't get a shock by attacking with glass shard
+	else if(istype(W, /obj/item/shard))	// can't get a shock by attacking with glass shard
 		src.health -= W.force * 0.1
 
 	else						// anything else, chance of a shock
@@ -81,11 +81,11 @@
 			src.icon_state = "brokengrille"
 			src.density = 0
 			src.destroyed = 1
-			new /obj/item/weapon/rods( src.loc )
+			new /obj/item/rods( src.loc )
 
 		else
 			if (src.health <= -10.0)
-				new /obj/item/weapon/rods( src.loc )
+				new /obj/item/rods( src.loc )
 				//SN src = null
 				del(src)
 				return

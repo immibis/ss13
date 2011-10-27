@@ -40,18 +40,18 @@
 		icon_state = "[d1]-[d2]"
 
 
-/obj/cable/attackby(obj/item/weapon/W, mob/user)
+/obj/cable/attackby(obj/item/W, mob/user)
 
 	var/turf/T = src.loc
 	if(T.intact)
 		return
 
-	if(istype(W, /obj/item/weapon/wirecutters))
+	if(istype(W, /obj/item/wirecutters))
 
 		if(src.d1)	// 0-X cables are 1 unit, X-X cables are 2 units long
-			new/obj/item/weapon/cable_coil(T, 2)
+			new/obj/item/cable_coil(T, 2)
 		else
-			new/obj/item/weapon/cable_coil(T, 1)
+			new/obj/item/cable_coil(T, 1)
 
 		for(var/mob/O in viewers(src, null))
 			O.show_message("\red [user] cuts the cable.", 1)
@@ -61,9 +61,9 @@
 		defer_powernet_rebuild = 0		// to fix no-action bug
 		del(src)
 
-	else if(istype(W, /obj/item/weapon/cable_coil) && src.type == W:cable_type)
+	else if(istype(W, /obj/item/cable_coil) && src.type == W:cable_type)
 
-		var/obj/item/weapon/cable_coil/coil = W
+		var/obj/item/cable_coil/coil = W
 
 		coil.cable_join(src, user)
 		//note do shock in cable_join
@@ -98,7 +98,7 @@
 		if(istype(user, /mob/human))
 			var/mob/human/H = user
 			if(H.gloves)
-				var/obj/item/weapon/clothing/gloves/G = H.gloves
+				var/obj/item/clothing/gloves/G = H.gloves
 
 				prot = G.elec_protect
 		else if (istype(user, /mob/ai))
@@ -151,12 +151,12 @@
 			del(src)
 		if(2.0)
 			if (prob(50))
-				new /obj/item/weapon/cable_coil(src.loc, src.d1 ? 2 : 1)
+				new /obj/item/cable_coil(src.loc, src.d1 ? 2 : 1)
 				del(src)
 
 		if(3.0)
 			if (prob(25))
-				new /obj/item/weapon/cable_coil(src.loc, src.d1 ? 2 : 1)
+				new /obj/item/cable_coil(src.loc, src.d1 ? 2 : 1)
 				del(src)
 	return
 
@@ -168,26 +168,26 @@
 				defer_powernet_rebuild = 0
 				del(src)
 
-/obj/item/weapon/cable_coil
+/obj/item/cable_coil
 	var/cable_type = /obj/cable
 
 // the cable coil object, used for laying cable
 
-/obj/item/weapon/cable_coil/New(loc, length = MAXCOIL)
+/obj/item/cable_coil/New(loc, length = MAXCOIL)
 	src.amount = length
 	pixel_x = rand(-2,2)
 	pixel_y = rand(-2,2)
 	updateicon()
 	..(loc)
 
-/obj/item/weapon/cable_coil/cut/New(loc)
+/obj/item/cable_coil/cut/New(loc)
 	..(loc)
 	src.amount = rand(1,2)
 	pixel_x = rand(-2,2)
 	pixel_y = rand(-2,2)
 	updateicon()
 
-/obj/item/weapon/cable_coil/proc/updateicon()
+/obj/item/cable_coil/proc/updateicon()
 	if(amount == 1)
 		icon_state = "coil1"
 		name = "cable piece"
@@ -198,7 +198,7 @@
 		icon_state = "coil"
 		name = "cable coil"
 
-/obj/item/weapon/cable_coil/examine()
+/obj/item/cable_coil/examine()
 	set src in view(1)
 
 	if(amount == 1)
@@ -208,8 +208,8 @@
 	else
 		usr << "A coil of power cable. There are [amount] lengths of cable in the coil."
 
-/obj/item/weapon/cable_coil/attackby(obj/item/weapon/W, mob/user)
-	if( istype(W, /obj/item/weapon/wirecutters) && src.amount > 1)
+/obj/item/cable_coil/attackby(obj/item/W, mob/user)
+	if( istype(W, /obj/item/wirecutters) && src.amount > 1)
 		src.amount--
 		new src.type(user.loc, 1)
 		user << "You cut a piece off the cable coil."
@@ -217,7 +217,7 @@
 		return
 
 	else if( W.type == src.type )
-		var/obj/item/weapon/cable_coil/C = W
+		var/obj/item/cable_coil/C = W
 		if(C.amount == MAXCOIL)
 			user << "The coil is too long, you cannot add any more cable to it."
 			return
@@ -237,7 +237,7 @@
 			C.updateicon()
 			return
 
-/obj/item/weapon/cable_coil/proc/use(var/used)
+/obj/item/cable_coil/proc/use(var/used)
 	if(src.amount < used)
 		return 0
 	else if (src.amount == used)
@@ -249,7 +249,7 @@
 
 // called when cable_coil is clicked on a turf/simulated/floor
 
-/obj/item/weapon/cable_coil/proc/turf_place(turf/simulated/floor/F, mob/user)
+/obj/item/cable_coil/proc/turf_place(turf/simulated/floor/F, mob/user)
 
 	if(!isturf(user.loc))
 		return
@@ -288,7 +288,7 @@
 
 // called when cable_coil is click on an installed obj/cable
 
-/obj/item/weapon/cable_coil/proc/cable_join(obj/cable/C, mob/user)
+/obj/item/cable_coil/proc/cable_join(obj/cable/C, mob/user)
 
 
 	var/turf/U = user.loc

@@ -1,4 +1,4 @@
-/obj/item/weapon/flamethrower
+/obj/item/flamethrower
 	name = "flamethrower"
 	icon_state = "flamethrower"
 	s_istate = "flamethrower_0"
@@ -9,12 +9,12 @@
 	throw_range = 5
 	w_class = 3.0
 	var/processing = 0
-	var/obj/item/weapon/tank/plasmatank/attached = null
+	var/obj/item/tank/plasma/attached = null
 	var/throw_amount = 100
 	var/lit = 0	//on or off
 	var/turf/previousturf = null
 
-/obj/item/weapon/flamethrower/proc/process()
+/obj/item/flamethrower/proc/process()
 	if(src.processing) //already doing this
 		return
 	src.processing = 1
@@ -32,23 +32,23 @@
 		sleep(10)
 	processing = 0	//we're done
 
-/obj/item/weapon/flamethrower/attackby(obj/item/weapon/tank/plasmatank/W as obj, mob/user as mob)
-	if (istype(W,/obj/item/weapon/tank/plasmatank))
+/obj/item/flamethrower/attackby(obj/item/tank/plasma/W as obj, mob/user as mob)
+	if (istype(W,/obj/item/tank/plasma))
 		if(attached)
-			user << "\red There appears to already be a plasma tank loaded in the flamethrower!"
+			user << "\red There is already be a plasma tank loaded in the flamethrower!"
 			return
 		attached = W
 		W.loc = src
 		if (user.client)
 			user.client.screen -= W
-		user.u_equip(W)
+		user.unequip(W)
 		lit = 0
 		force = 3
 		damtype = "brute"
 		icon_state = "flamethrower_loaded_0"
 		s_istate = "flamethrower_0"
-	else if (istype(W, /obj/item/weapon/analyzer) && get_dist(user, src) <= 1 && attached)
-		var/obj/item/weapon/icon = src
+	else if (istype(W, /obj/item/analyzer) && get_dist(user, src) <= 1 && attached)
+		var/obj/item/icon = src
 		for (var/mob/O in viewers(user, null))
 			O << "\red [user] has used the analyzer on \icon[icon]"
 			var/total = src.attached.gas.total_moles
@@ -72,7 +72,7 @@
 	else	return	..()
 	return
 
-/obj/item/weapon/flamethrower/Topic(href,href_list[])
+/obj/item/flamethrower/Topic(href,href_list[])
 	if (href_list["close"])
 		usr.machine = null
 		usr << browse(null, "window=tank")
@@ -82,7 +82,7 @@
 	usr.machine = src
 	if (href_list["light"])
 		if(!attached)	return
-		if(attached.gas.plasma < 1)	return
+		if(attached.gas.plasma < 0.001)	return
 		lit = !(lit)
 		if(lit)
 			icon_state = "flamethrower_loaded_1"
@@ -100,7 +100,7 @@
 		src.throw_amount = max(0,min(5000,src.throw_amount))
 	if (href_list["remove"])
 		if(!attached)	return
-		var/obj/item/weapon/tank/plasmatank/A = attached
+		var/obj/item/tank/plasmatank/A = attached
 		A.loc = get_turf(src)
 		A.layer = initial(A.layer)
 		attached = null
@@ -117,7 +117,7 @@
 	return
 
 
-/obj/item/weapon/flamethrower/attack_self(mob/user as mob)
+/obj/item/flamethrower/attack_self(mob/user as mob)
 	user.machine = src
 	if (!src.attached)
 		user << "\red Attach a plasma tank first!"
@@ -128,7 +128,7 @@
 
 
 // gets this from turf.dm turf/dblclick
-/obj/item/weapon/flamethrower/proc/flame_turf(turflist)
+/obj/item/flamethrower/proc/flame_turf(turflist)
 	if(!lit)	return
 	for(var/turf/T in turflist)
 		if(T.density || istype(T, /turf/space))	return
@@ -139,7 +139,7 @@
 			src.attack_self(M)
 	return
 
-/obj/item/weapon/flamethrower/proc/torch_turf(turf/T as turf)
+/obj/item/flamethrower/proc/torch_turf(turf/T as turf)
 	if (src.attached)
 		if ((src.attached.gas.plasma - src.throw_amount*100) > 0)
 			src.attached.gas.plasma -= src.throw_amount*100

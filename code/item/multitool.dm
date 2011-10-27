@@ -2,7 +2,7 @@
  * Multitool -- A multitool is used for hacking electronic devices.
  *
  */
-/obj/item/weapon/multitool
+/obj/item/multitool
 	name = "multitool"
 	icon_state = "multitool"
 	force = 5.0

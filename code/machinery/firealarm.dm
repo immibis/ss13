@@ -8,8 +8,8 @@
 /obj/machinery/firealarm/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
 
-/obj/machinery/firealarm/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if (istype(W, /obj/item/weapon/wirecutters))
+/obj/machinery/firealarm/attackby(obj/item/W as obj, mob/user as mob)
+	if (istype(W, /obj/item/wirecutters))
 		src.detecting = !( src.detecting )
 		if (src.detecting)
 			viewers(user, null) << text("\red [] has reconnected []'s detecting unit!", user, src)

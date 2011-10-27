@@ -95,7 +95,7 @@
 		M.show_message(text("\red [] has been hit by []", src, O), 1)
 	if (src.health > 0)
 		var/shielded = 0
-		for(var/obj/item/weapon/shield/S in src)
+		for(var/obj/item/shield/S in src)
 			if (S.active)
 				shielded = 1
 			else
@@ -126,7 +126,7 @@
 	return
 
 /mob/monkey/hand_p(mob/M as mob)
-	if ((M.a_intent == "hurt" && !( istype(src.wear_mask, /obj/item/weapon/clothing/mask/muzzle) )))
+	if ((M.a_intent == "hurt" && !( istype(src.wear_mask, /obj/item/clothing/mask/muzzle) )))
 		if ((prob(75) && src.health > 0))
 			for(var/mob/O in viewers(src, null))
 				O.show_message(text("\red <B>The monkey has bit []!</B>", src), 1)
@@ -146,7 +146,7 @@
 		for(var/mob/O in viewers(src, null))
 			O.show_message("\blue The monkey shakes the monkey trying to wake him up!", 1)
 	else
-		if ((M.a_intent == "hurt" && !( istype(src.wear_mask, /obj/item/weapon/clothing/mask/muzzle) )))
+		if ((M.a_intent == "hurt" && !( istype(src.wear_mask, /obj/item/clothing/mask/muzzle) )))
 			if ((prob(75) && src.health > 0))
 				for(var/mob/O in viewers(src, null))
 					O.show_message("\red <B>The monkey has bit the monkey!</B>", 1)
@@ -192,7 +192,7 @@
 			if (M.a_intent == "grab")
 				if (M == src)
 					return
-				var/obj/item/weapon/grab/G = new /obj/item/weapon/grab( M )
+				var/obj/item/grab/G = new /obj/item/grab( M )
 				G.assailant = M
 				if (M.hand)
 					M.l_hand = G
@@ -235,7 +235,7 @@
 	else
 		src.icon_state = "monkey0"
 	if (src.wear_mask)
-		if (istype(src.wear_mask, /obj/item/weapon/clothing/mask))
+		if (istype(src.wear_mask, /obj/item/clothing/mask))
 			var/t1 = src.wear_mask.s_istate
 			if (!( t1 ))
 				t1 = src.wear_mask.icon_state
@@ -453,7 +453,7 @@ var/const/MONKEY_O2_REQ = 0.001
 					del(src)
 					return
 			if("internal")
-				if ((!( (istype(src.target.wear_mask, /obj/item/weapon/clothing/mask) && istype(src.target.back, /obj/item/weapon/tank) && !( src.target.internal )) ) && !( src.target.internal )))
+				if ((!( (istype(src.target.wear_mask, /obj/item/clothing/mask) && istype(src.target.back, /obj/item/tank) && !( src.target.internal )) ) && !( src.target.internal )))
 					del(src)
 					return
 
@@ -495,8 +495,8 @@ var/const/MONKEY_O2_REQ = 0.001
 	switch(src.place)
 		if("mask")
 			if (src.target.wear_mask)
-				var/obj/item/weapon/W = src.target.wear_mask
-				src.target.u_equip(W)
+				var/obj/item/W = src.target.wear_mask
+				src.target.unequip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
 				if (W)
@@ -505,7 +505,7 @@ var/const/MONKEY_O2_REQ = 0.001
 					W.layer = initial(W.layer)
 				W.add_fingerprint(src.source)
 			else
-				if (istype(src.item, /obj/item/weapon/clothing/mask))
+				if (istype(src.item, /obj/item/clothing/mask))
 					src.source.drop_item()
 					src.loc = src.target
 					src.item.layer = 20
@@ -513,8 +513,8 @@ var/const/MONKEY_O2_REQ = 0.001
 					src.item.loc = src.target
 		if("l_hand")
 			if (src.target.l_hand)
-				var/obj/item/weapon/W = src.target.l_hand
-				src.target.u_equip(W)
+				var/obj/item/W = src.target.l_hand
+				src.target.unequip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
 				if (W)
@@ -523,7 +523,7 @@ var/const/MONKEY_O2_REQ = 0.001
 					W.layer = initial(W.layer)
 				W.add_fingerprint(src.source)
 			else
-				if (istype(src.item, /obj/item/weapon))
+				if (istype(src.item, /obj/item))
 					src.source.drop_item()
 					src.loc = src.target
 					src.item.layer = 20
@@ -531,8 +531,8 @@ var/const/MONKEY_O2_REQ = 0.001
 					src.item.loc = src.target
 		if("r_hand")
 			if (src.target.r_hand)
-				var/obj/item/weapon/W = src.target.r_hand
-				src.target.u_equip(W)
+				var/obj/item/W = src.target.r_hand
+				src.target.unequip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
 				if (W)
@@ -541,7 +541,7 @@ var/const/MONKEY_O2_REQ = 0.001
 					W.layer = initial(W.layer)
 				W.add_fingerprint(src.source)
 			else
-				if (istype(src.item, /obj/item/weapon))
+				if (istype(src.item, /obj/item))
 					src.source.drop_item()
 					src.loc = src.target
 					src.item.layer = 20
@@ -549,8 +549,8 @@ var/const/MONKEY_O2_REQ = 0.001
 					src.item.loc = src.target
 		if("back")
 			if (src.target.back)
-				var/obj/item/weapon/W = src.target.back
-				src.target.u_equip(W)
+				var/obj/item/W = src.target.back
+				src.target.unequip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
 				if (W)
@@ -559,7 +559,7 @@ var/const/MONKEY_O2_REQ = 0.001
 					W.layer = initial(W.layer)
 				W.add_fingerprint(src.source)
 			else
-				if ((istype(src.item, /obj/item/weapon) && src.item.flags & 1))
+				if ((istype(src.item, /obj/item) && src.item.flags & 1))
 					src.source.drop_item()
 					src.loc = src.target
 					src.item.layer = 20
@@ -567,8 +567,8 @@ var/const/MONKEY_O2_REQ = 0.001
 					src.item.loc = src.target
 		if("handcuff")
 			if (src.target.handcuffed)
-				var/obj/item/weapon/W = src.target.handcuffed
-				src.target.u_equip(W)
+				var/obj/item/W = src.target.handcuffed
+				src.target.unequip(W)
 				if (src.target.client)
 					src.target.client.screen -= W
 				if (W)
@@ -577,7 +577,7 @@ var/const/MONKEY_O2_REQ = 0.001
 					W.layer = initial(W.layer)
 				W.add_fingerprint(src.source)
 			else
-				if (istype(src.item, /obj/item/weapon/handcuffs))
+				if (istype(src.item, /obj/item/handcuffs))
 					src.source.drop_item()
 					src.target.handcuffed = src.item
 					src.item.loc = src.target
@@ -588,10 +588,10 @@ var/const/MONKEY_O2_REQ = 0.001
 			else
 				if (src.target.internal)
 					src.target.internal = null
-				if (!( istype(src.target.wear_mask, /obj/item/weapon/clothing/mask) ))
+				if (!( istype(src.target.wear_mask, /obj/item/clothing/mask) ))
 					return
 				else
-					if (istype(src.target.back, /obj/item/weapon/tank))
+					if (istype(src.target.back, /obj/item/tank))
 						src.target.internal = src.target.back
 						src.target.internal.add_fingerprint(src.source)
 						for(var/mob/M in viewers(src.target, 1))

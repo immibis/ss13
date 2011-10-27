@@ -77,7 +77,7 @@
 			src.aircheck(G)
 			//second pass at body temp
 			var/thermal_layers = 1.5
-			if ((istype(src.wear_mask, /obj/item/weapon/clothing/mask) && !( src.wear_mask.flags & 4 ) && src.wear_mask.flags & 8))
+			if ((istype(src.wear_mask, /obj/item/clothing/mask) && !( src.wear_mask.flags & 4 ) && src.wear_mask.flags & 8))
 				thermal_layers  += 0.5
 			src.bodytemperature = adjustBodyTemp(src.bodytemperature, 310.055, thermal_layers)
 			if(src.bodytemperature < 283.222 && prob(2))
@@ -112,7 +112,7 @@
 
 			// ****** Check
 
-			if ((istype(src.wear_mask, /obj/item/weapon/clothing/mask) && !( src.wear_mask.flags & 4 ) && src.wear_mask.flags & 8))
+			if ((istype(src.wear_mask, /obj/item/clothing/mask) && !( src.wear_mask.flags & 4 ) && src.wear_mask.flags & 8))
 				layers -= 5
 			if (layers > oxcheck)
 				oxcheck = layers
@@ -302,13 +302,13 @@
 		src.stat = 2
 		src.canmove = 0
 	var/add_weight = 0
-	if (istype(src.l_hand, /obj/item/weapon/grab))
+	if (istype(src.l_hand, /obj/item/grab))
 		add_weight += 1250000.0
-	if (istype(src.r_hand, /obj/item/weapon/grab))
+	if (istype(src.r_hand, /obj/item/grab))
 		add_weight += 1250000.0
-	if (locate(/obj/item/weapon/grab, src.grabbed_by))
+	if (locate(/obj/item/grab, src.grabbed_by))
 		var/a_grabs = 0
-		for(var/obj/item/weapon/grab/G in src.grabbed_by)
+		for(var/obj/item/grab/G in src.grabbed_by)
 			G.process()
 			if (G)
 				if (G.state > 1)
@@ -361,7 +361,7 @@
 		src.eye_blurry = max(0, src.eye_blurry)
 	if (src.client)
 		src.client.screen -= main_hud1.g_dither
-		if (src.stat != 2 && istype(src.wear_mask, /obj/item/weapon/clothing/mask/gasmask))
+		if (src.stat != 2 && istype(src.wear_mask, /obj/item/clothing/mask/gasmask))
 			src.client.screen += main_hud1.g_dither
 		if (src.mach)
 			if (src.machine)

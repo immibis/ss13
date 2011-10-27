@@ -9,7 +9,7 @@
 				if(SC.id == id)
 					control = SC
 
-/obj/machinery/power/solar/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/power/solar/attackby(obj/item/W, mob/user)
 	..()
 	src.add_fingerprint(user)
 	src.health -= W.force
@@ -26,8 +26,8 @@
 		if(!(stat & BROKEN))
 			broken()
 		else
-			new /obj/item/weapon/shard(src.loc)
-			new /obj/item/weapon/shard(src.loc)
+			new /obj/item/shard(src.loc)
+			new /obj/item/shard(src.loc)
 			del(src)
 			return
 	return
@@ -88,7 +88,7 @@
 		if(1.0)
 			del(src)
 			if(prob(15))
-				new /obj/item/weapon/shard( src.loc )
+				new /obj/item/shard( src.loc )
 			return
 		if(2.0)
 			if (prob(50))

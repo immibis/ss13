@@ -4,8 +4,8 @@
 /obj/machinery/door_control/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
 
-/obj/machinery/door_control/attackby(obj/item/weapon/W, mob/user as mob)
-	if(istype(W, /obj/item/weapon/f_print_scanner))
+/obj/machinery/door_control/attackby(obj/item/W, mob/user as mob)
+	if(istype(W, /obj/item/f_print_scanner))
 		return
 	return src.attack_hand(user)
 

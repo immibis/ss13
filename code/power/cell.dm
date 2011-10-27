@@ -2,7 +2,7 @@
 // charge from 0 to 100%
 // fits in APC to provide backup power
 
-/obj/item/weapon/cell/New()
+/obj/item/cell/New()
 	..()
 
 	charge = charge * maxcharge/100.0		// map obj has charge as percentage, convert to real value here
@@ -11,7 +11,7 @@
 		updateicon()
 
 
-/obj/item/weapon/cell/proc/updateicon()
+/obj/item/cell/proc/updateicon()
 
 	if(maxcharge <= 2500)
 		icon_state = "cell"
@@ -27,10 +27,10 @@
 	else
 		overlays += image('icons/immibis/power.dmi', "cell-o1")
 
-/obj/item/weapon/cell/proc/percent()		// return % charge of cell
+/obj/item/cell/proc/percent()		// return % charge of cell
 	return 100.0*charge/maxcharge
 
-/obj/item/weapon/cell/examine()
+/obj/item/cell/examine()
 	set src in view(1)
 	if(usr && !usr.stat)
 		if(maxcharge <= 2500)

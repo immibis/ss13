@@ -218,7 +218,7 @@
 /obj/proc/hide(h)
 	return
 
-/obj/item/weapon/grab/proc/throw()
+/obj/item/grab/proc/throw()
 	if(src.affecting)
 		var/grabee = src.affecting
 		spawn(0)
@@ -226,14 +226,14 @@
 		return grabee
 	return null
 
-/obj/item/weapon/grab/proc/synch()
+/obj/item/grab/proc/synch()
 	if (src.assailant.r_hand == src)
 		src.hud1.screen_loc = "1,4"
 	else
 		src.hud1.screen_loc = "3,4"
 	return
 
-/obj/item/weapon/grab/proc/process()
+/obj/item/grab/proc/process()
 	if ((!( isturf(src.assailant.loc) ) || (!( isturf(src.affecting.loc) ) || (src.assailant.loc != src.affecting.loc && get_dist(src.assailant, src.affecting) > 1))))
 		//SN src = null
 		del(src)
@@ -245,12 +245,12 @@
 		src.assailant.pulling = null
 	if (src.state <= 2)
 		src.allow_upgrade = 1
-		if ((src.assailant.l_hand && src.assailant.l_hand != src && istype(src.assailant.l_hand, /obj/item/weapon/grab)))
-			var/obj/item/weapon/grab/G = src.assailant.l_hand
+		if ((src.assailant.l_hand && src.assailant.l_hand != src && istype(src.assailant.l_hand, /obj/item/grab)))
+			var/obj/item/grab/G = src.assailant.l_hand
 			if (G.affecting != src.affecting)
 				src.allow_upgrade = 0
-		if ((src.assailant.r_hand && src.assailant.r_hand != src && istype(src.assailant.r_hand, /obj/item/weapon/grab)))
-			var/obj/item/weapon/grab/G = src.assailant.r_hand
+		if ((src.assailant.r_hand && src.assailant.r_hand != src && istype(src.assailant.r_hand, /obj/item/grab)))
+			var/obj/item/grab/G = src.assailant.r_hand
 			if (G.affecting != src.affecting)
 				src.allow_upgrade = 0
 		if (src.state == 2)
@@ -260,7 +260,7 @@
 			src.affecting.hand = 1
 			src.affecting.drop_item()
 			src.affecting.hand = h
-			for(var/obj/item/weapon/grab/G in src.affecting.grabbed_by)
+			for(var/obj/item/grab/G in src.affecting.grabbed_by)
 				if (G.state == 2)
 					src.allow_upgrade = 0
 				//Foreach goto(341)
@@ -277,7 +277,7 @@
 		src.affecting.losebreath = min(src.affecting.losebreath + 2, 3)
 	return
 
-/obj/item/weapon/grab/proc/s_click(obj/screen/S as obj)
+/obj/item/grab/proc/s_click(obj/screen/S as obj)
 	if (src.assailant.next_move > world.time)
 		return
 	if ((!( src.assailant.canmove ) || src.assailant.lying))
@@ -300,7 +300,7 @@
 		else
 	return
 
-/obj/item/weapon/grab/proc/s_dbclick(obj/screen/S as obj)
+/obj/item/grab/proc/s_dbclick(obj/screen/S as obj)
 	if ((src.assailant.next_move > world.time && !( src.last_suffocate < world.time + 2 )))
 		return
 	if ((!( src.assailant.canmove ) || src.assailant.lying))
@@ -350,7 +350,7 @@
 		else
 	return
 
-/obj/item/weapon/grab/New()
+/obj/item/grab/New()
 	..()
 	src.hud1 = new /obj/screen/grab( src )
 	src.hud1.icon_state = "reinforce"
@@ -359,7 +359,7 @@
 	src.hud1.master = src
 	return
 
-/obj/item/weapon/grab/attack(mob/M as mob, user as mob)
+/obj/item/grab/attack(mob/M as mob, user as mob)
 	if (M == src.affecting)
 		if (src.state < 3)
 			s_dbclick(src.hud1)
@@ -367,11 +367,11 @@
 			s_click(src.hud1)
 	return 0
 
-/obj/item/weapon/grab/dropped()
+/obj/item/grab/dropped()
 	del(src)
 	return
 
-/obj/item/weapon/grab/Del()
+/obj/item/grab/Del()
 	del(src.hud1)
 	..()
 	return
@@ -540,7 +540,7 @@
 			if ((!( usr.stat ) && usr.canmove && !( usr.restrained() )))
 				for(var/obj/O in usr.requests)
 					del(O)
-				for(var/obj/item/weapon/grab/G in usr.grabbed_by)
+				for(var/obj/item/grab/G in usr.grabbed_by)
 					if (G.state == 1)
 						del(G)
 					else
@@ -621,8 +621,8 @@
 /mob/human/proc/monkeyize()
 	if (src.monkeyizing)
 		return
-	for(var/obj/item/weapon/W in src)
-		src.u_equip(W)
+	for(var/obj/item/W in src)
+		src.unequip(W)
 		if (src.client)
 			src.client.screen -= W
 		if (W)
@@ -663,8 +663,8 @@
 /mob/human/proc/AIize()
 	if (src.monkeyizing)
 		return
-	for(var/obj/item/weapon/W in src)
-		src.u_equip(W)
+	for(var/obj/item/W in src)
+		src.unequip(W)
 		if (src.client)
 			src.client.screen -= W
 		if (W)
@@ -1025,21 +1025,21 @@
 	return
 
 /mob/proc/db_click(text, t1)
-	var/obj/item/weapon/W = src.equipped()
+	var/obj/item/W = src.equipped()
 	switch(text)
 		if("mask")
 			if (src.wear_mask)
 				return
-			if (!( istype(W, /obj/item/weapon/clothing/mask) ))
+			if (!( istype(W, /obj/item/clothing/mask) ))
 				return
-			src.u_equip(W)
+			src.unequip(W)
 			src.wear_mask = W
 		if("back")
-			if ((src.back || !( istype(W, /obj/item/weapon) )))
+			if ((src.back || !( istype(W, /obj/item) )))
 				return
 			if (!( W.flags & 1 ))
 				return
-			src.u_equip(W)
+			src.unequip(W)
 			src.back = W
 		else
 	return
@@ -1058,9 +1058,9 @@
 	return
 
 /mob/proc/drop_item()
-	var/obj/item/weapon/W = src.equipped()
+	var/obj/item/W = src.equipped()
 	if (W)
-		u_equip(W)
+		unequip(W)
 		if (src.client)
 			src.client.screen -= W
 		if (W)
@@ -1093,29 +1093,31 @@
 
 /mob/proc/show_inv(mob/user as mob)
 	user.machine = src
-	var/dat = text("<TT>\n<B><FONT size=3>[]</FONT></B><BR>\n\t<B>Head(Mask):</B> <A href='?src=\ref[];item=mask'>[]</A><BR>\n\t<B>Left Hand:</B> <A href='?src=\ref[];item=l_hand'>[]</A><BR>\n\t<B>Right Hand:</B> <A href='?src=\ref[];item=r_hand'>[]</A><BR>\n\t<B>Back:</B> <A href='?src=\ref[];item=back'>[]</A><BR>\n\t[]<BR>\n\t[]<BR>\n\t[]<BR>\n\t<A href='?src=\ref[];item=pockets'>Empty Pockets</A><BR>\n<A href='?src=\ref[];mach_close=mob[]'>Close</A><BR>\n</TT>", src.name, src, (src.wear_mask ? text("[]", src.wear_mask) : "Nothing"), src, (src.l_hand ? text("[]", src.l_hand) : "Nothing"), src, (src.r_hand ? text("[]", src.r_hand) : "Nothing"), src, (src.back ? text("[]", src.back) : "Nothing"), ((istype(src.wear_mask, /obj/item/weapon/clothing/mask) && istype(src.back, /obj/item/weapon/tank) && !( src.internal )) ? text(" <A href='?src=\ref[];item=internal'>Set Internal</A>", src) : ""), (src.internal ? text("<A href='?src=\ref[];item=internal'>Remove Internal</A>", src) : ""), (src.handcuffed ? text("<A href='?src=\ref[];item=handcuff'>Handcuffed</A>", src) : text("<A href='?src=\ref[];item=handcuff'>Not Handcuffed</A>", src)), src, user, src.name)
+	var/dat = text("<TT>\n<B><FONT size=3>[]</FONT></B><BR>\n\t<B>Head(Mask):</B> <A href='?src=\ref[];item=mask'>[]</A><BR>\n\t<B>Left Hand:</B> <A href='?src=\ref[];item=l_hand'>[]</A><BR>\n\t<B>Right Hand:</B> <A href='?src=\ref[];item=r_hand'>[]</A><BR>\n\t<B>Back:</B> <A href='?src=\ref[];item=back'>[]</A><BR>\n\t[]<BR>\n\t[]<BR>\n\t[]<BR>\n\t<A href='?src=\ref[];item=pockets'>Empty Pockets</A><BR>\n<A href='?src=\ref[];mach_close=mob[]'>Close</A><BR>\n</TT>", src.name, src, (src.wear_mask ? text("[]", src.wear_mask) : "Nothing"), src, (src.l_hand ? text("[]", src.l_hand) : "Nothing"), src, (src.r_hand ? text("[]", src.r_hand) : "Nothing"), src, (src.back ? text("[]", src.back) : "Nothing"), ((istype(src.wear_mask, /obj/item/clothing/mask) && istype(src.back, /obj/item/tank) && !( src.internal )) ? text(" <A href='?src=\ref[];item=internal'>Set Internal</A>", src) : ""), (src.internal ? text("<A href='?src=\ref[];item=internal'>Remove Internal</A>", src) : ""), (src.handcuffed ? text("<A href='?src=\ref[];item=handcuff'>Handcuffed</A>", src) : text("<A href='?src=\ref[];item=handcuff'>Not Handcuffed</A>", src)), src, user, src.name)
 	user << browse(dat, text("window=mob[];size=325x500", src.name))
 	return
 
-/mob/proc/u_equip(W as obj)
+/mob/proc/unequip(W as obj)
 	if (W == src.r_hand)
 		src.r_hand = null
+	else if (W == src.l_hand)
+		src.l_hand = null
+	else if (W == src.handcuffed)
+		src.handcuffed = null
+	else if (W == src.back)
+		src.back = null
+	else if (W == src.wear_mask)
+		src.wear_mask = null
 	else
-		if (W == src.l_hand)
-			src.l_hand = null
-		else
-			if (W == src.handcuffed)
-				src.handcuffed = null
-			else
-				if (W == src.back)
-					src.back = null
-				else
-					if (W == src.wear_mask)
-						src.wear_mask = null
-	return
+		return
+
+	W.layer = initial(W.layer)
+	if(client)
+		client.screen -= W
+	W.loc = loc
 
 /mob/proc/ret_grab(obj/list_container/mobl/L as obj, flag)
-	if ((!( istype(src.l_hand, /obj/item/weapon/grab) ) && !( istype(src.r_hand, /obj/item/weapon/grab) )))
+	if ((!( istype(src.l_hand, /obj/item/grab) ) && !( istype(src.r_hand, /obj/item/grab) )))
 		if (!( L ))
 			return null
 		else
@@ -1125,13 +1127,13 @@
 			L = new /obj/list_container/mobl( null )
 			L.container += src
 			L.master = src
-		if (istype(src.l_hand, /obj/item/weapon/grab))
-			var/obj/item/weapon/grab/G = src.l_hand
+		if (istype(src.l_hand, /obj/item/grab))
+			var/obj/item/grab/G = src.l_hand
 			if (!( L.container.Find(G.affecting) ))
 				L.container += G.affecting
 				G.affecting.ret_grab(L, 1)
-		if (istype(src.r_hand, /obj/item/weapon/grab))
-			var/obj/item/weapon/grab/G = src.r_hand
+		if (istype(src.r_hand, /obj/item/grab))
+			var/obj/item/grab/G = src.r_hand
 			if (!( L.container.Find(G.affecting) ))
 				L.container += G.affecting
 				G.affecting.ret_grab(L, 1)
@@ -1151,7 +1153,7 @@
 
 	set src = usr
 
-	var/obj/item/weapon/W = src.equipped()
+	var/obj/item/W = src.equipped()
 	if (W)
 		W.attack_self(src)
 	return
@@ -1248,7 +1250,7 @@
 	var/list/names = list()
 	var/list/namecounts = list()
 	var/list/creatures = list()
-	for (var/obj/item/weapon/disk/nuclear/D in world)
+	for (var/obj/item/disk/nuclear/D in world)
 		var/name = "Nuclear Disk"
 		if (name in names)
 			namecounts[name]++
@@ -1357,7 +1359,7 @@
 			var/mob/human/H = src
 			var/dam_zone = pick("chest", "chest", "chest", "diaper", "head")
 			if (H.organs[text("[]", dam_zone)])
-				var/obj/item/weapon/organ/external/affecting = H.organs[text("[]", dam_zone)]
+				var/obj/item/organ/external/affecting = H.organs[text("[]", dam_zone)]
 				if (affecting.take_damage(51, 0))
 					H.UpdateDamageIcon()
 				else
@@ -1377,7 +1379,7 @@
 			var/mob/human/H = src
 			var/dam_zone = pick("chest", "chest", "chest", "diaper", "head")
 			if (H.organs[text("[]", dam_zone)])
-				var/obj/item/weapon/organ/external/affecting = H.organs[text("[]", dam_zone)]
+				var/obj/item/organ/external/affecting = H.organs[text("[]", dam_zone)]
 				if (affecting.take_damage(20, 0))
 					H.UpdateDamageIcon()
 				else
@@ -1408,7 +1410,7 @@
 	for(var/i in src.overlays)
 		src.overlays -= i
 	if (src.wear_mask)
-		if (istype(src.wear_mask, /obj/item/weapon/clothing/mask))
+		if (istype(src.wear_mask, /obj/item/clothing/mask))
 			var/t1 = src.wear_mask.s_istate
 			if (!( t1 ))
 				t1 = src.icon_state
@@ -1449,7 +1451,7 @@
 		for(var/obj/item/O in src)
 			O.loc = src.loc
 			O.layer = initial(O.layer)
-			src.u_equip(O)
+			src.unequip(O)
 	if (src.health < 0)
 		src.stat = 2
 	return
@@ -1580,7 +1582,7 @@
 	return
 
 /client/Southeast()
-	var/obj/item/weapon/W = src.mob.equipped()
+	var/obj/item/W = src.mob.equipped()
 	if (W)
 		W.attack_self(src.mob)
 	return
@@ -1617,15 +1619,15 @@
 	if (src.monkeyizing)
 		return
 	var/is_monkey = istype(src, /mob/monkey)
-	if (locate(/obj/item/weapon/grab, locate(/obj/item/weapon/grab, src.grabbed_by.len)))
+	if (locate(/obj/item/grab, locate(/obj/item/grab, src.grabbed_by.len)))
 		var/list/grabbing = list(  )
-		if (istype(src.l_hand, /obj/item/weapon/grab))
-			var/obj/item/weapon/grab/G = src.l_hand
+		if (istype(src.l_hand, /obj/item/grab))
+			var/obj/item/grab/G = src.l_hand
 			grabbing += G.affecting
-		if (istype(src.r_hand, /obj/item/weapon/grab))
-			var/obj/item/weapon/grab/G = src.r_hand
+		if (istype(src.r_hand, /obj/item/grab))
+			var/obj/item/grab/G = src.r_hand
 			grabbing += G.affecting
-		for(var/obj/item/weapon/grab/G in src.grabbed_by)
+		for(var/obj/item/grab/G in src.grabbed_by)
 			if (G.state == 1)
 				if (!( grabbing.Find(G.assailant) ))
 					del(G)
@@ -1658,8 +1660,8 @@
 	if (istype(src.loc, /turf/space))
 		if (!( src.restrained() ))
 			if (!( (locate(/obj/grille, oview(1, src)) || locate(/turf/simulated, oview(1, src))) ))
-				if (istype(src.back, /obj/item/weapon/tank/jetpack))
-					var/obj/item/weapon/tank/jetpack/J = src.back
+				if (istype(src.back, /obj/item/tank/jetpack))
+					var/obj/item/tank/jetpack/J = src.back
 					j_pack = J.allow_thrust(100, src)
 					if(j_pack)
 						var/obj/effects/sparks/ion_trails/I = new /obj/effects/sparks/ion_trails( src.loc )
@@ -1686,11 +1688,11 @@
 
 		if (src.restrained())
 			for(var/mob/M in range(src, 1))
-				if (((M.pulling == src && (!( M.restrained() ) && M.stat == 0)) || locate(/obj/item/weapon/grab, src.grabbed_by.len)))
+				if (((M.pulling == src && (!( M.restrained() ) && M.stat == 0)) || locate(/obj/item/grab, src.grabbed_by.len)))
 					src << "\blue You're restrained! You can't move!"
 					return 0
 		src.moving = 1
-		if (locate(/obj/item/weapon/grab, src))
+		if (locate(/obj/item/grab, src))
 			src.move_delay = max(src.move_delay, world.time + 7)
 			var/list/L = src.ret_grab()
 			if (istype(L, /list))

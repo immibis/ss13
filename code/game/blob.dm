@@ -94,14 +94,14 @@
 		update()
 
 
-/obj/blob/attackby(var/obj/item/weapon/W, var/mob/user)
+/obj/blob/attackby(var/obj/item/W, var/mob/user)
 	for(var/mob/O in viewers(src, null))
 		O.show_message(text("\red <B>The blob has been attacked with [][] </B>", W, (user ? text(" by [].", user) : ".")), 1)
 
 	var/damage = W.force / 4.0
 
-	if(istype(W, /obj/item/weapon/weldingtool))
-		var/obj/item/weapon/weldingtool/WT = W
+	if(istype(W, /obj/item/weldingtool))
+		var/obj/item/weldingtool/WT = W
 
 		if(WT.welding)
 			damage = 15

@@ -65,8 +65,8 @@
 	return 1
 
 /obj/machinery/camera/motion/attackby(W as obj, mob/user as mob)
-	if (istype(W, /obj/item/weapon/wirecutters) && locked == 1) return
-	if (istype(W, /obj/item/weapon/screwdriver))
+	if (istype(W, /obj/item/wirecutters) && locked == 1) return
+	if (istype(W, /obj/item/screwdriver))
 		var/turf/T = user.loc
 		user << "\blue [locked ? "Open" : "Clos"]ing the access hatch... (this is a long process)"
 		sleep(100)
@@ -76,7 +76,7 @@
 
 	..() // call the parent to (de|re)activate
 
-	if (istype(W, /obj/item/weapon/wirecutters)) // now handle alarm on/off...
+	if (istype(W, /obj/item/wirecutters)) // now handle alarm on/off...
 		if (status) // ok we've just been reconnected... send an alarm!
 			detectTime = world.time - 301
 			triggerAlarm()

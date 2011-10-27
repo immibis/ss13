@@ -1,4 +1,4 @@
-/obj/item/weapon/reagent/bottle
+/obj/item/reagent/bottle
 	name = "bottle"
 	throw_speed = 4
 	throw_range = 20

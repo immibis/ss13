@@ -38,7 +38,7 @@
 
 	// is starting with a power cell installed, create it and set its charge level
 	if(cell_type)
-		src.cell = new/obj/item/weapon/cell(src)
+		src.cell = new/obj/item/cell(src)
 		cell.maxcharge = cell_type	// cell_type is maximum charge (old default was 1000 or 2500 (values one and two respectively)
 		cell.charge = start_charge * cell.maxcharge / 100.0 		// (convert percentage to actual value)
 
@@ -98,13 +98,13 @@
 
 //attack with an item - open/close cover, insert cell, or (un)lock interface
 
-/obj/machinery/power/apc/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/power/apc/attackby(obj/item/W, mob/user)
 
 	if(stat & BROKEN) return
 	if (istype(user, /mob/ai))
 		return src.attack_hand(user)
 
-	if (istype(W, /obj/item/weapon/screwdriver))	// screwdriver means open or close the cover
+	if (istype(W, /obj/item/screwdriver))	// screwdriver means open or close the cover
 		if(opened)
 			opened = 0
 			updateicon()
@@ -115,7 +115,7 @@
 				opened = 1
 				updateicon()
 
-	else if	(istype(W, /obj/item/weapon/cell) && opened)	// trying to put a cell inside
+	else if	(istype(W, /obj/item/cell) && opened)	// trying to put a cell inside
 		if(cell)
 			user << "There is a power cell already installed."
 		else
@@ -126,7 +126,7 @@
 			chargecount = 0
 
 		updateicon()
-	else if (istype(W, /obj/item/weapon/card/id) )			// trying to unlock the interface with an ID card
+	else if (istype(W, /obj/item/card/id) )			// trying to unlock the interface with an ID card
 
 		if(opened)
 			user << "You must close the cover to swipe an ID card."
@@ -138,7 +138,7 @@
 			else
 				user << "\red Access denied."
 
-	else if (istype(W, /obj/item/weapon/card/emag) )		// trying to unlock with an emag card
+	else if (istype(W, /obj/item/card/emag) )		// trying to unlock with an emag card
 
 		if(opened)
 			user << "You must close the cover to swipe an ID card."
@@ -151,7 +151,7 @@
 				updateicon()
 			else
 				user << "You fail to [ locked ? "unlock" : "lock"] the APC interface."
-	else if (istype(W, /obj/item/weapon/wirecutters))
+	else if (istype(W, /obj/item/wirecutters))
 		if (opened)
 			if (src.aidisabled)
 				user << "You have reconnected the AI control wire in the APC interface."

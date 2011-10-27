@@ -1,4 +1,4 @@
-/obj/item/weapon/bottle/beer/attack(mob/M as mob, mob/user as mob)
+/obj/item/bottle/beer/attack(mob/M as mob, mob/user as mob)
 
 	if (user.a_intent == "hurt")
 		if (src.icon_state == "broken_beer")

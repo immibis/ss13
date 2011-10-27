@@ -70,7 +70,7 @@
 				src.auth = null
 			else
 				var/obj/item/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/disk/nuclear))
+				if (istype(I, /obj/item/disk/nuclear))
 					usr.drop_item()
 					I.loc = src
 					src.auth = I

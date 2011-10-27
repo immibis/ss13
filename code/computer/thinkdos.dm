@@ -6,7 +6,7 @@ datum/os/thinkdos
 
 	var/datum/comp_program/cur_prog = null
 
-	var/obj/item/weapon/card/id/login = null
+	var/obj/item/card/id/login = null
 	var/login_name = null
 
 	// If an AI or cyborg logs in, login is null and login_name is "AIUSR"
@@ -152,9 +152,9 @@ datum/os/thinkdos
 				login_name = "AIUSR"
 			else
 				var/mob/human/H = user
-				if(istype(user.equipped(), /obj/item/weapon/card/id))
+				if(istype(user.equipped(), /obj/item/card/id))
 					login = user.equipped()
-				else if(istype(H) && istype(H.wear_id, /obj/item/weapon/card/id))
+				else if(istype(H) && istype(H.wear_id, /obj/item/card/id))
 					login = H.wear_id
 				else
 					term.print("You need an ID card to log in.")

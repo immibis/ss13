@@ -25,7 +25,7 @@
 			italics = 1
 		else if (findtext(message, ":i") == 1)
 			message = copytext(message, 3, length(message) + 1)
-			for(var/obj/item/weapon/radio/intercom/I in view(1, null))
+			for(var/obj/item/radio/intercom/I in view(1, null))
 				I.talk_into(usr, message)
 			L += hearers(1, null)
 			obj_range = 1
@@ -33,7 +33,7 @@
 		else if (findtext(message, ":") == 1)
 			var/radionum = text2num(copytext(message, 2, 3)) //number after the :, if any
 			message = copytext(message, 3, length(message) + 1)
-			for(var/obj/item/weapon/radio/intercom/I in view(1, null))
+			for(var/obj/item/radio/intercom/I in view(1, null))
 				if (I.number == radionum)
 					I.talk_into(usr, message)
 			L += hearers(1, null)

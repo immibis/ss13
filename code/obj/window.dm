@@ -15,7 +15,7 @@
 	las_act(flag)
 		if (flag == "bullet")
 			if(!reinf)
-				new /obj/item/weapon/shard( src.loc )
+				new /obj/item/shard( src.loc )
 				//SN src = null
 				src.density = 0
 				src.loc.buildlinks()
@@ -24,8 +24,8 @@
 			else
 				health -= 35
 				if(health <=0)
-					new /obj/item/weapon/shard( src.loc )
-					new /obj/item/weapon/rods( src.loc )
+					new /obj/item/shard( src.loc )
+					new /obj/item/rods( src.loc )
 					src.density = 0
 					src.loc.buildlinks()
 					del(src)
@@ -39,15 +39,15 @@
 				del(src)
 				return
 			if(2.0)
-				new /obj/item/weapon/shard( src.loc )
-				if(reinf) new /obj/item/weapon/rods( src.loc)
+				new /obj/item/shard( src.loc )
+				if(reinf) new /obj/item/rods( src.loc)
 				//SN src = null
 				del(src)
 				return
 			if(3.0)
 				if (prob(50))
-					new /obj/item/weapon/shard( src.loc )
-					if(reinf) new /obj/item/weapon/rods( src.loc)
+					new /obj/item/shard( src.loc )
+					if(reinf) new /obj/item/rods( src.loc)
 
 					del(src)
 					return
@@ -55,8 +55,8 @@
 
 	blob_act()
 		if(prob(50))
-			new /obj/item/weapon/shard( src.loc )
-			if(reinf) new /obj/item/weapon/rods( src.loc)
+			new /obj/item/shard( src.loc )
+			if(reinf) new /obj/item/rods( src.loc)
 			density = 0
 			src.loc.buildlinks()
 			del(src)
@@ -79,8 +79,8 @@
 
 	meteorhit()
 		src.health = 0
-		new /obj/item/weapon/shard( src.loc )
-		if(reinf) new /obj/item/weapon/rods( src.loc)
+		new /obj/item/shard( src.loc )
+		if(reinf) new /obj/item/rods( src.loc)
 		src.density = 0
 		src.loc.buildlinks()
 
@@ -89,7 +89,7 @@
 		return
 
 
-	hitby(obj/item/weapon/W as obj)
+	hitby(obj/item/W as obj)
 
 		..()
 		var/tforce = W.throwforce
@@ -100,8 +100,8 @@
 			src.anchored = 0
 			step(src, get_dir(W, src))
 		if (src.health <= 0)
-			new /obj/item/weapon/shard( src.loc )
-			if(reinf) new /obj/item/weapon/rods( src.loc)
+			new /obj/item/shard( src.loc )
+			if(reinf) new /obj/item/rods( src.loc)
 			src.density = 0
 			src.loc.buildlinks()
 			del(src)
@@ -109,9 +109,9 @@
 		..()
 		return
 
-	attackby(obj/item/weapon/W as obj, mob/user as mob)
+	attackby(obj/item/W as obj, mob/user as mob)
 
-		if (istype(W, /obj/item/weapon/screwdriver))
+		if (istype(W, /obj/item/screwdriver))
 			if(reinf && state >= 1)
 				state = 3 - state
 				usr << ( state==1? "You have unfastened the window from the frame." : "You have fastened the window to the frame." )
@@ -121,7 +121,7 @@
 			else if(!reinf)
 				src.anchored = !( src.anchored )
 				user << (src.anchored ? "You have fastened the window to the floor." : "You have unfastened the window.")
-		else if(istype(W, /obj/item/weapon/crowbar) && reinf)
+		else if(istype(W, /obj/item/crowbar) && reinf)
 			if(state <=1)
 				state = 1-state;
 				user << (state ? "You have pried the window into the frame." : "You have pried the window out of the frame.")
@@ -141,12 +141,12 @@
 					var/index = null
 					index = 0
 					while(index < 2)
-						new /obj/item/weapon/shard( src.loc )
-						if(reinf) new /obj/item/weapon/rods( src.loc)
+						new /obj/item/shard( src.loc )
+						if(reinf) new /obj/item/rods( src.loc)
 						index++
 				else
-					new /obj/item/weapon/shard( src.loc )
-					if(reinf) new /obj/item/weapon/rods( src.loc)
+					new /obj/item/shard( src.loc )
+					if(reinf) new /obj/item/rods( src.loc)
 
 				src.density = 0
 				src.loc.buildlinks()

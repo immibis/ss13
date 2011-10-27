@@ -15,10 +15,10 @@
 	else
 		stat |= NOPOWER
 
-/obj/machinery/door/firedoor/attackby(obj/item/weapon/C as obj, mob/user as mob)
+/obj/machinery/door/firedoor/attackby(obj/item/C as obj, mob/user as mob)
 	src.add_fingerprint(user)
-	if ((istype(C, /obj/item/weapon/weldingtool) && !( src.operating ) && src.density))
-		var/obj/item/weapon/weldingtool/W = C
+	if ((istype(C, /obj/item/weldingtool) && !( src.operating ) && src.density))
+		var/obj/item/weldingtool/W = C
 		if(W.welding)
 			if (W.weldfuel > 2)
 				W.weldfuel -= 2
@@ -29,7 +29,7 @@
 				src.blocked = 0
 				src.icon_state = "door1"
 			return
-	if (!( istype(C, /obj/item/weapon/crowbar) ))
+	if (!( istype(C, /obj/item/crowbar) ))
 		return
 
 	if (!src.blocked && !src.operating)

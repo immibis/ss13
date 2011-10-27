@@ -322,7 +322,7 @@ mob/human/Login()
 					back.loc = loc
 					back.layer = initial(back.layer)
 					back = null
-				var/obj/item/weapon/tank/jetpack/J = new(src)
+				var/obj/item/tank/jetpack/J = new(src)
 				J.toggle()
 				J.layer = 20
 				back = J

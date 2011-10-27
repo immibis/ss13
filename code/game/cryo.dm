@@ -80,8 +80,8 @@
 	anchored = 1.0
 	capmult = 1
 
-	attackby(obj/item/weapon/flasks/F as obj, mob/user as mob)
-		if (!( istype(F, /obj/item/weapon/flasks) ))
+	attackby(obj/item/flasks/F as obj, mob/user as mob)
+		if (!( istype(F, /obj/item/flasks) ))
 			return
 		if (src.contents.len >= 3)
 			user << "\blue All slots are full!"
@@ -94,7 +94,7 @@
 		src.overlays = null
 		src.overlays += src.connector
 		var/counter = 0
-		for(var/obj/item/weapon/flasks/F in src.contents)
+		for(var/obj/item/flasks/F in src.contents)
 			var/obj/overlay/O = new /obj/overlay(  )
 			O.icon = F.icon
 			O.icon_state = F.icon_state
@@ -117,9 +117,9 @@
 
 		if(istype(user, /mob/monkey))
 			var/d1 = null
-			if (locate(/obj/item/weapon/flasks, src))
+			if (locate(/obj/item/flasks, src))
 				var/counter = 1
-				for(var/obj/item/weapon/flasks/F in src)
+				for(var/obj/item/flasks/F in src)
 					d1 += text("<A href = '?src=\ref[];flask=[]'><B>[] []</B></A>: []<BR>", src, counter, stars("Flask"), counter, stars(text("[] / [] / []", F.oxygen, F.plasma, F.coolant)))
 					counter++
 				d1 += "Key:    Oxygen / Plasma / Coolant<BR>"
@@ -145,10 +145,10 @@
 			user << browse(dat, "window=freezer;size=400x500")
 		else
 			var/d1
-			if (locate(/obj/item/weapon/flasks, src))
+			if (locate(/obj/item/flasks, src))
 				var/counter = 1
 
-				for(var/obj/item/weapon/flasks/F in src)
+				for(var/obj/item/flasks/F in src)
 					d1 += text("<A href = '?src=\ref[];flask=[]'><B>Flask []</B></A>: [] / [] / []<BR>", src, counter, counter, F.oxygen, F.plasma, F.coolant)
 					counter++
 				d1 += "Key:    Oxygen / Plasma / Coolant<BR>"
@@ -220,9 +220,9 @@
 
 		use_power(CRYO_FREEZER_POWER)
 
-		var/obj/item/weapon/flasks/F1
-		var/obj/item/weapon/flasks/F2
-		var/obj/item/weapon/flasks/F3
+		var/obj/item/flasks/F1
+		var/obj/item/flasks/F2
+		var/obj/item/flasks/F3
 		if (src.contents.len >= 3)
 			F3 = src.contents[3]
 		if (src.contents.len >= 2)
@@ -326,9 +326,9 @@
 		O1.pixel_y = -16.0
 		src.overlays += O1
 		src.connector = O1
-		new /obj/item/weapon/flasks/oxygen( src )
-		new /obj/item/weapon/flasks/coolant( src )
-		new /obj/item/weapon/flasks/plasma( src )
+		new /obj/item/flasks/oxygen( src )
+		new /obj/item/flasks/coolant( src )
+		new /obj/item/flasks/plasma( src )
 		rebuild_overlay()
 
 
@@ -392,8 +392,8 @@
 	src.add_fingerprint(usr)
 	return
 
-/obj/machinery/sleeper/attackby(obj/item/weapon/grab/G as obj, mob/user as mob)
-	if ((!( istype(G, /obj/item/weapon/grab) ) || !( ismob(G.affecting) )))
+/obj/machinery/sleeper/attackby(obj/item/grab/G as obj, mob/user as mob)
+	if ((!( istype(G, /obj/item/grab) ) || !( ismob(G.affecting) )))
 		return
 	if (src.occupant)
 		user << "\blue <B>The sleeper is already occupied!</B>"
@@ -611,10 +611,10 @@
 		src.add_fingerprint(usr)
 		return
 
-	attackby(obj/item/weapon/grab/G as obj, mob/user as mob)
+	attackby(obj/item/grab/G as obj, mob/user as mob)
 		if (stat & (BROKEN|NOPOWER))
 			return
-		if ((!( istype(G, /obj/item/weapon/grab) ) || !( ismob(G.affecting) )))
+		if ((!( istype(G, /obj/item/grab) ) || !( ismob(G.affecting) )))
 			return
 		if (src.occupant)
 			user << "\blue <B>The cell is already occupied!</B>"
@@ -680,7 +680,7 @@
 					dat += text("<BR><font color='blue'><B>Detailed Occupant Statistics:</B></FONT><BR>")
 					var/mob/human/H = src.occupant
 					for(var/A in H.organs)
-						var/obj/item/weapon/organ/external/current = H.organs[A]
+						var/obj/item/organ/external/current = H.organs[A]
 						var/organstatus = 100
 						if(current.get_damage())
 							organstatus = 100*(current.get_damage()/current.max_damage)
@@ -722,7 +722,7 @@
 					dat += text("<BR><font color='blue'><BR>[]:</B></FONT><BR>", stars("Detailed Occupant Statistics"))
 					var/mob/human/H = src.occupant
 					for(var/A in H.organs)
-						var/obj/item/weapon/organ/external/current = H.organs[A]
+						var/obj/item/organ/external/current = H.organs[A]
 						var/organstatus = 100
 						if(current.get_damage())
 							organstatus = 100*(current.max_damage/current.get_damage())
@@ -793,7 +793,7 @@
 				var/mob/human/H = M
 				var/ok = 0
 				for(var/organ in H.organs)
-					var/obj/item/weapon/organ/external/affecting = H.organs[text("[]", organ)]
+					var/obj/item/organ/external/affecting = H.organs[text("[]", organ)]
 					ok += affecting.heal_damage(5, 5)
 				if (ok)
 					H.UpdateDamageIcon()
@@ -817,7 +817,7 @@
 		src.updateUsrDialog()
 		return
 
-/obj/item/weapon/flasks/examine()
+/obj/item/flasks/examine()
 	set src in oview(1)
 	usr << text("The flask is []% full", (src.oxygen + src.plasma + src.coolant) * 100 / 500)
 	usr << "The flask can ONLY store liquids."

@@ -1,10 +1,10 @@
-/obj/item/weapon/organ/proc/process()
+/obj/item/organ/proc/process()
 	return
 
-/obj/item/weapon/organ/proc/receive_chem(chemical as obj)
+/obj/item/organ/proc/receive_chem(chemical as obj)
 	return
 
-/obj/item/weapon/organ/external/proc/take_damage(brute, burn)
+/obj/item/organ/external/proc/take_damage(brute, burn)
 	if ((brute <= 0 && burn <= 0))
 		return 0
 	if ((src.brute_dam + src.burn_dam + brute + burn) < src.max_damage)
@@ -30,18 +30,18 @@
 			return 0
 	return src.update_icon()
 
-/obj/item/weapon/organ/external/proc/heal_damage(brute, burn)
+/obj/item/organ/external/proc/heal_damage(brute, burn)
 	src.brute_dam = max(0, src.brute_dam - brute)
 	src.burn_dam = max(0, src.brute_dam - burn)
 	return update_icon()
 
-/obj/item/weapon/organ/external/proc/get_damage()	//returns total damage
+/obj/item/organ/external/proc/get_damage()	//returns total damage
 	return src.brute_dam + src.burn_dam	//could use src.health?
 
 // new damage icon system
 // returns just the brute/burn damage code
 
-/obj/item/weapon/organ/external/proc/d_i_text()
+/obj/item/organ/external/proc/d_i_text()
 
 	var/tburn = 0
 	var/tbrute = 0
@@ -69,7 +69,7 @@
 // new damage icon system
 // adjusted to set d_i_state to brute/burn code only (without r_name0 as before)
 
-/obj/item/weapon/organ/external/proc/update_icon()
+/obj/item/organ/external/proc/update_icon()
 
 	var/n_is = "[d_i_text()]"
 	if (n_is != src.d_i_state)

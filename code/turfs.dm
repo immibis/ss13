@@ -88,16 +88,16 @@
 	if ((M.icon_state == "flaming" && prob(30)))
 		if (src.state == 2)
 			src.state = 1
-			new /obj/item/weapon/sheet/metal( src )
-			new /obj/item/weapon/sheet/metal( src )
+			new /obj/item/sheet/metal( src )
+			new /obj/item/sheet/metal( src )
 			update()
 		else
 			if ((prob(20) && src.state == 1))
 				src.state = 0
 				//var/turf/simulated/floor/F = new /turf/simulated/floor( locate(src.x, src.y, src.z) )
 				var/turf/simulated/floor/F = src.ReplaceWithFloor()
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				new /obj/item/sheet/metal( F )
+				new /obj/item/sheet/metal( F )
 				F.buildlinks()
 				F.levelupdate()
 	return
@@ -191,8 +191,8 @@
 				src.state = 1
 				src.intact = 0
 				src.levelupdate()
-				new /obj/item/weapon/sheet/metal( src )
-				new /obj/item/weapon/sheet/metal( src )
+				new /obj/item/sheet/metal( src )
+				new /obj/item/sheet/metal( src )
 			else
 				src.state = 0
 				//var/turf/simulated/floor/F = new /turf/simulated/floor( locate(src.x, src.y, src.z) )
@@ -200,8 +200,8 @@
 				F.burnt = 1
 				F.health = 30
 				F.icon_state = "Floor1"
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				new /obj/item/sheet/metal( F )
+				new /obj/item/sheet/metal( F )
 				F.buildlinks()
 				F.levelupdate()
 		if(3.0)
@@ -212,8 +212,8 @@
 				src.intact = 0
 				src.levelupdate()
 				src.state = 1
-				new /obj/item/weapon/sheet/metal( src )
-				new /obj/item/weapon/sheet/metal( src )
+				new /obj/item/sheet/metal( src )
+				new /obj/item/sheet/metal( src )
 				src.icon_state = "girder"
 				update()
 		else
@@ -229,7 +229,7 @@
 			F.burnt = 1
 			F.health = 30
 			F.icon_state = "Floor1"
-			new /obj/item/weapon/sheet/metal( F )
+			new /obj/item/sheet/metal( F )
 			F.buildlinks()
 			F.levelupdate()
 		else
@@ -239,19 +239,19 @@
 			src.state = 1
 			src.intact = 0
 			src.levelupdate()
-			new /obj/item/weapon/sheet/metal( src )
+			new /obj/item/sheet/metal( src )
 			src.icon_state = "girder"
 			update()
 
 
 
-/turf/simulated/r_wall/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/turf/simulated/r_wall/attackby(obj/item/W as obj, mob/user as mob)
 
 	if (!(istype(usr, /mob/human) || ticker) && ticker.mode.name != "monkey")
 		usr << "\red You don't have the dexterity to do this!"
 		return
 	if (src.state == 2)
-		if (istype(W, /obj/item/weapon/wrench))
+		if (istype(W, /obj/item/wrench))
 			if (src.d_state == 4)
 				var/turf/T = user.loc
 				user << "\blue Cutting support rods."
@@ -259,12 +259,12 @@
 				if ((user.loc == T && user.equipped() == W && !( user.stat )) && istype(src, /turf/simulated/r_wall))
 					src.d_state = 5
 					user << "\blue You cut the support rods."
-		else if (istype(W, /obj/item/weapon/wirecutters))
+		else if (istype(W, /obj/item/wirecutters))
 			if (src.d_state == 0)
 				src.d_state = 1
-				new /obj/item/weapon/rods( src )
+				new /obj/item/rods( src )
 
-		else if (istype(W, /obj/item/weapon/weldingtool) && W:welding)
+		else if (istype(W, /obj/item/weldingtool) && W:welding)
 			if (W:weldfuel < 5)
 				user << "\blue You need more welding fuel to complete this task."
 				return
@@ -282,9 +282,9 @@
 				sleep(100)
 				if ((user.loc == T && user.equipped() == W && !( user.stat )) && istype(src, /turf/simulated/r_wall))
 					src.d_state = 6
-					new /obj/item/weapon/rods( src )
+					new /obj/item/rods( src )
 					user << "\blue You removed the support rods."
-		else if (istype(W, /obj/item/weapon/screwdriver))
+		else if (istype(W, /obj/item/screwdriver))
 			if (src.d_state == 1)
 				var/turf/T = user.loc
 				user << "\blue Removing support lines."
@@ -292,7 +292,7 @@
 				if ((user.loc == T && user.equipped() == W && !( user.stat )) && istype(src, /turf/simulated/r_wall))
 					src.d_state = 2
 					user << "\blue You removed the support lines."
-		else if (istype(W, /obj/item/weapon/crowbar))
+		else if (istype(W, /obj/item/crowbar))
 			if (src.d_state == 3)
 				var/turf/T = user.loc
 				user << "\blue Prying cover off."
@@ -306,9 +306,9 @@
 				sleep(100)
 				if ((user.loc == T && user.equipped() == W && !( user.stat )) && istype(src, /turf/simulated/r_wall))
 					src.d_state = 7
-					new /obj/item/weapon/sheet/metal( src )
+					new /obj/item/sheet/metal( src )
 					user << "\blue You pried of the outer sheath."
-		else if (istype(W, /obj/item/weapon/sheet/metal))
+		else if (istype(W, /obj/item/sheet/metal))
 			var/turf/T = user.loc
 			user << "\blue Repairing wall."
 			sleep(100)
@@ -320,7 +320,7 @@
 					del(W)
 				user << "\blue You repaired the wall."
 	if (src.state == 1)
-		if (istype(W, /obj/item/weapon/wrench))
+		if (istype(W, /obj/item/wrench))
 			user << "\blue Now dismantling girders."
 			var/turf/T = user.loc
 			sleep(100)
@@ -328,12 +328,12 @@
 				src.state = 0
 				//var/turf/simulated/floor/F = new /turf/simulated/floor( locate(src.x, src.y, src.z) )
 				var/turf/simulated/floor/F = src.ReplaceWithFloor()
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				new /obj/item/sheet/metal( F )
+				new /obj/item/sheet/metal( F )
 				F.buildlinks()
 				F.levelupdate()
 				user << "You dismantled the girders."
-		else if (istype(W, /obj/item/weapon/sheet/r_metal))
+		else if (istype(W, /obj/item/sheet/r_metal))
 			src.state = 2
 			src.d_state = 0
 			del(W)
@@ -387,8 +387,8 @@
 				src.state = 1
 				src.intact = 0
 				src.levelupdate()
-				new /obj/item/weapon/sheet/metal( src )
-				new /obj/item/weapon/sheet/metal( src )
+				new /obj/item/sheet/metal( src )
+				new /obj/item/sheet/metal( src )
 				src.icon_state = "girder"
 			else
 				src.state = 0
@@ -397,8 +397,8 @@
 				F.burnt = 1
 				F.health = 30
 				F.icon_state = "Floor1"
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				new /obj/item/sheet/metal( F )
+				new /obj/item/sheet/metal( F )
 				F.buildlinks()
 				F.levelupdate()
 		if(3.0)
@@ -409,8 +409,8 @@
 				src.intact = 0
 				levelupdate()
 				src.state = 1
-				new /obj/item/weapon/sheet/metal( src )
-				new /obj/item/weapon/sheet/metal( src )
+				new /obj/item/sheet/metal( src )
+				new /obj/item/sheet/metal( src )
 				src.icon_state = "girder"
 		else
 	return
@@ -425,7 +425,7 @@
 			F.burnt = 1
 			F.health = 30
 			F.icon_state = "Floor1"
-			new /obj/item/weapon/sheet/metal( F )
+			new /obj/item/sheet/metal( F )
 			F.buildlinks()
 			F.levelupdate()
 		else
@@ -435,7 +435,7 @@
 			src.state = 1
 			src.intact = 0
 			levelupdate()
-			new /obj/item/weapon/sheet/metal( src )
+			new /obj/item/sheet/metal( src )
 			src.icon_state = "girder"
 
 /turf/simulated/wall/attack_paw(mob/user as mob)
@@ -446,12 +446,12 @@
 	src.add_fingerprint(user)
 	return
 
-/turf/simulated/wall/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/turf/simulated/wall/attackby(obj/item/W as obj, mob/user as mob)
 
 	if (!(istype(usr, /mob/human) || ticker) && ticker.mode.name != "monkey")
 		usr << "\red You don't have the dexterity to do this!"
 		return
-	if ((istype(W, /obj/item/weapon/wrench) && src.state == 1))
+	if ((istype(W, /obj/item/wrench) && src.state == 1))
 		var/turf/T = user.loc
 		if (!( istype(T, /turf) ))
 			return
@@ -464,11 +464,11 @@
 			//var/turf/simulated/floor/F = new /turf/simulated/floor( locate(src.x, src.y, src.z) )
 			var/turf/simulated/floor/F = src.ReplaceWithFloor()
 //			F.oxygen = O2STANDARD
-			new /obj/item/weapon/sheet/metal( F )
-			new /obj/item/weapon/sheet/metal( F )
+			new /obj/item/sheet/metal( F )
+			new /obj/item/sheet/metal( F )
 			F.buildlinks()
 			F.levelupdate()
-	else if ((istype(W, /obj/item/weapon/screwdriver) && src.state == 1))
+	else if ((istype(W, /obj/item/screwdriver) && src.state == 1))
 		var/turf/T = user.loc
 		if (!( istype(T, /turf) ))
 			return
@@ -482,9 +482,9 @@
 			var/turf/simulated/floor/F = src.ReplaceWithFloor()
 //			F.oxygen = O2STANDARD
 			new /obj/d_girders( F )
-			new /obj/item/weapon/sheet/metal( F )
+			new /obj/item/sheet/metal( F )
 			F.buildlinks()
-	else if (istype(W, /obj/item/weapon/sheet/r_metal) && src.state == 1)
+	else if (istype(W, /obj/item/sheet/r_metal) && src.state == 1)
 		var/turf/T = user.loc
 		if (!( istype(T, /turf) ))
 			return
@@ -503,7 +503,7 @@
 			F.updatecell = 1
 			F.levelupdate()
 			F.buildlinks()
-	else if (istype(W, /obj/item/weapon/weldingtool) && src.state == 2 && W:welding)
+	else if (istype(W, /obj/item/weldingtool) && src.state == 2 && W:welding)
 		var/turf/T = user.loc
 		if (!( istype(T, /turf) ))
 			return
@@ -520,10 +520,10 @@
 			src.state = 1
 			src.intact = 0
 			src.levelupdate()
-			new /obj/item/weapon/sheet/metal( src )
-			new /obj/item/weapon/sheet/metal( src )
+			new /obj/item/sheet/metal( src )
+			new /obj/item/sheet/metal( src )
 			src.icon_state = "girder"
-	else if (istype(W, /obj/item/weapon/sheet/metal) && src.state == 1 && W:amount >= 2)
+	else if (istype(W, /obj/item/sheet/metal) && src.state == 1 && W:amount >= 2)
 		var/turf/T = user.loc
 		if (!istype(T, /turf))
 			return
@@ -560,16 +560,16 @@
 			src.levelupdate()
 			src.buildlinks()
 			src.firelevel = 11
-			new /obj/item/weapon/sheet/metal( src )
-			new /obj/item/weapon/sheet/metal( src )
+			new /obj/item/sheet/metal( src )
+			new /obj/item/sheet/metal( src )
 		else
 			if ((prob(20) && src.state == 1))
 				src.state = 0
 				//var/turf/simulated/floor/F = new /turf/simulated/floor( locate(src.x, src.y, src.z) )
 				var/turf/simulated/floor/F = src.ReplaceWithFloor()
 //				F.oxygen = O2STANDARD
-				new /obj/item/weapon/sheet/metal( F )
-				new /obj/item/weapon/sheet/metal( F )
+				new /obj/item/sheet/metal( F )
+				new /obj/item/sheet/metal( F )
 				F.buildlinks()
 				F.levelupdate()
 	return
@@ -641,18 +641,18 @@
 		step(user.pulling, get_dir(user.pulling.loc, src))
 	return
 
-/turf/simulated/floor/attackby(obj/item/weapon/C as obj, mob/user as mob)
+/turf/simulated/floor/attackby(obj/item/C as obj, mob/user as mob)
 	if(!C || !user)
 		return
-	if(istype(C, /obj/item/weapon/crowbar))
+	if(istype(C, /obj/item/crowbar))
 		if (src.health <= 100) return
 		src.health	= 100
 		src.burnt	= 1
 		src.intact	= 0
 		levelupdate()
-		new /obj/item/weapon/tile(src)
+		new /obj/item/tile(src)
 		src.icon_state = "Floor[src.burnt ? "1" : ""]"
-	else if(istype(C, /obj/item/weapon/tile))
+	else if(istype(C, /obj/item/tile))
 		if(src.health > 100) return
 		src.health	= 150
 		src.burnt	= 0
@@ -662,11 +662,11 @@
 			AddHotspot()
 		else
 			src.icon_state = "Floor"
-		var/obj/item/weapon/tile/T = C
+		var/obj/item/tile/T = C
 		if(--T.amount < 1)
 			del(T)
-	else if(istype(C, /obj/item/weapon/cable_coil) )
-		var/obj/item/weapon/cable_coil/coil = C
+	else if(istype(C, /obj/item/cable_coil) )
+		var/obj/item/cable_coil/coil = C
 		coil.turf_place(src, user)
 
 /turf/simulated/floor/updatecell()

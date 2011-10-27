@@ -20,32 +20,32 @@
 
 /obj/stool/blob_act()
 	if(prob(50))
-		new /obj/item/weapon/sheet/metal( src.loc )
+		new /obj/item/sheet/metal( src.loc )
 		del(src)
 
-/obj/stool/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if (istype(W, /obj/item/weapon/wrench))
-		new /obj/item/weapon/sheet/metal( src.loc )
+/obj/stool/attackby(obj/item/W as obj, mob/user as mob)
+	if (istype(W, /obj/item/wrench))
+		new /obj/item/sheet/metal( src.loc )
 		//SN src = null
 		del(src)
 	return
 
-/obj/stool/bed/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/stool/bed/attackby(obj/item/W as obj, mob/user as mob)
 	..()
-	if (istype(W, /obj/item/weapon/wrench))
-		new /obj/item/weapon/sheet/metal( src.loc )
+	if (istype(W, /obj/item/wrench))
+		new /obj/item/sheet/metal( src.loc )
 		return src.Del()
 	return
 
-/obj/stool/chair/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/stool/chair/attackby(obj/item/W as obj, mob/user as mob)
 	..()
-	if (istype(W, /obj/item/weapon/assembly/shock_kit))
+	if (istype(W, /obj/item/assembly/shock_kit))
 		var/obj/stool/chair/e_chair/E = new /obj/stool/chair/e_chair( src.loc )
 		E.dir = src.dir
 		E.part1 = W
 		W.loc = E
 		W.master = E
-		user.u_equip(W)
+		user.unequip(W)
 		W.layer = initial(W.layer)
 		//SN src = null
 		del(src)
@@ -115,9 +115,9 @@
 	..()
 	return
 
-/obj/stool/chair/e_chair/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/stool/chair/e_chair/attackby(obj/item/W as obj, mob/user as mob)
 
-	if (istype(W, /obj/item/weapon/wrench))
+	if (istype(W, /obj/item/wrench))
 		var/obj/stool/chair/C = new /obj/stool/chair( src.loc )
 		C.dir = src.dir
 		src.part1.loc = src.loc

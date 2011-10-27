@@ -74,7 +74,7 @@
 
 			for (var/obj/machinery/computer/communications/C in machines)
 				if(! (C.stat & (BROKEN|NOPOWER) ) )
-					var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( C.loc )
+					var/obj/item/paper/P = new /obj/item/paper( C.loc )
 					P.name = "paper- 'Cent. Com. Biohazard Alert.'"
 					P.info = dat
 					C.messagetitle.Add("Cent. Com. Biohazard Alert")

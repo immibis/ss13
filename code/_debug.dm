@@ -410,7 +410,7 @@
 	if(stat > 1) stat=0
 	disabilities = initial(disabilities)
 	sdisabilities = initial(sdisabilities)
-	for(var/obj/item/weapon/organ/external/e in src)
+	for(var/obj/item/organ/external/e in src)
 		e.brute_dam = 0.0
 		e.burn_dam = 0.0
 		e.bandaged = 0.0

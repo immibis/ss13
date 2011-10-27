@@ -47,7 +47,7 @@
 	var/list/namecounts = list()
 	var/list/creatures = list()
 	for (var/mob/M in world)
-		if (istype(M, /mob/human) && istype(M:wear_id, /obj/item/weapon/card/id/syndicate))
+		if (istype(M, /mob/human) && istype(M:wear_id, /obj/item/card/id/syndicate))
 			continue
 		if(!istype(M.loc, /turf)) //in a closet or something, AI can't see him anyways
 			continue
@@ -83,7 +83,7 @@
 		while (usr:cameraFollow == target)
 			if (usr:cameraFollow == null)
 				return
-			else if (istype(target, /mob/human) && istype(target:wear_id, /obj/item/weapon/card/id/syndicate))
+			else if (istype(target, /mob/human) && istype(target:wear_id, /obj/item/card/id/syndicate))
 				usr << "Follow camera mode ended."
 				usr:cameraFollow = null
 				return

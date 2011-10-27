@@ -13,7 +13,7 @@
 	if (isturf(T))	//let cryo/sleeper handle adjusting body temp in their respective alter_health procs
 		src.bodytemperature = adjustBodyTemp(src.bodytemperature, T.gas.temperature, 0.5)
 
-	var/obj/item/weapon/organ/external/Head = src.organs["head"]
+	var/obj/item/organ/external/Head = src.organs["head"]
 	if(src.rname != "Unknown" && src.health < -500 && (Head.get_damage() > Head.max_damage/2) && !src.wear_id)	//this could be done better :effort:
 		src.rname = "Unknown"
 	if (src.stat != 2)
@@ -78,7 +78,7 @@
 						src.internals.icon_state = "internal1"
 
 
-					if((src.wear_mask.flags & HALFMASK) && !istype(src.head, /obj/item/weapon/clothing/head))
+					if((src.wear_mask.flags & HALFMASK) && !istype(src.head, /obj/item/clothing/head))
 						var/obj/substance/gas/delta = G.get_frac(0.5)
 						T.gas.add_delta(delta)
 						G.sub_delta(delta)
@@ -100,21 +100,21 @@
 				src.aircheck(G)
 				//second pass at body temp
 				var/thermal_layers = 1.0
-				if (((istype(src.head, /obj/item/weapon/clothing/head) && src.head.flags & 4) || (istype(src.wear_mask, /obj/item/weapon/clothing/mask) && (!( src.wear_mask.flags & 4 ) && src.wear_mask.flags & 8))))
+				if (((istype(src.head, /obj/item/clothing/head) && src.head.flags & 4) || (istype(src.wear_mask, /obj/item/clothing/mask) && (!( src.wear_mask.flags & 4 ) && src.wear_mask.flags & 8))))
 					thermal_layers  += 0.15
-				if (istype(src.w_uniform, /obj/item/weapon/clothing/under))
+				if (istype(src.w_uniform, /obj/item/clothing/under))
 					thermal_layers  += 0.5
-				if (istype(src.shoes, /obj/item/weapon/clothing/shoes))
+				if (istype(src.shoes, /obj/item/clothing/shoes))
 					thermal_layers  += 0.15
-				if (istype(src.gloves, /obj/item/weapon/clothing/gloves))
+				if (istype(src.gloves, /obj/item/clothing/gloves))
 					thermal_layers  += 0.1
-				if (istype(src.wear_suit, /obj/item/weapon/clothing/suit/labcoat))
+				if (istype(src.wear_suit, /obj/item/clothing/suit/labcoat))
 					thermal_layers += 0.1
-				if (istype(src.wear_suit, /obj/item/weapon/clothing/suit/firesuit) || istype(src.wear_suit, /obj/item/weapon/clothing/suit/black_firesuit))
+				if (istype(src.wear_suit, /obj/item/clothing/suit/firesuit) || istype(src.wear_suit, /obj/item/clothing/suit/black_firesuit))
 					thermal_layers  += 1.75
-				if (istype(src.wear_suit, /obj/item/weapon/clothing/suit/sp_suit) && istype(src.head, /obj/item/weapon/clothing/head/s_helmet))
+				if (istype(src.wear_suit, /obj/item/clothing/suit/sp_suit) && istype(src.head, /obj/item/clothing/head/s_helmet))
 					thermal_layers  += 5.0
-				else if (istype(src.wear_suit, /obj/item/weapon/clothing/suit/sp_suit))
+				else if (istype(src.wear_suit, /obj/item/clothing/suit/sp_suit))
 					thermal_layers  += 2.5
 				src.bodytemperature = adjustBodyTemp(src.bodytemperature, 310.055, thermal_layers)
 				if(src.bodytemperature < 283.222 && prob(2))
@@ -143,11 +143,11 @@
 		if(istype(src.loc, /turf/space))
 			var/layers = 20
 			// ******* Check
-			if (((istype(src.head, /obj/item/weapon/clothing/head) && src.head.flags & 4) || (istype(src.wear_mask, /obj/item/weapon/clothing/mask) && (!( src.wear_mask.flags & 4 ) && src.wear_mask.flags & 8))))
+			if (((istype(src.head, /obj/item/clothing/head) && src.head.flags & 4) || (istype(src.wear_mask, /obj/item/clothing/mask) && (!( src.wear_mask.flags & 4 ) && src.wear_mask.flags & 8))))
 				layers -= 5
-			if (istype(src.w_uniform, /obj/item/weapon/clothing/under))
+			if (istype(src.w_uniform, /obj/item/clothing/under))
 				layers -= 5
-			if ((istype(src.wear_suit, /obj/item/weapon/clothing/suit) && src.wear_suit.flags & 8))
+			if ((istype(src.wear_suit, /obj/item/clothing/suit) && src.wear_suit.flags & 8))
 				layers -= 10
 			if (layers > oxcheck)
 				oxcheck = layers
@@ -354,7 +354,7 @@
 	else
 		if (src.ear_damage < 25)
 			src.ear_damage -= 0.05
-			if (istype(src.ears, /obj/item/weapon/clothing/ears/earmuffs))
+			if (istype(src.ears, /obj/item/clothing/ears/earmuffs))
 				src.ear_damage -= 0.15
 			src.ear_damage = max(src.ear_damage, 0)
 
@@ -362,13 +362,13 @@
 	src.pixel_y = 0
 	src.pixel_x = 0
 	var/add_weight = 0
-	if (istype(src.l_hand, /obj/item/weapon/grab))
+	if (istype(src.l_hand, /obj/item/grab))
 		add_weight += 1250000.0
-	if (istype(src.r_hand, /obj/item/weapon/grab))
+	if (istype(src.r_hand, /obj/item/grab))
 		add_weight += 1250000.0
-	if (locate(/obj/item/weapon/grab, src.grabbed_by))
+	if (locate(/obj/item/grab, src.grabbed_by))
 		var/a_grabs = 0
-		for(var/obj/item/weapon/grab/G in src.grabbed_by)
+		for(var/obj/item/grab/G in src.grabbed_by)
 			G.process()
 			if (G)
 				if (G.state > 1)
@@ -391,22 +391,22 @@
 			src.weight = add_weight + 2500000.0
 		else
 			src.weight = add_weight + 1250000.0
-	if ((src.sdisabilities & 1 || istype(src.glasses, /obj/item/weapon/clothing/glasses/blindfold)))
+	if ((src.sdisabilities & 1 || istype(src.glasses, /obj/item/clothing/glasses/blindfold)))
 		src.blinded = 1
-	if ((src.sdisabilities & 4 || istype(src.ears, /obj/item/weapon/clothing/ears/earmuffs)))
+	if ((src.sdisabilities & 4 || istype(src.ears, /obj/item/clothing/ears/earmuffs)))
 		src.ear_deaf = 1
 	if (src.eye_blurry > 0)
 		src.eye_blurry--
 		src.eye_blurry = max(0, src.eye_blurry)
 	if (src.client)
 		src.client.screen -= main_hud1.g_dither
-		if (src.stat != 2 && istype(src.wear_mask, /obj/item/weapon/clothing/mask/gasmask))
+		if (src.stat != 2 && istype(src.wear_mask, /obj/item/clothing/mask/gasmask))
 			src.client.screen += main_hud1.g_dither
-		if (istype(src.glasses, /obj/item/weapon/clothing/glasses/meson))
+		if (istype(src.glasses, /obj/item/clothing/glasses/meson))
 			src.sight |= SEE_TURFS
 			src.see_in_dark = 3
 			src.see_invisible = 0
-		else if (istype(src.glasses, /obj/item/weapon/clothing/glasses/thermal))
+		else if (istype(src.glasses, /obj/item/clothing/glasses/thermal))
 			src.sight |= SEE_MOBS
 			src.see_in_dark = 4
 			src.see_invisible = 2
@@ -483,7 +483,7 @@
 				src.blind.layer = 18
 			else
 				src.blind.layer = 0
-				if ((src.disabilities & 1 && !( istype(src.glasses, /obj/item/weapon/clothing/glasses/regular) )))
+				if ((src.disabilities & 1 && !( istype(src.glasses, /obj/item/clothing/glasses/regular) )))
 					src.client.screen -= src.hud_used.vimpaired
 					src.client.screen += src.hud_used.vimpaired
 				else

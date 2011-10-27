@@ -66,33 +66,33 @@ datum/hSB
 						P.wear_suit.loc = P.loc
 						P.wear_suit.layer = initial(P.wear_suit.layer)
 						P.wear_suit = null
-					P.wear_suit = new/obj/item/weapon/clothing/suit/sp_suit(P)
+					P.wear_suit = new/obj/item/clothing/suit/sp_suit(P)
 					P.wear_suit.layer = 20
 					if(P.head)
 						P.head.loc = P.loc
 						P.head.layer = initial(P.head.layer)
 						P.head = null
-					P.head = new/obj/item/weapon/clothing/head/s_helmet(P)
+					P.head = new/obj/item/clothing/head/s_helmet(P)
 					P.head.layer = 20
 					if(P.wear_mask)
 						P.wear_mask.loc = P.loc
 						P.wear_mask.layer = initial(P.wear_mask.layer)
 						P.wear_mask = null
-					P.wear_mask = new/obj/item/weapon/clothing/mask/gasmask(P)
+					P.wear_mask = new/obj/item/clothing/mask/gasmask(P)
 					P.wear_mask.layer = 20
 					if(P.back)
 						P.back.loc = P.loc
 						P.back.layer = initial(P.back.layer)
 						P.back = null
-					P.back = new/obj/item/weapon/tank/jetpack(P)
+					P.back = new/obj/item/tank/jetpack(P)
 					P.back.layer = 20
 					P.internal = P.back
 				if("hsbmetal")
-					var/obj/item/weapon/sheet/hsb = new/obj/item/weapon/sheet/metal
+					var/obj/item/sheet/hsb = new/obj/item/sheet/metal
 					hsb.amount = 50
 					hsb.loc = usr.loc
 				if("hsbglass")
-					var/obj/item/weapon/sheet/hsb = new/obj/item/weapon/sheet/glass
+					var/obj/item/sheet/hsb = new/obj/item/sheet/glass
 					hsb.amount = 50
 					hsb.loc = usr.loc
 				if("hsbairlock")
@@ -126,17 +126,17 @@ datum/hSB
 					var/obj/hsb = new/obj/largetank/water
 					hsb.loc = usr.loc
 				if("hsbtoolbox")
-					var/obj/item/weapon/storage/hsb = new/obj/item/weapon/storage/toolbox
-					for(var/obj/item/weapon/radio/T in hsb)
+					var/obj/item/storage/hsb = new/obj/item/storage/toolbox
+					for(var/obj/item/radio/T in hsb)
 						del(T)
-					new/obj/item/weapon/crowbar (hsb)
+					new/obj/item/crowbar (hsb)
 					hsb.loc = usr.loc
 				if("hsbmedkit")
-					var/obj/item/weapon/storage/firstaid/hsb = new/obj/item/weapon/storage/firstaid/regular
+					var/obj/item/storage/firstaid/hsb = new/obj/item/storage/firstaid/regular
 					hsb.loc = usr.loc
 				if("hsbobj")
 					if(!hsboxspawn) return
-					var/list/hsbitems = typesof(/obj/) - typesof(/obj/examine, /obj/item/weapon/organ, /obj/admins, /obj/mark, /obj/machinery/nuclearbomb, /obj/datacore, /obj/begin, /obj/beam/, /obj/list_container/, /obj/landmark, /obj/manifest, /obj/effects/, /obj/overlay, /obj/point, /obj/screen/, /obj/shut_controller, /obj/portal,  /obj/barrier, /obj/machinery/shuttle,  /obj/bomb, /obj/bullet, /obj/bullet/electrode, /obj/dna, /obj/equip_e, /obj/equip_e/human, /obj/equip_e/monkey, /obj/hud, /obj/item, /obj/item/weapon/assembly/m_i_ptank, /obj/item/weapon/assembly/prox_ignite, /obj/item/weapon/assembly/r_i_ptank, /obj/item/weapon/assembly/time_ignite, /obj/item/weapon/assembly/t_i_ptank, /obj/laser) + typesof(/obj/item/weapon/card)
+					var/list/hsbitems = typesof(/obj/) - typesof(/obj/examine, /obj/item/organ, /obj/admins, /obj/mark, /obj/machinery/nuclearbomb, /obj/datacore, /obj/begin, /obj/beam/, /obj/list_container/, /obj/landmark, /obj/manifest, /obj/effects/, /obj/overlay, /obj/point, /obj/screen/, /obj/shut_controller, /obj/portal,  /obj/barrier, /obj/machinery/shuttle,  /obj/bomb, /obj/bullet, /obj/bullet/electrode, /obj/dna, /obj/equip_e, /obj/equip_e/human, /obj/equip_e/monkey, /obj/hud, /obj/item, /obj/item/assembly/m_i_ptank, /obj/item/assembly/prox_ignite, /obj/item/assembly/r_i_ptank, /obj/item/assembly/time_ignite, /obj/item/assembly/t_i_ptank, /obj/laser) + typesof(/obj/item/card)
 					var/hsbitem = input(usr, "Choose an object to spawn.", "Sandbox:") in hsbitems + "Cancel"
 					if(!(hsbitem == "Cancel"))
 						new hsbitem(usr.loc)

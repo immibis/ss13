@@ -26,13 +26,13 @@ turf/space/New()
 	else
 		step(user.pulling, get_dir(user.pulling.loc, src))
 
-/turf/space/attackby(obj/item/weapon/tile/T as obj, mob/user as mob)
-	if (istype(T, /obj/item/weapon/tile))
+/turf/space/attackby(obj/item/tile/T as obj, mob/user as mob)
+	if (istype(T, /obj/item/tile))
 		T.build(src)
 		T.amount--
 		T.add_fingerprint(user)
 		if (T.amount < 1)
-			user.u_equip(T)
+			user.unequip(T)
 			del(T)
 			return
 

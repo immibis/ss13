@@ -228,7 +228,7 @@ area/turret_protected
 	var/locked = 1
 	req_access = list("access_ai")
 
-/obj/machinery/turretid/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/turretid/attackby(obj/item/W, mob/user)
 	if(stat & BROKEN) return
 	if (istype(user, /mob/ai))
 		return src.attack_hand(user)

@@ -1,4 +1,4 @@
-obj/item/weapon/stamp
+obj/item/stamp
 	icon = 'icons/goonstation/obj/items.dmi'
 	hos/icon_state = "stamp-hos"
 	hop/icon_state = "stamp-hop"

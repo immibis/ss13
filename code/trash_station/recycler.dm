@@ -36,11 +36,11 @@ obj/machinery/recycler
 				var/metal_sheets = round(rand() * total_sheets, 1)
 				var/glass_sheets = total_sheets - metal_sheets
 				if(metal_sheets > 0)
-					var/obj/item/weapon/sheet/metal/metal = new(loc)
+					var/obj/item/sheet/metal/metal = new(loc)
 					step(metal, SOUTH)
 					metal.amount = metal_sheets
 				if(glass_sheets > 0)
-					var/obj/item/weapon/sheet/glass/glass = new(loc)
+					var/obj/item/sheet/glass/glass = new(loc)
 					step(glass, SOUTH)
 					glass.amount = glass_sheets
 				stored_matter -= total_sheets * matter_per_sheet

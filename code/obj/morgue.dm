@@ -64,7 +64,7 @@
 	return
 
 /obj/morgue/attackby(P as obj, mob/user as mob)
-	if (istype(P, /obj/item/weapon/pen))
+	if (istype(P, /obj/item/pen))
 		var/t = input(user, "What would you like the label to be?", text("[]", src.name), null)  as text
 		if (user.equipped() != P)
 			return
@@ -98,7 +98,7 @@
 	return
 
 /obj/m_tray/CheckPass(D as obj)
-	if (istype(D, /obj/item/weapon/dummy))
+	if (istype(D, /obj/item/dummy))
 		return 1
 	else
 		return ..()

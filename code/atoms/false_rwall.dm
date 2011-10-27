@@ -61,10 +61,10 @@
 			user << "\blue The wall slides shut."
 	return
 
-/turf/simulated/wall/false_rwall/attackby(obj/item/weapon/screwdriver/S as obj, mob/user as mob)
+/turf/simulated/wall/false_rwall/attackby(obj/item/screwdriver/S as obj, mob/user as mob)
 	src.add_fingerprint(user)
 	var/known = (user in known_by)
-	if (istype(S, /obj/item/weapon/screwdriver))
+	if (istype(S, /obj/item/screwdriver))
 		//try to disassemble the false wall
 		if (!src.density || prob(prob_opens)) //without this, you can detect a false wall just by going down the line with screwdrivers
 			//if it's already open, you can disassemble it no problem
@@ -87,8 +87,8 @@
 			F.burnt = floorburnt1
 
 			//a false wall turns into a sheet of metal and displaced girders
-			new /obj/item/weapon/sheet/metal(F)
-			new /obj/item/weapon/sheet/metal(F)
+			new /obj/item/sheet/metal(F)
+			new /obj/item/sheet/metal(F)
 			new /obj/d_girders(F)
 			F.buildlinks()
 			F.levelupdate()

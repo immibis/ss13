@@ -3,8 +3,8 @@ world/New()
 	spawn(10)
 		var/l_path = 'icons/goonstation/mob/items_lefthand.dmi'
 		var/l_states = icon_states(l_path)
-		for(var/path in typesof(/obj/item/weapon))
-			var/obj/item/weapon/O = new path()
+		for(var/path in typesof(/obj/item))
+			var/obj/item/O = new path()
 
 			if(!(O.icon_state in icon_states(O.icon)) && O.icon_state)
 				world.log << "[O.icon]:[O.icon_state] does not exist ([path])"

@@ -109,8 +109,8 @@
 	attack_paw(mob/user as mob)
 		return src.attack_hand(user)
 
-	attackby(obj/item/weapon/W, mob/user as mob)
-		if(istype(W, /obj/item/weapon/f_print_scanner))
+	attackby(obj/item/W, mob/user as mob)
+		if(istype(W, /obj/item/f_print_scanner))
 			return
 		return src.attack_hand(user)
 

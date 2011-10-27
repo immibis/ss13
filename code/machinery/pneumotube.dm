@@ -24,7 +24,7 @@ obj/machinery/pneumotube
 			broken = 1
 			updateicon()
 
-	attackby(obj/item/weapon/weldingtool/W, mob/user)
+	attackby(obj/item/weldingtool/W, mob/user)
 		if(istype(W) && W.welding && broken)
 			for(var/mob/M in viewers(user) - user)
 				M.show_message("\blue [user] repairs \the [src].", 1)
@@ -77,7 +77,7 @@ obj/machinery/pneumotube
 	proc/get_random_source_dir()
 		return pick(dir1, dir2)
 
-	proc/receive_item(obj/item/weapon/item, atom/from)
+	proc/receive_item(obj/item/item, atom/from)
 		var/indir = get_dir(src, from)
 		if(indir != dir1 && indir != dir2)
 			if(!item.Move(loc))
@@ -137,15 +137,15 @@ obj/machinery/pneumotube
 		attackby(obj/item, mob/user)
 			if(!istype(item))
 				return
-			if(istype(item, /obj/item/weapon/grab))
-				var/obj/item/weapon/grab/G = item
+			if(istype(item, /obj/item/grab))
+				var/obj/item/grab/G = item
 				send_item(G.affecting, dir)
 				user.drop_item(item)
 			else
 				user.drop_item(item)
 				send_item(item, dir)
 
-		receive_item(obj/item/weapon/item, from)
+		receive_item(obj/item/item, from)
 			var/turf/T = get_step(loc, turn(dir, 180))
 			if(T.isempty())
 				item.Move(T)
@@ -168,7 +168,7 @@ obj/machinery/pneumotube
 		updateicon()
 			icon_state = invisibility ? "merge-f" : "merge"
 
-		receive_item(obj/item/weapon/item, from)
+		receive_item(obj/item/item, from)
 			var/indir = get_dir(src, from)
 			var/outdir = (indir == dir ? pick(turn(dir, -90), turn(dir, 90)) : dir)
 			spawn(4) send_item(item, outdir)
@@ -181,5 +181,5 @@ obj/machinery/pneumotube
 		updateicon()
 			icon_state = invisibility ? "oneway-f" : "oneway"
 
-		receive_item(obj/item/weapon/item, from)
+		receive_item(obj/item/item, from)
 			spawn(4) send_item(item, dir)

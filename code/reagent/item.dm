@@ -1,7 +1,7 @@
 atom
 	var/datum/reagent_container/reagents = null
 
-obj/item/weapon/reagent
+obj/item/reagent
 	var/max_volume = 50
 	var/transfer_size = 50
 	var/default_reagent = null
@@ -28,7 +28,7 @@ obj/item/weapon/reagent
 		if(src in view(usr, 1))
 			usr << "\blue \The [src] contains [reagents.describe()]"
 
-	attackby(obj/item/weapon/reagent/B as obj, mob/user as mob)
+	attackby(obj/item/reagent/B as obj, mob/user as mob)
 
 		if(!istype(B))
 			return ..()

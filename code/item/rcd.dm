@@ -1,4 +1,4 @@
-/obj/item/weapon/rcd
+/obj/item/rcd
 	icon = 'icons/immibis/rcd.dmi'
 	icon_state = "5"
 
@@ -31,7 +31,7 @@
 		overlays += mode_names[mode + 1]
 		icon_state = "[min(5, round(ammo/(MAX_AMMO/5) + 1))]"
 
-	attackby(obj/item/weapon/rcd_ammo/A, mob/user)
+	attackby(obj/item/rcd_ammo/A, mob/user)
 		if(!istype(A))
 			. = ..()
 		else
@@ -106,7 +106,7 @@
 				new /obj/machinery/door/airlock(target)
 				create_sparks(loc, 5)
 
-/obj/item/weapon/rcd_ammo
+/obj/item/rcd_ammo
 	icon = 'icons/immibis/rcd.dmi'
 	icon_state = "ammo"
 

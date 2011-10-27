@@ -27,14 +27,14 @@ obj/machinery/power/monitor
 			return
 		interact(user)
 
-	attackby(obj/item/weapon/W, mob/user as mob)
-		if(istype(W, /obj/item/weapon/card/id))
-			var/obj/item/weapon/card/id/id = W
+	attackby(obj/item/W, mob/user as mob)
+		if(istype(W, /obj/item/card/id))
+			var/obj/item/card/id/id = W
 			if("access_power_remote" in id.access)
 				locked = !locked
 				user << "You [locked ? "lock" : "unlock"] the remote control interface."
 
-		if(istype(W, /obj/item/weapon/card/emag))
+		if(istype(W, /obj/item/card/emag))
 			if(prob(50))
 				locked = !locked
 				user << "You [locked ? "lock" : "unlock"] the remote control interface."

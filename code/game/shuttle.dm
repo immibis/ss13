@@ -132,10 +132,10 @@ obj/machinery/computer/shuttle/escape
 		. = ..()
 		src.verbs -= /obj/machinery/computer/shuttle/verb/take_off
 
-	attackby(var/obj/item/weapon/card/id/W as obj, var/mob/user as mob)
+	attackby(var/obj/item/card/id/W as obj, var/mob/user as mob)
 		if(stat & (BROKEN|NOPOWER))
 			return
-		if ((!( istype(W, /obj/item/weapon/card/id) ) || !( ticker ) || ticker.shuttle_location == shuttle_z || !( user )))
+		if ((!( istype(W, /obj/item/card/id) ) || !( ticker ) || ticker.shuttle_location == shuttle_z || !( user )))
 			return
 		if (!W.access) //no access
 			user << "The access level of [W.registered]\'s card is not high enough. "

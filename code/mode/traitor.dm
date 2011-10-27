@@ -132,38 +132,38 @@
 			freq = freqlist[rand(1, freqlist.len)]
 			// find a radio! toolbox(es), backpack, belt, headset
 			var/loc = ""
-			var/obj/item/weapon/radio/R = null
-			if (!R && istype(killer.l_hand, /obj/item/weapon/storage))
-				var/obj/item/weapon/storage/S = killer.l_hand
+			var/obj/item/radio/R = null
+			if (!R && istype(killer.l_hand, /obj/item/storage))
+				var/obj/item/storage/S = killer.l_hand
 				var/list/L = S.return_inv()
-				for (var/obj/item/weapon/radio/foo in L)
+				for (var/obj/item/radio/foo in L)
 					R = foo
 					loc = "in the [S.name] in your left hand"
 					break
-			if (!R && istype(killer.r_hand, /obj/item/weapon/storage))
-				var/obj/item/weapon/storage/S = killer.r_hand
+			if (!R && istype(killer.r_hand, /obj/item/storage))
+				var/obj/item/storage/S = killer.r_hand
 				var/list/L = S.return_inv()
-				for (var/obj/item/weapon/radio/foo in L)
+				for (var/obj/item/radio/foo in L)
 					R = foo
 					loc = "in the [S.name] in your right hand"
 					break
-			if (!R && istype(killer.back, /obj/item/weapon/storage))
-				var/obj/item/weapon/storage/S = killer.back
+			if (!R && istype(killer.back, /obj/item/storage))
+				var/obj/item/storage/S = killer.back
 				var/list/L = S.return_inv()
-				for (var/obj/item/weapon/radio/foo in L)
+				for (var/obj/item/radio/foo in L)
 					R = foo
 					loc = "in the [S.name] on your back"
 					break
-			if (!R && killer.w_uniform && istype(killer.belt, /obj/item/weapon/radio))
+			if (!R && killer.w_uniform && istype(killer.belt, /obj/item/radio))
 				R = killer.belt
 				loc = "on your belt"
-			if (!R && istype(killer.w_radio, /obj/item/weapon/radio))
+			if (!R && istype(killer.w_radio, /obj/item/radio))
 				R = killer.w_radio
 				loc = "on your head"
 			if (!R)
 				killer << "Unfortunately, the Syndicate wasn't able to get you a radio."
 			else
-				var/obj/item/weapon/syndicate_uplink/T = new /obj/item/weapon/syndicate_uplink(R)
+				var/obj/item/syndicate_uplink/T = new /obj/item/syndicate_uplink(R)
 				R.traitorradio = T
 				R.traitorfreq = freq
 				T.name = R.name
@@ -231,7 +231,7 @@
 	for (var/obj/machinery/computer/communications/comm in world)
 		if (!(comm.stat & (BROKEN | NOPOWER)) && comm.prints_intercept) //it works
 			//only send it to the one on the bridge, because engineers don't need to know and security can just come to the bridge
-			var/obj/item/weapon/paper/intercept = new /obj/item/weapon/paper( comm.loc )
+			var/obj/item/paper/intercept = new /obj/item/paper( comm.loc )
 			intercept.name = "paper- 'Cent. Com. Comm. Intercept Summary'"
 			intercept.info = intercepttext
 
@@ -271,37 +271,37 @@
 			var/list/L = list()
 			if (ticker.killer)
 				L += ticker.killer.contents
-				for(var/obj/item/weapon/storage/S in ticker.killer.contents)
+				for(var/obj/item/storage/S in ticker.killer.contents)
 					L += S.return_inv()
-				for(var/obj/item/weapon/gift/G in ticker.killer.contents)
+				for(var/obj/item/gift/G in ticker.killer.contents)
 					L += G.gift
-					if (istype(G.gift, /obj/item/weapon/storage))
+					if (istype(G.gift, /obj/item/storage))
 						L += G.gift:return_inv()
 
 			traitorwin = 0
 			switch(ticker.theft_obj)
 				if(laser)
-					for(var/obj/item/weapon/gun/energy/laser_gun/O in L)
+					for(var/obj/item/gun/energy/laser_gun/O in L)
 						if (O.charges >= O.maximum_charges)
 							traitorwin = 1
 				if(plasma_bomb)
-					for(var/obj/item/weapon/assembly/r_i_ptank/O in L)
-						var/obj/item/weapon/tank/plasmatank/P = O.part3
+					for(var/obj/item/assembly/r_i_ptank/O in L)
+						var/obj/item/tank/plasma/P = O.part3
 						if ((P.gas.plasma >= 1600000.0 && P.gas:temperature >= 773)) // 500 degrees Celsius
 							traitorwin = 1
-					for(var/obj/item/weapon/assembly/t_i_ptank/O in L)
-						var/obj/item/weapon/tank/plasmatank/P = O.part3
+					for(var/obj/item/assembly/t_i_ptank/O in L)
+						var/obj/item/tank/plasma/P = O.part3
 						if ((P.gas.plasma >= 1600000.0 && P.gas:temperature >= 773))
 							traitorwin = 1
-					for(var/obj/item/weapon/assembly/m_i_ptank/O in L)
-						var/obj/item/weapon/tank/plasmatank/P = O.part3
+					for(var/obj/item/assembly/m_i_ptank/O in L)
+						var/obj/item/tank/plasma/P = O.part3
 						if ((P.gas.plasma >= 1600000.0 && P.gas:temperature >= 773))
 							traitorwin = 1
 				if(hand_tele)
-					for(var/obj/item/weapon/hand_tele/O in L)
+					for(var/obj/item/hand_tele/O in L)
 						traitorwin = 1
 				if(captain_card)
-					for(var/obj/item/weapon/card/id/O in L)
+					for(var/obj/item/card/id/O in L)
 						if(!O.access)
 							break
 						for(var/A in get_all_accesses())
@@ -310,10 +310,10 @@
 						//he's got all the permissions, GOOD JOB
 						traitorwin = 1
 				if(jetpack)
-					for(var/obj/item/weapon/tank/jetpack/O in L)
+					for(var/obj/item/tank/jetpack/O in L)
 						traitorwin = 1
 				if(captain_suit)
-					for(var/obj/item/weapon/clothing/under/darkgreen/O in L)
+					for(var/obj/item/clothing/under/darkgreen/O in L)
 						traitorwin = 1
 		if (obj_sabotage)
 			switch(ticker.sab_target)

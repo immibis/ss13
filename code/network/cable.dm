@@ -36,7 +36,7 @@ var/list/nwnets = new
 				L += C
 		return L
 
-/obj/item/weapon/net_cable_coil
+/obj/item/net_cable_coil
 	name = "cable coil"
 	var/amount = MAXCOIL
 	icon = 'icons/immibis/network.dmi'
@@ -81,18 +81,18 @@ var/list/nwnets = new
 		icon_state = "[d1]-[d2]"
 
 
-/obj/net_cable/attackby(obj/item/weapon/W, mob/user)
+/obj/net_cable/attackby(obj/item/W, mob/user)
 
 	var/turf/T = src.loc
 	if(T.intact)
 		return
 
-	if(istype(W, /obj/item/weapon/wirecutters))
+	if(istype(W, /obj/item/wirecutters))
 
 		if(src.d1)	// 0-X cables are 1 unit, X-X cables are 2 units long
-			new/obj/item/weapon/net_cable_coil(T, 2)
+			new/obj/item/net_cable_coil(T, 2)
 		else
-			new/obj/item/weapon/net_cable_coil(T, 1)
+			new/obj/item/net_cable_coil(T, 1)
 
 		for(var/mob/O in viewers(src, null))
 			O.show_message("\red [user] cuts the cable.", 1)
@@ -100,9 +100,9 @@ var/list/nwnets = new
 		defer_powernet_rebuild = 0		// to fix no-action bug
 		del(src)
 
-	else if(istype(W, /obj/item/weapon/net_cable_coil) && src.type == W:cable_type)
+	else if(istype(W, /obj/item/net_cable_coil) && src.type == W:cable_type)
 
-		var/obj/item/weapon/net_cable_coil/coil = W
+		var/obj/item/net_cable_coil/coil = W
 
 		coil.cable_join(src, user)
 
@@ -114,12 +114,12 @@ var/list/nwnets = new
 			del(src)
 		if(2.0)
 			if (prob(50))
-				new /obj/item/weapon/net_cable_coil(src.loc, src.d1 ? 2 : 1)
+				new /obj/item/net_cable_coil(src.loc, src.d1 ? 2 : 1)
 				del(src)
 
 		if(3.0)
 			if (prob(25))
-				new /obj/item/weapon/net_cable_coil(src.loc, src.d1 ? 2 : 1)
+				new /obj/item/net_cable_coil(src.loc, src.d1 ? 2 : 1)
 				del(src)
 	return
 
@@ -133,23 +133,23 @@ var/list/nwnets = new
 
 // the cable coil object, used for laying cable
 
-/obj/item/weapon/net_cable_coil/New(loc, length = MAXCOIL)
+/obj/item/net_cable_coil/New(loc, length = MAXCOIL)
 	src.amount = length
 	pixel_x = rand(-2,2)
 	pixel_y = rand(-2,2)
 	updateicon()
 	..(loc)
 
-/obj/item/weapon/net_cable_coil/cut/icon_state = "coil2"
+/obj/item/net_cable_coil/cut/icon_state = "coil2"
 
-/obj/item/weapon/net_cable_coil/cut/New(loc)
+/obj/item/net_cable_coil/cut/New(loc)
 	..(loc)
 	src.amount = rand(1,2)
 	pixel_x = rand(-2,2)
 	pixel_y = rand(-2,2)
 	updateicon()
 
-/obj/item/weapon/net_cable_coil/proc/updateicon()
+/obj/item/net_cable_coil/proc/updateicon()
 	if(amount == 1)
 		icon_state = "coil1"
 		name = "cable piece"
@@ -160,7 +160,7 @@ var/list/nwnets = new
 		icon_state = "coil"
 		name = "cable coil"
 
-/obj/item/weapon/net_cable_coil/examine()
+/obj/item/net_cable_coil/examine()
 	set src in view(1)
 
 	if(amount == 1)
@@ -170,8 +170,8 @@ var/list/nwnets = new
 	else
 		usr << "A coil of network cable. There are [amount] lengths of cable in the coil."
 
-/obj/item/weapon/net_cable_coil/attackby(obj/item/weapon/W, mob/user)
-	if( istype(W, /obj/item/weapon/wirecutters) && src.amount > 1)
+/obj/item/net_cable_coil/attackby(obj/item/W, mob/user)
+	if( istype(W, /obj/item/wirecutters) && src.amount > 1)
 		src.amount--
 		new src.type(user.loc, 1)
 		user << "You cut a piece off the cable coil."
@@ -179,7 +179,7 @@ var/list/nwnets = new
 		return
 
 	else if( W.type == src.type )
-		var/obj/item/weapon/net_cable_coil/C = W
+		var/obj/item/net_cable_coil/C = W
 		if(C.amount == MAXCOIL)
 			user << "The coil is too long, you cannot add any more cable to it."
 			return
@@ -199,7 +199,7 @@ var/list/nwnets = new
 			C.updateicon()
 			return
 
-/obj/item/weapon/net_cable_coil/proc/use(var/used)
+/obj/item/net_cable_coil/proc/use(var/used)
 	if(src.amount < used)
 		return 0
 	else if (src.amount == used)
@@ -211,7 +211,7 @@ var/list/nwnets = new
 
 // called when net_cable_coil is clicked on a turf/simulated/floor
 
-/obj/item/weapon/net_cable_coil/proc/turf_place(turf/simulated/floor/F, mob/user)
+/obj/item/net_cable_coil/proc/turf_place(turf/simulated/floor/F, mob/user)
 
 	if(!isturf(user.loc))
 		return
@@ -250,7 +250,7 @@ var/list/nwnets = new
 
 // called when net_cable_coil is click on an installed obj/net_cable
 
-/obj/item/weapon/net_cable_coil/proc/cable_join(obj/net_cable/C, mob/user)
+/obj/item/net_cable_coil/proc/cable_join(obj/net_cable/C, mob/user)
 
 
 	var/turf/U = user.loc

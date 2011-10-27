@@ -3,7 +3,7 @@
 	..()
 	return
 
-/obj/machinery/computer/teleporter/attackby(obj/item/weapon/W)
+/obj/machinery/computer/teleporter/attackby(obj/item/W)
 	src.attack_hand()
 
 /obj/machinery/computer/teleporter/attack_paw()
@@ -18,7 +18,7 @@
 
 	var/list/L = list()
 	var/list/areaindex = list()
-	for(var/obj/item/weapon/radio/beacon/R in world)
+	for(var/obj/item/radio/beacon/R in world)
 		var/turf/T = find_loc(R)
 		if (!T)	continue
 		var/tmpname = T.loc.name
@@ -114,7 +114,7 @@
 	var/active = 0
 	var/engaged = 0
 
-/obj/machinery/teleport/station/attackby(obj/item/weapon/W)
+/obj/machinery/teleport/station/attackby(obj/item/W)
 	src.attack_hand()
 
 /obj/machinery/teleport/station/attack_paw()

@@ -525,7 +525,7 @@ About the new airlock wires panel:
 			usr.machine = src
 			if (href_list["wires"])
 				var/t1 = text2num(href_list["wires"])
-				if (!( istype(usr.equipped(), /obj/item/weapon/wirecutters) ))
+				if (!( istype(usr.equipped(), /obj/item/wirecutters) ))
 					usr << "You need wirecutters!"
 					return
 				if (src.isWireColorCut(t1))
@@ -534,7 +534,7 @@ About the new airlock wires panel:
 					src.cut(t1)
 			else if (href_list["pulse"])
 				var/t1 = text2num(href_list["pulse"])
-				if (!istype(usr.equipped(), /obj/item/weapon/multitool))
+				if (!istype(usr.equipped(), /obj/item/multitool))
 					usr << "You need a multitool!"
 					return
 				if (src.isWireColorCut(t1))
@@ -544,13 +544,13 @@ About the new airlock wires panel:
 					src.pulse(t1)
 			else if(href_list["signaler"])
 				var/wirenum = text2num(href_list["signaler"])
-				if(!istype(usr.equipped(), /obj/item/weapon/radio/signaler))
+				if(!istype(usr.equipped(), /obj/item/radio/signaler))
 					usr << "You need a signaller!"
 					return
 				if(src.isWireColorCut(wirenum))
 					usr << "You can't attach a signaller to a cut wire."
 					return
-				var/obj/item/weapon/radio/signaler/R = usr.equipped()
+				var/obj/item/radio/signaler/R = usr.equipped()
 				if(!R.b_stat)
 					usr << "This radio can't be attached!"
 					return
@@ -564,7 +564,7 @@ About the new airlock wires panel:
 				if(!(src.signalers[wirenum]))
 					usr << "There's no signaller attached to that wire!"
 					return
-				var/obj/item/weapon/radio/signaler/R = src.signalers[wirenum]
+				var/obj/item/radio/signaler/R = src.signalers[wirenum]
 				R.loc = usr.loc
 				R.airlock_wire = null
 				src.signalers[wirenum] = null
@@ -701,8 +701,8 @@ About the new airlock wires panel:
 				return
 
 	src.add_fingerprint(user)
-	if ((istype(C, /obj/item/weapon/weldingtool) && !( src.operating ) && src.density))
-		var/obj/item/weapon/weldingtool/W = C
+	if ((istype(C, /obj/item/weldingtool) && !( src.operating ) && src.density))
+		var/obj/item/weldingtool/W = C
 		if(W.welding)
 			if (W.weldfuel > 2)
 				W.weldfuel -= 2
@@ -715,16 +715,16 @@ About the new airlock wires panel:
 				src.blocked = null
 			src.updateIconState()
 			return
-	else if (istype(C, /obj/item/weapon/screwdriver))
+	else if (istype(C, /obj/item/screwdriver))
 		src.p_open = !( src.p_open )
 		src.updateIconState()
-	else if (istype(C, /obj/item/weapon/wirecutters))
+	else if (istype(C, /obj/item/wirecutters))
 		return src.attack_hand(user)
-	else if (istype(C, /obj/item/weapon/multitool))
+	else if (istype(C, /obj/item/multitool))
 		return src.attack_hand(user)
-	else if (istype(C, /obj/item/weapon/radio/signaler))
+	else if (istype(C, /obj/item/radio/signaler))
 		return src.attack_hand(user)
-	else if (istype(C, /obj/item/weapon/crowbar))
+	else if (istype(C, /obj/item/crowbar))
 		if ((src.density) && (!( src.blocked ) && !( src.operating ) && ((!src.arePowerSystemsOn()) || (stat & NOPOWER)) && !( src.locked )))
 			spawn( 0 )
 				src.operating = 1

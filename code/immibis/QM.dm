@@ -42,74 +42,155 @@
 			O.loc = src
 
 	metal_50
-		start_items = list(/obj/item/weapon/sheet/metal)
+		start_items = list(/obj/item/sheet/metal)
 		name = "50 Metal Sheets"
 	metal_100
-		start_items = list(/obj/item/weapon/sheet/metal,/obj/item/weapon/sheet/metal)
+		start_items = list(/obj/item/sheet/metal,/obj/item/sheet/metal)
 		name = "100 Metal Sheets"
 	metal_200
-		start_items = list(/obj/item/weapon/sheet/metal,/obj/item/weapon/sheet/metal,/obj/item/weapon/sheet/metal,/obj/item/weapon/sheet/metal)
+		start_items = list(/obj/item/sheet/metal,/obj/item/sheet/metal,/obj/item/sheet/metal,/obj/item/sheet/metal)
 		name = "200 Metal Sheets"
 	glass_50
-		start_items = list(/obj/item/weapon/sheet/glass)
+		start_items = list(/obj/item/sheet/glass)
 		name = "50 Glass Sheets"
 	glass_100
-		start_items = list(/obj/item/weapon/sheet/glass,/obj/item/weapon/sheet/glass)
+		start_items = list(/obj/item/sheet/glass,/obj/item/sheet/glass)
 		name = "100 Glass Sheets"
 	glass_200
-		start_items = list(/obj/item/weapon/sheet/glass,/obj/item/weapon/sheet/glass,/obj/item/weapon/sheet/glass,/obj/item/weapon/sheet/glass)
+		start_items = list(/obj/item/sheet/glass,/obj/item/sheet/glass,/obj/item/sheet/glass,/obj/item/sheet/glass)
 		name = "200 Glass Sheets"
 	internals
 		start_items = list(
-			/obj/item/weapon/tank/oxygentank,
-			/obj/item/weapon/tank/oxygentank,
-			/obj/item/weapon/tank/oxygentank,
-			/obj/item/weapon/clothing/mask/gasmask,
-			/obj/item/weapon/clothing/mask/gasmask,
-			/obj/item/weapon/clothing/mask/gasmask)
+			/obj/item/tank/oxygen,
+			/obj/item/tank/oxygen,
+			/obj/item/tank/oxygen,
+			/obj/item/clothing/mask/gasmask,
+			/obj/item/clothing/mask/gasmask,
+			/obj/item/clothing/mask/gasmask)
 		name = "Internals Crate"
 		icon_state = "o2crate"
 	engineering
 		start_items = list(
-			/obj/item/weapon/storage/toolbox/mechanical,
-			/obj/item/weapon/storage/toolbox/mechanical,
-			/obj/item/weapon/storage/toolbox/mechanical,
-			/obj/item/weapon/storage/toolbox/electrical,
-			/obj/item/weapon/storage/toolbox/electrical,
-			/obj/item/weapon/storage/toolbox/electrical,
-			/obj/item/weapon/clothing/gloves/yellow,
-			/obj/item/weapon/clothing/gloves/yellow,
-			/obj/item/weapon/clothing/gloves/yellow)
+			/obj/item/storage/toolbox/mechanical,
+			/obj/item/storage/toolbox/mechanical,
+			/obj/item/storage/toolbox/mechanical,
+			/obj/item/storage/toolbox/electrical,
+			/obj/item/storage/toolbox/electrical,
+			/obj/item/storage/toolbox/electrical,
+			/obj/item/clothing/gloves/yellow,
+			/obj/item/clothing/gloves/yellow,
+			/obj/item/clothing/gloves/yellow)
 		name = "Engineering Crate"
 	medical
 		name = "Medical Crate"
 		icon_state = "medicalcrate"
 		start_items = list(
-			/obj/item/weapon/reagent/bottle/sleep_toxin,
-			/obj/item/weapon/reagent/bottle/sleep_toxin,
-			/obj/item/weapon/reagent/bottle/sleep_toxin,
-			/obj/item/weapon/reagent/bottle/inaprovaline,
-			/obj/item/weapon/reagent/bottle/inaprovaline,
-			/obj/item/weapon/reagent/bottle/inaprovaline,
-			/obj/item/weapon/reagent/bottle/antitoxin,
-			/obj/item/weapon/reagent/bottle/antitoxin,
-			/obj/item/weapon/reagent/bottle/antitoxin,
-			/obj/item/weapon/storage/syringe,
-			/obj/item/weapon/storage/firstaid/fire,
-			/obj/item/weapon/storage/firstaid/toxin,
-			/obj/item/weapon/storage/firstaid/regular)
+			/obj/item/reagent/bottle/sleep_toxin,
+			/obj/item/reagent/bottle/sleep_toxin,
+			/obj/item/reagent/bottle/sleep_toxin,
+			/obj/item/reagent/bottle/inaprovaline,
+			/obj/item/reagent/bottle/inaprovaline,
+			/obj/item/reagent/bottle/inaprovaline,
+			/obj/item/reagent/bottle/antitoxin,
+			/obj/item/reagent/bottle/antitoxin,
+			/obj/item/reagent/bottle/antitoxin,
+			/obj/item/storage/syringe,
+			/obj/item/storage/firstaid/fire,
+			/obj/item/storage/firstaid/toxin,
+			/obj/item/storage/firstaid/regular)
 
 	food
 		name = "Food Crate"
+		start_items = list(
+			/obj/item/storage/bacon,
+			/obj/item/storage/eggs,
+			/obj/item/storage/eggs,
+			/obj/item/food/fish,
+			/obj/item/food/fish,
+			/obj/item/food/fish,
+			/obj/item/food/fish,
+			/obj/item/food/synthmeat,
+			/obj/item/food/synthmeat,
+			/obj/item/food/synthmeat,
+			/obj/item/food/synthmeat,
+			/obj/item/food/synthmeat,
+			/obj/item/reagent/drink/space_milk,
+			/obj/item/reagent/drink/space_milk,
+			/obj/item/food/cheese,
+			/obj/item/food/cheese,
+			/obj/item/food/cheese,
+			/obj/item/food/cheese,
+			/obj/item/food/cheese,
+			/obj/item/food/oatmeal,
+			/obj/item/food/oatmeal,
+			/obj/item/food/oatmeal,
+			/obj/item/food/oatmeal,
+			/obj/item/reagent/bag/sugar,
+			/obj/item/reagent/bag/sugar,
+			/obj/item/reagent/bag/sugar,
+			/obj/item/reagent/bag/sugar,
+			/obj/item/reagent/bag/sugar,
+			/obj/item/reagent/bag/flour,
+			/obj/item/reagent/bag/flour,
+			/obj/item/reagent/bag/flour,
+			/obj/item/reagent/bag/flour,
+			/obj/item/reagent/bag/flour)
 	janitorial
 		name = "Janitorial Crate"
+		start_items = list(
+			/obj/bucket/mop_bucket,
+			/obj/item/mop,
+			/obj/item/reagent/spraybottle/space_cleaner,
+			/obj/item/grenade/reagent/cleaning,
+			/obj/item/grenade/reagent/cleaning,
+			/obj/item/grenade/reagent/cleaning,
+			/obj/item/bucket,
+			/obj/item/bucket,
+			/obj/item/bucket,
+			/obj/item/sign/wet_floor,
+			/obj/item/sign/wet_floor,
+			/obj/item/sign/wet_floor)
 	hydroponics
 		name = "Hydroponics Crate"
+		start_items = list(
+			/obj/plant_pot,
+			/obj/plant_pot,
+			/obj/item/plant_analyzer,
+			/obj/item/plant_analyzer,
+			/obj/item/reagent/bottle/weedkiller,
+			/obj/item/reagent/bottle/weedkiller,
+			/obj/item/reagent/bottle/weedkiller,
+			/obj/item/reagent/bag/compost,
+			/obj/item/reagent/bag/compost,
+			/obj/item/reagent/bag/compost,
+			/obj/item/reagent/bag/compost,
+			/obj/item/reagent/watering_can,
+			/obj/item/reagent/watering_can)
+
 	assembly
+		// locked to Zeta/research staff
 		name = "Plasma Assembly Crate"
 		icon_state = "plasmacrate"
 		locked = 1
 		lockable = 1
+		start_items = list(
+			/obj/item/device/trigger/timer,
+			/obj/item/device/trigger/timer,
+			/obj/item/device/trigger/timer,
+			/obj/item/device/trigger/proximity,
+			/obj/item/device/trigger/proximity,
+			/obj/item/device/trigger/proximity,
+			/obj/item/device/trigger/radio,
+			/obj/item/device/trigger/radio,
+			/obj/item/device/trigger/radio,
+			/obj/item/device/trigger/radio,
+			/obj/item/device/trigger/radio,
+			/obj/item/device/igniter,
+			/obj/item/device/igniter,
+			/obj/item/device/igniter,
+			/obj/item/tank/plasma,
+			/obj/item/tank/plasma,
+			/obj/item/tank/plasma)
 	weapons
 		icon_state = "weaponcrate"
 		name = "Weapons Crate"
@@ -122,8 +203,8 @@
 		lockable = 1
 	emergency
 		name = "Emergency Equipment Crate"
-		start_items = list(/obj/item/weapon/tank/oxygentank, /obj/item/weapon/tank/oxygentank, /obj/item/weapon/tank/oxygentank,
-			/obj/item/weapon/clothing/mask/gasmask, /obj/item/weapon/clothing/mask/gasmask, /obj/item/weapon/clothing/mask/gasmask,
+		start_items = list(/obj/item/tank/oxygen, /obj/item/tank/oxygen, /obj/item/tank/oxygen,
+			/obj/item/clothing/mask/gasmask, /obj/item/clothing/mask/gasmask, /obj/item/clothing/mask/gasmask,
 			/*  /obj/aibot/floorbot*/)
 	party
 		name = "Party Equipment Crate"
@@ -146,10 +227,10 @@ var/list/QM_crates = list(
 	list("100 Glass Sheets", /obj/crate/qm/glass_100, 1000),
 	list("200 Glass Sheets", /obj/crate/qm/glass_200, 2000),
 	list("Internals", /obj/crate/qm/internals, 500),
-	list("Food. NOT IMPLEMENTED", /obj/crate/qm/food, 250),
+	list("Food", /obj/crate/qm/food, 250),
 	list("Engineering", /obj/crate/qm/engineering, 1000),
 	list("Medical", /obj/crate/qm/medical, 1000),
-	list("Janitorial. NOT IMPLEMENTED", /obj/crate/qm/janitorial, 500),
+	list("Janitorial", /obj/crate/qm/janitorial, 500),
 	list("Hydroponics. NOT IMPLEMENTED", /obj/crate/qm/hydroponics, 500),
 	list("Plasma Assembly. NOT IMPLEMENTED", /obj/crate/qm/assembly, 500),
 	list("Weapons. NOT IMPLEMENTED", /obj/crate/qm/weapons, 5000),

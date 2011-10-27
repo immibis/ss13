@@ -72,7 +72,7 @@ obj/machinery/computer/engine
 					src.temp = "Eject Engine?<BR><BR><B><A href='?src=\ref[src];eject2=1'>\[Swipe ID to initiate eject sequence\]</A></B><BR><A href='?src=\ref[src];temp=1'>Cancel</A>"
 
 			else if (href_list["eject2"] && can_eject)
-				var/obj/item/weapon/card/id/I = usr.equipped()
+				var/obj/item/card/id/I = usr.equipped()
 				if (istype(I))
 					if(src.check_access(I))
 						if (engine_eject_control.status == 0)

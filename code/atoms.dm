@@ -150,13 +150,13 @@
 	var/lastKnownIP = null
 	var/obj/stool/chair/buckled = null
 	var/obj/dna/primary = null
-	var/obj/item/weapon/handcuffs/handcuffed = null
-	var/obj/item/weapon/l_hand = null
-	var/obj/item/weapon/r_hand = null
-	var/obj/item/weapon/back = null
-	var/obj/item/weapon/tank/internal = null
-	var/obj/item/weapon/storage/s_active = null
-	var/obj/item/weapon/clothing/mask/wear_mask = null
+	var/obj/item/handcuffs/handcuffed = null
+	var/obj/item/l_hand = null
+	var/obj/item/r_hand = null
+	var/obj/item/back = null
+	var/obj/item/tank/internal = null
+	var/obj/item/storage/s_active = null
+	var/obj/item/clothing/mask/wear_mask = null
 	var/obj/screen/throw_icon = null
 	var/obj/screen/flash = null
 	var/obj/screen/blind = null
@@ -226,18 +226,18 @@
 	var/s_tone = 0.0
 	var/age = 30.0
 	var/b_type = "A+"
-	var/obj/item/weapon/clothing/suit/wear_suit = null
-	var/obj/item/weapon/clothing/under/w_uniform = null
-	var/obj/item/weapon/radio/w_radio = null
-	var/obj/item/weapon/clothing/shoes/shoes = null
-	var/obj/item/weapon/belt = null
-	var/obj/item/weapon/clothing/gloves/gloves = null
-	var/obj/item/weapon/clothing/glasses/glasses = null
-	var/obj/item/weapon/clothing/head/head = null
-	var/obj/item/weapon/clothing/ears/ears = null
-	var/obj/item/weapon/card/id/wear_id = null
-	var/obj/item/weapon/r_store = null
-	var/obj/item/weapon/l_store = null
+	var/obj/item/clothing/suit/wear_suit = null
+	var/obj/item/clothing/under/w_uniform = null
+	var/obj/item/radio/w_radio = null
+	var/obj/item/clothing/shoes/shoes = null
+	var/obj/item/belt = null
+	var/obj/item/clothing/gloves/gloves = null
+	var/obj/item/clothing/glasses/glasses = null
+	var/obj/item/clothing/head/head = null
+	var/obj/item/clothing/ears/ears = null
+	var/obj/item/card/id/wear_id = null
+	var/obj/item/r_store = null
+	var/obj/item/l_store = null
 	var/icon/stand_icon = null
 	var/icon/lying_icon = null
 	var/now_pushing = null
@@ -338,7 +338,7 @@
 	icon = 'icons/ss13/weap_sat.dmi'
 	icon_state = "laser"
 	var/obj/beam/i_beam/next = null
-	var/obj/item/weapon/infra/master = null
+	var/obj/item/infra/master = null
 	var/limit = null
 	var/visible = 0.0
 	var/left = null
@@ -456,131 +456,109 @@
 	opacity = 0
 	density = 0
 
-
-/obj/item
-	name = "item"
-	var/w_class = 3.0
-/obj/item/weapon
-	name = "weapon"
-	icon = 'icons/goonstation/obj/items.dmi'
-	var/abstract = 0.0
-	var/force = null
-	var/s_istate = null
-	var/damtype = "brute"
-	var/throwforce = null
-	var/r_speed = 1.0
-	var/health = null
-	var/burn_point = null
-	var/burning = null
-	var/obj/item/weapon/master = null
-	flags = FPRINT | TABLEPASS
-	weight = 500000.0
-	New()
-		. = ..()
-		weight = w_class * 100000.0
-/obj/item/weapon/a_gift
+/obj/item/a_gift
 	name = "Gift"
 	icon_state = "gift"
 	s_istate = "gift"
 	weight = 1.0E7
-/obj/item/weapon/ammo
+/obj/item/ammo
 	name = "ammo"
 	icon = 'icons/ss13/ammo.dmi'
 	var/amount_left = 0.0
 	s_istate = "syringe_kit"
-/obj/item/weapon/ammo/a357
+/obj/item/ammo/a357
 	desc = "There are 7 bullets left!"
 	name = "ammo-357"
 	icon_state = "357-7"
 	amount_left = 7.0
-/obj/item/weapon/analyzer
+/obj/item/analyzer
 	desc = "A hand-held environmental scanner which reports current gas levels."
 	name = "analyzer"
 	icon_state = "analyzer"
 	w_class = 2.0
-/obj/item/weapon/assembly
+/obj/item/assembly
 	name = "assembly"
 	icon = 'icons/ss13/assemblies.dmi'
 	s_istate = "assembly"
 	w_class = 3.0
 	var/status = 0.0
 
-/obj/item/weapon/assembly/m_i_ptank
+/obj/item/assembly/m_i_ptank
 	desc = "A very intricate igniter and proximity sensor electrical assembly mounted onto top of a plasma tank."
 	name = "Proximity/Igniter/Plasma Tank Assembly"
 	icon_state = "m_i_ptank0"
-	var/obj/item/weapon/prox_sensor/part1 = null
-	var/obj/item/weapon/igniter/part2 = null
-	var/obj/item/weapon/tank/plasmatank/part3 = null
+	var/obj/item/prox_sensor/part1 = null
+	var/obj/item/igniter/part2 = null
+	var/obj/item/tank/plasma/part3 = null
 	status = 0.0
-/obj/item/weapon/assembly/prox_ignite
+/obj/item/assembly/prox_ignite
 	name = "Proximity/Igniter Assembly"
 	desc = "A proximity-activated igniter assembly."
 	icon_state = "prox_igniter0"
-	var/obj/item/weapon/prox_sensor/part1 = null
-	var/obj/item/weapon/igniter/part2 = null
+	var/obj/item/prox_sensor/part1 = null
+	var/obj/item/igniter/part2 = null
 	status = null
-/obj/item/weapon/assembly/r_i_ptank
+/obj/item/assembly/r_i_ptank
 	desc = "A very intricate igniter and signaller electrical assembly mounted onto top of a plasma tank."
 	name = "Radio/Igniter/Plasma Tank Assembly"
 	icon_state = "r_i_ptank"
-	var/obj/item/weapon/radio/signaler/part1 = null
-	var/obj/item/weapon/igniter/part2 = null
-	var/obj/item/weapon/tank/plasmatank/part3 = null
+	var/obj/item/radio/signaler/part1 = null
+	var/obj/item/igniter/part2 = null
+	var/obj/item/tank/plasma/part3 = null
 	status = 0.0
-/obj/item/weapon/assembly/time_ignite
+/obj/item/assembly/time_ignite
 	name = "Timer/Igniter Assembly"
 	desc = "A timer-activated igniter assembly."
 	icon_state = "time_igniter0"
-	var/obj/item/weapon/timer/part1 = null
-	var/obj/item/weapon/igniter/part2 = null
+	var/obj/item/timer/part1 = null
+	var/obj/item/igniter/part2 = null
 	status = null
 	s_istate = "electronic"
-/obj/item/weapon/assembly/t_i_ptank
+/obj/item/assembly/t_i_ptank
 	desc = "A very intricate igniter and timer assembly mounted onto top of a plasma tank."
 	name = "Timer/Igniter/Plasma Tank Assembly"
 	icon_state = "t_i_ptank0"
-	var/obj/item/weapon/timer/part1 = null
-	var/obj/item/weapon/igniter/part2 = null
-	var/obj/item/weapon/tank/plasmatank/part3 = null
+	var/obj/item/timer/part1 = null
+	var/obj/item/igniter/part2 = null
+	var/obj/item/tank/plasma/part3 = null
 	status = 0.0
-/obj/item/weapon/assembly/rad_ignite
+/obj/item/assembly/rad_ignite
 	name = "Radio/Igniter Assembly"
 	desc = "A radio-activated igniter assembly."
 	icon_state = "rad_igniter"
-	var/obj/item/weapon/radio/signaler/part1 = null
-	var/obj/item/weapon/igniter/part2 = null
+	var/obj/item/radio/signaler/part1 = null
+	var/obj/item/igniter/part2 = null
 	status = null
-/obj/item/weapon/assembly/rad_infra
+/obj/item/assembly/rad_infra
 	name = "Signaller/Infrared Assembly"
 	desc = "An infrared-activated radio signaller"
 	icon_state = "infrared0"
-	var/obj/item/weapon/radio/signaler/part1 = null
-	var/obj/item/weapon/infra/part2 = null
+	var/obj/item/radio/signaler/part1 = null
+	var/obj/item/infra/part2 = null
 	status = null
-/obj/item/weapon/assembly/rad_prox
+/obj/item/assembly/rad_prox
 	name = "Signaller/Prox Sensor Assembly"
 	desc = "A proximity-activated radio signaller."
 	icon_state = "motion0"
-	var/obj/item/weapon/radio/signaler/part1 = null
-	var/obj/item/weapon/prox_sensor/part2 = null
+	var/obj/item/radio/signaler/part1 = null
+	var/obj/item/prox_sensor/part2 = null
 	status = null
-/obj/item/weapon/assembly/rad_time
+/obj/item/assembly/rad_time
 	name = "Signaller/Timer Assembly"
 	desc = "A radio signaller activated by a count-down timer."
 	icon_state = "time_sig"
-	var/obj/item/weapon/radio/signaler/part1 = null
-	var/obj/item/weapon/timer/part2 = null
+	var/obj/item/radio/signaler/part1 = null
+	var/obj/item/timer/part2 = null
 	status = null
-/obj/item/weapon/assembly/shock_kit
+/obj/item/assembly/shock_kit
 	name = "Shock Kit"
 	icon_state = "shock_kit"
-	var/obj/item/weapon/clothing/head/helmet/part1 = null
-	var/obj/item/weapon/radio/electropack/part2 = null
+	var/obj/item/clothing/head/helmet/part1 = null
+	var/obj/item/radio/electropack/part2 = null
 	status = 0.0
 	w_class = 5.0
 
-/obj/item/weapon/baton
+/obj/item/baton
 	name = "Stun Baton"
 	desc = "A stun baton for hitting people with."
 	icon = 'icons/ss13/stun_baton.dmi'
@@ -590,13 +568,13 @@
 	throwforce = 7
 	w_class = 3
 
-/obj/item/weapon/bedsheet
+/obj/item/bedsheet
 	name = "bedsheet"
 	icon = 'icons/ss13/Icons.dmi'
 	icon_state = "sheet"
 	layer = 4.0
 	s_istate = "w_suit"
-/obj/item/weapon/brutepack
+/obj/item/brutepack
 	name = "Bruise Pack"
 	desc = "A pack designed to treat blunt-force trauma."
 	icon_state = "brutepack"
@@ -604,43 +582,43 @@
 	w_class = 1.0
 	throw_speed = 4
 	throw_range = 20
-/obj/item/weapon/c_tube
+/obj/item/c_tube
 	name = "Cardboard tube"
 	icon_state = "c_tube"
-/obj/item/weapon/camera
+/obj/item/camera
 	name = "camera"
 	icon_state = "camera"
 	var/last_pic = 1.0
 	s_istate = "wrench"
 	w_class = 2.0
-/obj/item/weapon/card
+/obj/item/card
 	name = "card"
 	w_class = 1.0
 
 	var/list/files = list(  )
 
-/obj/item/weapon/card/data
+/obj/item/card/data
 	name = "Data Disk"
 	icon_state = "card-data"
 	var/function = "storage"
 	var/data = "null"
 	var/special = null
 	s_istate = "card-id"
-/obj/item/weapon/card/emag
+/obj/item/card/emag
 	desc = "It's a card with a magnetic strip attached to some circuitry."
 	name = "emag"
 	icon_state = "emag-card"
 	s_istate = "card-id"
-/obj/item/weapon/card/id
+/obj/item/card/id
 	name = "Identification Card"
 	icon_state = "card-id"
 	var/access = list()
 	var/registered = null
 	var/assignment = null
-/obj/item/weapon/card/id/syndicate
+/obj/item/card/id/syndicate
 	name = "Syndicate Card"
 
-/obj/item/weapon/card/id/captains_spare
+/obj/item/card/id/captains_spare
 	name = "Captain's spare ID"
 	icon_state = "card-id"
 	registered = "Captain"
@@ -648,12 +626,12 @@
 	New()
 		access = get_access("Captain")
 		..()
-/obj/item/weapon/clipboard
+/obj/item/clipboard
 	name = "clipboard"
 	icon_state = "clipboard00"
-	var/obj/item/weapon/pen/pen = null
+	var/obj/item/pen/pen = null
 	s_istate = "clipboard"
-/obj/item/weapon/cloaking_device
+/obj/item/cloaking_device
 	name = "cloaking device"
 	icon_state = "shield0"
 	var/active = 0.0
@@ -662,7 +640,7 @@
 	throw_speed = 1
 	throw_range = 5
 	w_class = 2.0
-/obj/item/weapon/clothing
+/obj/item/clothing
 	name = "clothing"
 	var/a_filter = 0.0
 	var/fb_filter = 0.0
@@ -672,48 +650,48 @@
 	var/color = null
 	var/brute_protect = 0
 	var/fire_protect = 0
-/obj/item/weapon/clothing/ears
+/obj/item/clothing/ears
 	name = "ears"
 	w_class = 2.0
-/obj/item/weapon/clothing/ears/earmuffs
+/obj/item/clothing/ears/earmuffs
 	name = "earmuffs"
 	icon_state = "earmuffs"
 	s_fire = 1.875E7
 	s_istate = "earmuffs"
-/obj/item/weapon/clothing/glasses
+/obj/item/clothing/glasses
 	name = "glasses"
 	w_class = 2.0
 	flags = GLASSESCOVERSEYES
 	s_fire = 7.5E7
 	icon = 'icons/goonstation/obj/clothing/glasses.dmi'
-/obj/item/weapon/clothing/glasses/blindfold
+/obj/item/clothing/glasses/blindfold
 	name = "blindfold"
 	icon_state = "blindfold"
 	s_istate = "blindfold"
-/obj/item/weapon/clothing/glasses/meson
+/obj/item/clothing/glasses/meson
 	name = "Optical Meson Scanner"
 	icon_state = "meson"
 	s_istate = "glasses"
-/obj/item/weapon/clothing/glasses/regular
+/obj/item/clothing/glasses/regular
 	name = "Prescription Glasses"
 	icon_state = "glasses"
 	s_istate = "glasses"
-/obj/item/weapon/clothing/glasses/sunglasses
+/obj/item/clothing/glasses/sunglasses
 	desc = "Strangely ancient technology used to help provide rudimentary eye cover. Enhanced shielding blocks many flashes."
 	name = "Sunglasses"
 	icon_state = "sun"
 	s_istate = "glasses"
-/obj/item/weapon/clothing/glasses/thermal
+/obj/item/clothing/glasses/thermal
 	name = "Optical Thermal Scanner"
 	icon_state = "thermal"
 	s_istate = "glasses"
-/obj/item/weapon/clothing/gloves
+/obj/item/clothing/gloves
 	name = "gloves"
 	w_class = 2.0
 	s_fire = 1.875E7
 	var/elec_protect = 1
 	icon = 'icons/goonstation/obj/clothing/gloves.dmi'
-/obj/item/weapon/clothing/gloves/black
+/obj/item/clothing/gloves/black
 	desc = "These gloves are somewhat fire-resistant."
 	name = "Black Gloves"
 	icon_state = "black"
@@ -721,13 +699,13 @@
 	h_filter = 4.0
 	s_fire = 7.5E7
 	fire_protect = 16
-/obj/item/weapon/clothing/gloves/latex
+/obj/item/clothing/gloves/latex
 	name = "Latex Gloves"
 	icon_state = "latex"
 	s_istate = "lgloves"
 	h_filter = 5.0
 	elec_protect = 2
-/obj/item/weapon/clothing/gloves/robot
+/obj/item/clothing/gloves/robot
 	desc = "These gloves are somewhat fire-resistant."
 	name = "Robot Gloves"
 	icon_state = "r_hands"
@@ -735,7 +713,7 @@
 	h_filter = 4.0
 	fire_protect = 16
 	elec_protect = 0
-/obj/item/weapon/clothing/gloves/swat
+/obj/item/clothing/gloves/swat
 	desc = "These gloves are somewhat fire-resistant."
 	name = "SWAT Gloves"
 	icon_state = "swat_gl"
@@ -745,7 +723,7 @@
 	brute_protect = 16
 	elec_protect = 2
 
-/obj/item/weapon/clothing/gloves/yellow
+/obj/item/clothing/gloves/yellow
 	desc = "These gloves are electrically insulated."
 	name = "insulated gloves"
 	icon_state = "yellow"
@@ -755,10 +733,10 @@
 	elec_protect = 10
 
 
-/obj/item/weapon/clothing/head
+/obj/item/clothing/head
 	name = "head"
 	icon = 'icons/goonstation/obj/clothing/hats.dmi'
-/obj/item/weapon/clothing/head/bio_hood
+/obj/item/clothing/head/bio_hood
 	name = "bio hood"
 	icon_state = "bio"
 	s_istate = "bio_hood"
@@ -767,7 +745,7 @@
 	see_face = 0.0
 	s_fire = 1.875E7
 	fire_protect = 1
-/obj/item/weapon/clothing/head/helmet
+/obj/item/clothing/head/helmet
 	name = "helmet"
 	icon_state = "helmet"
 	flags = FPRINT|TABLEPASS|SUITSPACE|HEADCOVERSEYES
@@ -775,7 +753,7 @@
 	s_fire = 6.75E7
 	fire_protect = 1
 	brute_protect = 1
-/obj/item/weapon/clothing/head/s_helmet
+/obj/item/clothing/head/s_helmet
 	name = "space helmet"
 	icon_state = "space"
 	flags = FPRINT|TABLEPASS|HEADSPACE|HEADCOVERSEYES|HEADCOVERSMOUTH
@@ -783,17 +761,17 @@
 	s_istate = "s_helmet"
 	s_fire = 5.625E7
 	fire_protect = 1
-/obj/item/weapon/clothing/head/helmet/swat_hel
+/obj/item/clothing/head/helmet/swat_hel
 	name = "swat hel"
 	icon_state = "swat"
 	flags = FPRINT|TABLEPASS|SUITSPACE|HEADSPACE|HEADCOVERSEYES
 	s_istate = "swat_hel"
-/obj/item/weapon/clothing/head/wig
+/obj/item/clothing/head/wig
 	name = "wig"
-/obj/item/weapon/clothing/mask
+/obj/item/clothing/mask
 	name = "mask"
 	icon = 'icons/goonstation/obj/clothing/masks.dmi'
-/obj/item/weapon/clothing/mask/gasmask
+/obj/item/clothing/mask/gasmask
 	name = "gasmask"
 	desc = "A close-fitting mask that can filter some environmental toxins or be connected to an air supply."
 	icon_state = "gas_mask"
@@ -805,7 +783,7 @@
 	s_istate = "gas_mask"
 	s_fire = 7.5E7
 	fire_protect = 1
-/obj/item/weapon/clothing/mask/m_mask
+/obj/item/clothing/mask/m_mask
 	desc = "This mask does not work very well in low pressure environments."
 	name = "Medical Mask"
 	icon_state = "medical"
@@ -815,7 +793,7 @@
 	a_filter = 6.0
 	s_istate = "m_mask"
 	s_fire = 1.875E7
-/obj/item/weapon/clothing/mask/muzzle
+/obj/item/clothing/mask/muzzle
 	name = "muzzle"
 	icon_state = "muzzle"
 	flags = FPRINT|TABLEPASS|MASKCOVERSMOUTH
@@ -823,7 +801,7 @@
 	a_filter = 3.0
 	s_istate = "muzzle"
 	s_fire = 1.875E7
-/obj/item/weapon/clothing/mask/robot
+/obj/item/clothing/mask/robot
 	name = "Robot Mask"
 	icon_state = "r_head"
 	flags = FPRINT|TABLEPASS|SUITSPACE|MASKCOVERSMOUTH|MASKCOVERSEYES
@@ -835,9 +813,9 @@
 	s_fire = 7.5E7
 	brute_protect = 1
 	fire_protect = 1
-/obj/item/weapon/clothing/mask/robot/swat
+/obj/item/clothing/mask/robot/swat
 	name = "SWAT Mask"
-/obj/item/weapon/clothing/mask/surgical
+/obj/item/clothing/mask/surgical
 	name = "Sterile Mask"
 	icon_state = "sterile"
 	w_class = 1.0
@@ -846,7 +824,7 @@
 	a_filter = 6.0
 	s_istate = "s_mask"
 	s_fire = 1.875E7
-/obj/item/weapon/clothing/shoes
+/obj/item/clothing/shoes
 	name = "shoes"
 	icon = 'icons/goonstation/obj/clothing/shoes.dmi'
 	var/chained = 0.0
@@ -854,49 +832,49 @@
 	s_fire = 3.75E7
 	brute_protect = 64
 	fire_protect = 64
-/obj/item/weapon/clothing/shoes/black
+/obj/item/clothing/shoes/black
 	name = "Black Shoes"
 	icon_state = "black"
 	s_istate = "bl_shoes"
-/obj/item/weapon/clothing/shoes/brown
+/obj/item/clothing/shoes/brown
 	name = "Brown Shoes"
 	icon_state = "brown"
 	s_istate = "b_shoes"
-/obj/item/weapon/clothing/shoes/orange
+/obj/item/clothing/shoes/orange
 	name = "Orange Shoes"
 	icon_state = "orange"
 	s_istate = "o_shoes"
-/obj/item/weapon/clothing/shoes/robot
+/obj/item/clothing/shoes/robot
 	name = "Robot Shoes"
 	s_istate = "r_feet"
-/obj/item/weapon/clothing/shoes/swat
+/obj/item/clothing/shoes/swat
 	name = "SWAT shoes"
 	icon_state = "swat"
 	s_istate = "swat_sh"
-/obj/item/weapon/clothing/shoes/white
+/obj/item/clothing/shoes/white
 	name = "White Shoes"
 	icon_state = "white"
 	s_istate = "w_shoes"
 	fb_filter = 5.0
-/obj/item/weapon/clothing/suit
+/obj/item/clothing/suit
 	name = "suit"
 	icon = 'icons/goonstation/obj/clothing/suits.dmi'
 	var/fire_resist = T0C+100
-/obj/item/weapon/clothing/suit/armor
+/obj/item/clothing/suit/armor
 	name = "armor"
 	desc = "A suit that protects against some damage."
 	icon_state = "armor"
 	s_istate = "armor"
 	s_fire = 1.875E7
 	brute_protect = 6
-/obj/item/weapon/clothing/suit/heavy_armor
+/obj/item/clothing/suit/heavy_armor
 	name = "heavy armor"
 	desc = "A suit that protects against some damage."
 	icon_state = "heavy"
 	s_istate = "swat_suit"
 	s_fire = 1.875E7
 	brute_protect = 6
-/obj/item/weapon/clothing/suit/bio_suit
+/obj/item/clothing/suit/bio_suit
 	name = "bio suit"
 	desc = "A suit that protects against biological contamination."
 	icon_state = "bio"
@@ -907,7 +885,7 @@
 	flags = FPRINT | TABLEPASS
 	s_fire = 1350000.0
 	fire_protect = 126
-/obj/item/weapon/clothing/suit/firesuit
+/obj/item/clothing/suit/firesuit
 	name = "firesuit"
 	desc = "A suit that protects against fire and heat."
 	icon_state = "fire"
@@ -919,7 +897,7 @@
 	s_fire = 7.5E7	//75000000 :O
 	fire_protect = 126
 	fire_resist = T0C+1300	//this is the max temp it can stand before you start to cook. although it might not burn away, you take damage
-/obj/item/weapon/clothing/suit/black_firesuit
+/obj/item/clothing/suit/black_firesuit
 	name = "firesuit"
 	desc = "A suit that protects against extreme fire and heat."
 	icon_state = "ro_suit"
@@ -931,7 +909,7 @@
 	s_fire = 7.5E7
 	fire_protect = 126
 	fire_resist = T0C+2600
-obj/item/weapon/clothing/suit/labcoat
+obj/item/clothing/suit/labcoat
 	name = "labcoat"
 	desc = "A suit that protects against minor chemical spills."
 	icon_state = "labcoat"
@@ -939,7 +917,7 @@ obj/item/weapon/clothing/suit/labcoat
 	flags = FPRINT | TABLEPASS
 	s_fire = 1000000.0
 	fire_protect = 126
-/obj/item/weapon/clothing/suit/robot_suit
+/obj/item/clothing/suit/robot_suit
 	name = "robot suit"
 	icon_state = "ro_suit"
 	fb_filter = 9.0
@@ -950,7 +928,7 @@ obj/item/weapon/clothing/suit/labcoat
 	s_fire = 1.875E7
 	fire_protect = 126
 	fire_resist = T0C+5200
-/obj/item/weapon/clothing/suit/sp_suit
+/obj/item/clothing/suit/sp_suit
 	name = "space suit"
 	desc = "A suit that protects against low pressure environments."
 	icon_state = "space"
@@ -961,14 +939,14 @@ obj/item/weapon/clothing/suit/labcoat
 	flags = FPRINT | TABLEPASS | SUITSPACE
 	s_fire = 6.75E7
 	fire_protect = 126
-/obj/item/weapon/clothing/suit/straight_jacket
+/obj/item/clothing/suit/straight_jacket
 	name = "straight jacket"
 	desc = "A suit that totally restrains an individual"
 	icon_state = "straightjacket"
 	s_istate = "straight_jacket"
 	s_fire = 1.875E7
 	fire_protect = 126
-/obj/item/weapon/clothing/suit/swat_suit
+/obj/item/clothing/suit/swat_suit
 	name = "swat suit"
 	icon_state = "swat_suit"
 	fb_filter = 6.0
@@ -979,98 +957,98 @@ obj/item/weapon/clothing/suit/labcoat
 	s_fire = 6.75E7
 	brute_protect = 126
 	fire_protect = 126
-/obj/item/weapon/clothing/under
+/obj/item/clothing/under
 	name = "under"
 	s_fire = 1.875E7
 	fb_filter = 1.0
 	fire_protect = 46
 	icon = 'icons/goonstation/obj/clothing/uniforms.dmi'
 
-/obj/item/weapon/clothing/under/black
+/obj/item/clothing/under/black
 	name = "Black Jumpsuit"
 	s_istate = "bl_suit"
 	icon_state = "black"
 	color = "black"
-/obj/item/weapon/clothing/under/chaplain_black
+/obj/item/clothing/under/chaplain_black
 	desc = "It has a religion rank stripe on it."
 	name = "Black Jumpsuit"
 	s_istate = "bl_suit"
 	color = "chapblack"
 	icon_state = "chaplain"
 
-/obj/item/weapon/clothing/under/maintenance_blue
+/obj/item/clothing/under/maintenance_blue
 	desc = "It has a Maintenace Worker rank stripe on it."
 	name = "Blue Jumpsuit"
 	s_istate = "b_suit"
 	color = "blue"
 
-/obj/item/weapon/clothing/under/blue
+/obj/item/clothing/under/blue
 	name = "Blue Jumpsuit"
 	s_istate = "b_suit"
 	color = "blue"
 
-/obj/item/weapon/clothing/under/green
+/obj/item/clothing/under/green
 	name = "Green Jumpsuit"
 	s_istate = "g_suit"
 	color = "green"
-/obj/item/weapon/clothing/under/hor_green
+/obj/item/clothing/under/hor_green
 	desc = "It has a Head of Research rank stripe on it."
 	name = "Green Jumpsuit"
 	s_istate = "g_suit"
 	color = "horgreen"
 	icon_state = "green"
-/obj/item/weapon/clothing/under/hop_green
+/obj/item/clothing/under/hop_green
 	desc = "It has a Head of Personnel rank stripe on it."
 	name = "Green Jumpsuit"
 	s_istate = "g_suit"
 	color = "hopgreen"
 	icon_state = "green"
 
-/obj/item/weapon/clothing/under/grey
+/obj/item/clothing/under/grey
 	name = "Grey Jumpsuit"
 	s_istate = "gy_suit"
 	color = "grey"
 	icon_state = "grey"
 
-/obj/item/weapon/clothing/under/orange
+/obj/item/clothing/under/orange
 	name = "Orange Jumpsuit"
 	s_istate = "o_suit"
 	color = "orange"
 	icon_state = "orange"
 
-/obj/item/weapon/clothing/under/pink
+/obj/item/clothing/under/pink
 	name = "Pink Jumpsuit (F)"
 	s_istate = "p_suit"
 	color = "pink"
 	icon_state = "pink"
 
-/obj/item/weapon/clothing/under/red
+/obj/item/clothing/under/red
 	name = "Red Jumpsuit"
 	s_istate = "r_suit"
 	color = "red"
 	icon_state = "red"
-/obj/item/weapon/clothing/under/forensics_red
+/obj/item/clothing/under/forensics_red
 	desc = "It has a Forensics rank stripe on it."
 	name = "Detective's Jumpsuit"
 	s_istate = "r_suit"
 	color = "forensicsred"
 	icon_state = "detective"
 
-/obj/item/weapon/clothing/under/white
+/obj/item/clothing/under/white
 	desc = "Made of a special fiber that gives special protection against biohazards."
 	name = "White Jumpsuit"
 	s_istate = "w_suit"
 	color = "white"
 	icon_state = "white"
 	fb_filter = 5.0
-/obj/item/weapon/clothing/under/genetics_white
+/obj/item/clothing/under/genetics_white
 	desc = "Made of a special fiber that gives special protection against biohazards. Has a genetics rank stripe on it."
 	name = "White Jumpsuit"
 	s_istate = "w_suit"
 	color = "geneticswhite"
 	icon_state = "genetics"
 	fb_filter = 5.0
-/obj/item/weapon/clothing/under/toxins_white
+/obj/item/clothing/under/toxins_white
 	desc = "Made of a special fiber that gives special protection against biohazards. Has a toxins rank stripe on it."
 	name = "White Jumpsuit"
 	s_istate = "w_suit"
@@ -1078,25 +1056,25 @@ obj/item/weapon/clothing/suit/labcoat
 	icon_state = "toxins"
 	fb_filter = 5.0
 
-/obj/item/weapon/clothing/under/yellow
+/obj/item/clothing/under/yellow
 	name = "Yellow Jumpsuit"
 	s_istate = "y_suit"
 	color = "yellow"
 	icon_state = "yellow"
-/obj/item/weapon/clothing/under/atmospherics_yellow
+/obj/item/clothing/under/atmospherics_yellow
 	desc = "It has an Atmospherics rank stripe on it."
 	name = "Yellow Jumpsuit"
 	s_istate = "y_suit"
 	color = "atmosyellow"
 	icon_state = "atmos"
-/obj/item/weapon/clothing/under/engineering_yellow
+/obj/item/clothing/under/engineering_yellow
 	desc = "It has an Engineering rank stripe on it."
 	name = "Yellow Jumpsuit"
 	s_istate = "y_suit"
 	color = "engineyellow"
 	icon_state = "engine"
 
-/obj/item/weapon/clothing/under/darkgreen
+/obj/item/clothing/under/darkgreen
 	desc = "It has a Captains rank stripe on it."
 	name = "Dark Green Jumpsuit"
 	s_istate = "dg_suit"
@@ -1104,7 +1082,7 @@ obj/item/weapon/clothing/suit/labcoat
 	icon_state = "captain"
 
 #define MAXCOIL 30
-/obj/item/weapon/cable_coil
+/obj/item/cable_coil
 	name = "cable coil"
 	var/amount = MAXCOIL
 	icon = 'icons/immibis/power.dmi'
@@ -1114,25 +1092,25 @@ obj/item/weapon/clothing/suit/labcoat
 	flags = TABLEPASS|USEDELAY|FPRINT
 	s_istate = "coil"
 
-/obj/item/weapon/cable_coil/cut
+/obj/item/cable_coil/cut
 	icon = 'icons/immibis/power.dmi'
 	icon_state = "coil2"
 
-/obj/item/weapon/crowbar
+/obj/item/crowbar
 	name = "crowbar"
 	icon_state = "crowbar"
 	force = 5.0
 	throwforce = 7.0
 	s_istate = "wrench"
 	w_class = 2.0
-/obj/item/weapon/disk
+/obj/item/disk
 	name = "disk"
-/obj/item/weapon/disk/nuclear
+/obj/item/disk/nuclear
 	name = "Nuclear Authentication Disk"
 	icon_state = "nucleardisk"
 	s_istate = "card-id"
 	w_class = 1.0
-/obj/item/weapon/dropper
+/obj/item/dropper
 	name = "dropper"
 	desc = "A dropper that can hold a small amount of liquid."
 	icon_state = "dropper_0"
@@ -1141,12 +1119,12 @@ obj/item/weapon/clothing/suit/labcoat
 	throw_speed = 1
 	throw_range = 5
 	w_class = 1.0
-/obj/item/weapon/dummy
+/obj/item/dummy
 	name = "dummy"
 	invisibility = 101.0
 	anchored = 1.0
 	flags = TABLEPASS
-/obj/item/weapon/extinguisher
+/obj/item/extinguisher
 	name = "Fire Extinguisher"
 	icon_state = "fire_extinguisher0"
 	var/waterleft = 20.0
@@ -1155,13 +1133,13 @@ obj/item/weapon/clothing/suit/labcoat
 	w_class = 2.0
 	force = 17.0
 	s_istate = "fire_extinguisher"
-/obj/item/weapon/f_card
+/obj/item/f_card
 	name = "Finger Print Card"
 	icon_state = "f_print_card0"
 	var/amount = 10.0
 	s_istate = "paper"
 	w_class = 1.0
-/obj/item/weapon/f_print_scanner
+/obj/item/f_print_scanner
 	name = "Finger Print Scanner"
 	desc = "Used to scan objects for fingerprints."
 	icon_state = "f_print_scanner0"
@@ -1170,12 +1148,12 @@ obj/item/weapon/clothing/suit/labcoat
 	w_class = 3.0
 	s_istate = "electronic"
 	flags = FPRINT | ONBELT | TABLEPASS
-/obj/item/weapon/fcardholder
+/obj/item/fcardholder
 	name = "Finger Print Case"
 	icon_state = "fcardholder0"
 	s_istate = "clipboard"
 	w_class = 3.0
-/obj/item/weapon/flash
+/obj/item/flash
 	name = "flash"
 	icon_state = "flash"
 	var/l_time = 1.0
@@ -1184,7 +1162,7 @@ obj/item/weapon/clothing/suit/labcoat
 	s_istate = "electronic"
 	throw_speed = 4
 	throw_range = 20
-/obj/item/weapon/flashbang
+/obj/item/flashbang
 	desc = "It is set to detonate in 3 seconds."
 	name = "flashbang"
 	icon_state = "flashbang"
@@ -1195,26 +1173,26 @@ obj/item/weapon/clothing/suit/labcoat
 	throw_speed = 4
 	throw_range = 20
 	flags = FPRINT | ONBELT | USEDELAY | TABLEPASS
-/obj/item/weapon/flasks
+/obj/item/flasks
 	name = "flask"
 	icon = 'icons/goonstation/cryoflasks.dmi'
 	var/oxygen = 0.0
 	var/plasma = 0.0
 	var/coolant = 0.0
-/obj/item/weapon/flasks/coolant
+/obj/item/flasks/coolant
 	name = "light blue flask"
 	icon_state = "coolant-c"
 	coolant = 1000.0
-/obj/item/weapon/flasks/oxygen
+/obj/item/flasks/oxygen
 	name = "blue flask"
 	icon_state = "oxygen-c"
 	oxygen = 500.0
-/obj/item/weapon/flasks/plasma
+/obj/item/flasks/plasma
 	name = "orange flask"
 	icon_state = "plasma-c"
 	plasma = 500.0
 
-/obj/item/weapon/flashlight
+/obj/item/flashlight
 	name = "flashlight"
 	desc = "A hand-held emergency light."
 	icon_state = "flight0"
@@ -1224,7 +1202,7 @@ obj/item/weapon/clothing/suit/labcoat
 	var/image/img
 	var/lastHolder = null
 
-/obj/item/weapon/game_kit
+/obj/item/game_kit
 	name = "Gaming Kit"
 	icon_state = "game_kit"
 	var/selected = null
@@ -1233,14 +1211,14 @@ obj/item/weapon/clothing/suit/labcoat
 	var/base_url = "http://svn.slurm.us/public/spacestation13/misc/game_kit"
 	s_istate = "sheet-metal"
 	w_class = 5.0
-/obj/item/weapon/gift
+/obj/item/gift
 	name = "gift"
 	icon_state = "gift3"
 	var/size = 3.0
 	var/obj/item/gift = null
 	s_istate = "gift"
 	w_class = 4.0
-/obj/item/weapon/grab
+/obj/item/grab
 	name = "grab"
 	icon = 'icons/ss13/screen1.dmi'
 	icon_state = "grabbed"
@@ -1254,15 +1232,15 @@ obj/item/weapon/clothing/suit/labcoat
 	abstract = 1.0
 	s_istate = "nothing"
 	w_class = 5.0
-/obj/item/weapon/gun
+/obj/item/gun
 	name = "gun"
 	flags = FPRINT | ONBELT | USEDELAY | TABLEPASS
 	s_istate = "gun"
-/obj/item/weapon/gun/energy
+/obj/item/gun/energy
 	name = "energy"
 	var/charges = 10.0
 	var/maximum_charges = 10.0
-/obj/item/weapon/gun/energy/taser_gun
+/obj/item/gun/energy/taser_gun
 	name = "taser gun"
 	icon_state = "t_gun"
 	w_class = 3.0
@@ -1272,14 +1250,14 @@ obj/item/weapon/clothing/suit/labcoat
 	throw_range = 10
 	charges = 4
 	maximum_charges = 4
-/obj/item/weapon/gun/energy/laser_gun
+/obj/item/gun/energy/laser_gun
 	name = "laser gun"
 	icon_state = "gun"
 	w_class = 3.0
 	throw_speed = 2
 	throw_range = 10
 	force = 7.0
-/obj/item/weapon/gun/revolver
+/obj/item/gun/revolver
 	desc = "There are 0 bullets left. Uses 357"
 	name = "revolver"
 	icon_state = "revolver"
@@ -1288,70 +1266,70 @@ obj/item/weapon/clothing/suit/labcoat
 	throw_speed = 2
 	throw_range = 10
 	force = 60.0
-/obj/item/weapon/hand_tele
+/obj/item/hand_tele
 	name = "hand tele"
 	icon_state = "hand_tele"
 	s_istate = "electronic"
 	w_class = 2.0
-/obj/item/weapon/handcuffs
+/obj/item/handcuffs
 	name = "handcuffs"
 	icon_state = "handcuff"
 	flags = FPRINT | ONBELT | TABLEPASS
 	w_class = 2.0
-/obj/item/weapon/healthanalyzer
+/obj/item/healthanalyzer
 	name = "Health Analyzer"
 	icon_state = "healthanalyzer"
 	desc = "A hand-held body scanner able to distinguish vital signs of the subject."
 	flags = FPRINT | ONBELT | TABLEPASS
 	w_class = 1.0
-/obj/item/weapon/igniter
+/obj/item/igniter
 	name = "igniter"
 	desc = "A small electronic device able to ignite combustable substances."
 	icon_state = "igniter"
 	var/status = 1.0
 	s_istate = "electronic"
-/obj/item/weapon/implant
+/obj/item/implant
 	name = "implant"
 	var/implanted = null
 	var/color = "b"
-/obj/item/weapon/implant/freedom
+/obj/item/implant/freedom
 	name = "freedom"
 	var/uses = 1.0
 	color = "r"
-/obj/item/weapon/implant/tracking
+/obj/item/implant/tracking
 	name = "tracking"
 	var/freq = 145.1
 	var/id = 1.0
-/obj/item/weapon/implantcase
+/obj/item/implantcase
 	name = "Glass Case"
 	icon_state = "implantcase-0"
-	var/obj/item/weapon/implant/imp = null
+	var/obj/item/implant/imp = null
 	s_istate = "implantcase"
 	throw_speed = 1
 	throw_range = 5
 	w_class = 1.0
-/obj/item/weapon/implantcase/tracking
+/obj/item/implantcase/tracking
 	name = "Glass Case- 'Tracking'"
 	icon_state = "implantcase-b"
-/obj/item/weapon/implanter
+/obj/item/implanter
 	name = "implanter"
 	icon_state = "implanter0"
-	var/obj/item/weapon/implant/imp = null
+	var/obj/item/implant/imp = null
 	s_istate = "syringe_0"
 	throw_speed = 1
 	throw_range = 5
 	w_class = 2.0
-/obj/item/weapon/implantpad
+/obj/item/implantpad
 	name = "implantpad"
 	icon_state = "implantpad-0"
-	var/obj/item/weapon/implantcase/case = null
+	var/obj/item/implantcase/case = null
 	var/broadcasting = null
 	var/listening = 1.0
 	s_istate = "electronic"
 	throw_speed = 1
 	throw_range = 5
 	w_class = 2.0
-/obj/item/weapon/infra
+/obj/item/infra
 	name = "Infrared Beam (Security)"
 	desc = "Emits a visible or invisible beam and is triggered when the beam is interrupted."
 	icon_state = "infrared0"
@@ -1360,14 +1338,14 @@ obj/item/weapon/clothing/suit/labcoat
 	var/visible = 0.0
 	w_class = 2.0
 	s_istate = "electronic"
-/obj/item/weapon/infra_sensor
+/obj/item/infra_sensor
 	name = "Infrared Sensor"
 	desc = "Scans for infrared beams in the vicinity."
 	icon_state = "infra_sensor"
 	var/passive = 1.0
 	s_istate = "electronic"
 
-/obj/item/weapon/t_scanner
+/obj/item/t_scanner
 	name = "T-ray scanner"
 	desc = "A terahertz-ray emitter and scanner used to detect underfloor objects such as cables and pipes."
 	icon_state = "t-scanner0"
@@ -1376,7 +1354,7 @@ obj/item/weapon/clothing/suit/labcoat
 	w_class = 2
 	s_istate = "electronic"
 
-/obj/item/weapon/locator
+/obj/item/locator
 	name = "locator"
 	icon_state = "locator"
 	var/temp = null
@@ -1388,7 +1366,7 @@ obj/item/weapon/clothing/suit/labcoat
 	throw_speed = 4
 	throw_range = 20
 
-/obj/item/weapon/m_pill
+/obj/item/m_pill
 	name = "pill"
 	icon_state = "pill"
 	var/amount = 1.0
@@ -1397,36 +1375,36 @@ obj/item/weapon/clothing/suit/labcoat
 	s_istate = "pill"
 	throw_speed = 4
 	throw_range = 20
-/obj/item/weapon/m_pill/Tourette
+/obj/item/m_pill/Tourette
 	name = "green pill"
 	icon_state = "pill2"
-/obj/item/weapon/m_pill/antitoxin
+/obj/item/m_pill/antitoxin
 	name = "red/blue pill"
-/obj/item/weapon/m_pill/cough
+/obj/item/m_pill/cough
 	name = "red pill"
 	icon_state = "pill4"
-/obj/item/weapon/m_pill/cyanide
+/obj/item/m_pill/cyanide
 	name = "orange pill"
 	icon_state = "pill5"
-/obj/item/weapon/m_pill/epilepsy
+/obj/item/m_pill/epilepsy
 	name = "blue pill"
 	icon_state = "pill3"
-/obj/item/weapon/m_pill/sleep
+/obj/item/m_pill/sleep
 	name = "red/blue pill"
-/obj/item/weapon/m_pill/superpill
+/obj/item/m_pill/superpill
 	name = "red/blue pill"
-/obj/item/weapon/ointment
+/obj/item/ointment
 	name = "ointment"
 	icon_state = "ointment"
 	var/amount = 5.0
 	throw_speed = 4
 	throw_range = 20
 	w_class = 1.0
-/obj/item/weapon/organ
+/obj/item/organ
 	name = "organ"
 	var/owner = null
 	s_istate = "bio_orange"
-/obj/item/weapon/organ/external
+/obj/item/organ/external
 	name = "external"
 	icon = 'icons/ss13/human.dmi'
 	var/d_i_state = ""
@@ -1437,128 +1415,128 @@ obj/item/weapon/clothing/suit/labcoat
 	var/r_name = "chest"
 	var/wound_size = 0.0
 	var/max_size = 0.0
-/obj/item/weapon/organ/external/chest
+/obj/item/organ/external/chest
 	name = "chest"
 	icon_state = "chest"
 	max_damage = 150.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/diaper
+/obj/item/organ/external/diaper
 	name = "diaper"
 	icon_state = "diaper"
 	r_name = "diaper"
 	max_damage = 115.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/head
+/obj/item/organ/external/head
 	name = "head"
 	icon_state = "head"
 	r_name = "head"
 	max_damage = 125.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/l_arm
+/obj/item/organ/external/l_arm
 	name = "l arm"
 	icon_state = "l_arm"
 	r_name = "l_arm"
 	max_damage = 75.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/l_foot
+/obj/item/organ/external/l_foot
 	name = "l foot"
 	icon_state = "l_foot"
 	r_name = "l_foot"
 	max_damage = 40.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/l_hand
+/obj/item/organ/external/l_hand
 	name = "l hand"
 	icon_state = "l_hand"
 	r_name = "l_hand"
 	max_damage = 40.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/l_leg
+/obj/item/organ/external/l_leg
 	name = "l leg"
 	icon_state = "l_leg"
 	r_name = "l_leg"
 	max_damage = 75.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/r_arm
+/obj/item/organ/external/r_arm
 	name = "r arm"
 	icon_state = "r_arm"
 	r_name = "r_arm"
 	max_damage = 75.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/r_foot
+/obj/item/organ/external/r_foot
 	name = "r foot"
 	icon_state = "r_foot"
 	r_name = "r_foot"
 	max_damage = 40.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/r_hand
+/obj/item/organ/external/r_hand
 	name = "r hand"
 	icon_state = "r_hand"
 	r_name = "r_hand"
 	max_damage = 40.0
 	d_i_state = "00"
-/obj/item/weapon/organ/external/r_leg
+/obj/item/organ/external/r_leg
 	name = "r leg"
 	icon_state = "r_leg"
 	r_name = "r_leg"
 	max_damage = 75.0
 	d_i_state = "00"
-/obj/item/weapon/organ/internal
+/obj/item/organ/internal
 	name = "internal"
-/obj/item/weapon/organ/internal/blood_vessels
+/obj/item/organ/internal/blood_vessels
 	name = "blood vessels"
 	var/heart = null
 	var/lungs = null
 	var/kidneys = null
-/obj/item/weapon/organ/internal/brain
+/obj/item/organ/internal/brain
 	name = "brain"
 	var/head = null
-/obj/item/weapon/organ/internal/excretory
+/obj/item/organ/internal/excretory
 	name = "excretory"
 	var/excretory = 7.0
 	var/blood_vessels = null
-/obj/item/weapon/organ/internal/heart
+/obj/item/organ/internal/heart
 	name = "heart"
-/obj/item/weapon/organ/internal/immune_system
+/obj/item/organ/internal/immune_system
 	name = "immune system"
 	var/blood_vessels = null
 	var/isys = null
-/obj/item/weapon/organ/internal/intestines
+/obj/item/organ/internal/intestines
 	name = "intestines"
 	var/intestines = 3.0
 	var/blood_vessels = null
-/obj/item/weapon/organ/internal/liver
+/obj/item/organ/internal/liver
 	name = "liver"
 	var/intestines = null
 	var/blood_vessels = null
-/obj/item/weapon/organ/internal/lungs
+/obj/item/organ/internal/lungs
 	name = "lungs"
 	var/lungs = 3.0
 	var/throat = null
 	var/blood_vessels = null
-/obj/item/weapon/organ/internal/stomach
+/obj/item/organ/internal/stomach
 	name = "stomach"
 	var/intestines = null
-/obj/item/weapon/organ/internal/throat
+/obj/item/organ/internal/throat
 	name = "throat"
 	var/lungs = null
 	var/stomach = null
-/obj/item/weapon/paint
+/obj/item/paint
 	name = "Paint Can"
 	icon_state = "paint_neutral"
 	var/color = "neutral"
 	s_istate = "paintcan"
 	w_class = 3.0
-/obj/item/weapon/paper
+/obj/item/paper
 	name = "Paper"
 	icon_state = "paper"
 	var/info = null
 	w_class = 1.0
 	throw_speed = 3
 	throw_range = 15
-/obj/item/weapon/paper/Internal
+/obj/item/paper/Internal
 	name = "paper- 'Internal Atmosphere Operating Instructions'"
 	info = "Equipment:<BR>\n\t1+ Tank(s) with appropriate atmosphere<BR>\n\t1 Gas Mask w regulator (standard issue)<BR>\n<BR>\nProcedure:<BR>\n\t1. Wear mask<BR>\n\t2. Attach oxygen tank pipe to regulater (automatic))<BR>\n\t3. Set internal!<BR>\n<BR>\nNotes:<BR>\n\tDon't forget to stop internal when tank is low by<BR>\n\tremoving internal!<BR>\n<BR>\n\tDo not use a tank that has a high concentration of toxins.<BR>\n\tThe filters shut down on internal mode!<BR>\n<BR>\n\tWhen exiting a high danger environment it is advised<BR>\n\tthat you exit through a decontamination zone!<BR>\n<BR>\n\tRefill a tank at a oxygen canister by equiping the tank (Double Click)<BR>\n\tthen 'attacking' the canister (Double Click the canister)."
-/* /obj/item/weapon/paper/Map
+/* /obj/item/paper/Map
 	name = "paper- 'Station Blueprint'"
 	var/map_graphic = 'icons/map.png'
 	info = {"<IMG SRC="ss13mapd.png">
@@ -1588,28 +1566,28 @@ SC: Solar Control<BR>
 ASC: Aux. Solar Control<BR>
 "}*/
 
-/obj/item/weapon/paper/Toxin
+/obj/item/paper/Toxin
 	name = "paper- 'Chemical Information'"
 	info = "Known Onboard Toxins:<BR>\n\tGrade A Semi-Liquid Plasma:<BR>\n\t\tHighly poisonous. You cannot sustain concentrations above 15 units.<BR>\n\t\tA gas mask fails to filter plasma after 50 units.<BR>\n\t\tWill attempt to diffuse like a gas.<BR>\n\t\tFiltered by scrubbers.<BR>\n\t\tThere is a bottled version which is very different<BR>\n\t\t\tfrom the version found in canisters!<BR>\n<BR>\n\t\tWARNING: Highly Flammable. Keep away from heat sources<BR>\n\t\texcept in a enclosed fire area!<BR>\n\t\tWARNING: It is a crime to use this without authorization.<BR>\nKnown Onboard Anti-Toxin:<BR>\n\tAnti-Toxin Type 01P: Works against Grade A Plasma.<BR>\n\t\tBest if injected directly into bloodstream.<BR>\n\t\tA full injection is in every regular Med-Kit.<BR>\n\t\tSpecial toxin Kits hold around 7.<BR>\n<BR>\nKnown Onboard Chemicals (other):<BR>\n\tRejuvenation T#001:<BR>\n\t\tEven 1 unit injected directly into the bloodstream<BR>\n\t\t\twill cure paralysis and sleep toxins.<BR>\n\t\tIf administered to a dying patient it will prevent<BR>\n\t\t\tfurther damage for about units*3 seconds.<BR>\n\t\t\tit will not cure them or allow them to be cured.<BR>\n\t\tIt can be administeredd to a non-dying patient<BR>\n\t\t\tbut the chemicals disappear just as fast.<BR>\n\tSleep Toxin T#054:<BR>\n\t\t5 units wilkl induce precisely 1 minute of sleep.<BR>\n\t\t\tThe effects are cumulative.<BR>\n\t\tWARNING: It is a crime to use this without authorization"
-/obj/item/weapon/paper/courtroom
+/obj/item/paper/courtroom
 	name = "paper- 'A Crash Course in Legal SOP on SS13'"
 	info = "<B>Roles:</B><BR>\nThe Forensic Technician is basically the investigator and prosecutor.<BR>\nThe Staff Assistant can perform these functions with written authority from the Forensic Technician.<BR>\nThe Captain/HoP/Warden is ct as the judicial authority.<BR>\nThe Security Officers are responsible for executing warrants, security during trial, and prisoner transport.<BR>\n<BR>\n<B>Investigative Phase:</B><BR>\nAfter the crime has been committed the Forensic Technician's job is to gather evidence and try to ascertain not only who did it but what happened. He must take special care to catalogue everything and don't leave anything out. Write out all the evidence on paper. Make sure you take an appropriate number of fingerprints. IF he must ask someone questions he has permission to confront them. If the person refuses he can ask a judicial authority to write a subpoena for questioning. If again he fails to respond then that person is to be jailed as insubordinate and obstructing justice. Said person will be released after he cooperates.<BR>\n<BR>\nONCE the FT has a clear idea as to who the criminal is he is to write an arrest warrant on the piece of paper. IT MUST LIST THE CHARGES. The FT is to then go to the judicial authority and explain a small version of his case. If the case is moderately acceptable the authority should sign it. Security must then execute said warrant.<BR>\n<BR>\n<B>Pre-Pre-Trial Phase:</B><BR>\nNow a legal representative must be presented to the defendant if said defendant requests one. That person and the defendant are then to be given time to meet (in the jail IS ACCEPTABLE). The defendant and his lawyer are then to be given a copy of all the evidence that will be presented at trial (rewriting it all on paper is fine). THIS IS CALLED THE DISCOVERY PACK. With a few exceptions, THIS IS THE ONLY EVIDENCE BOTH SIDES MAY USE AT TRIAL. IF the prosecution will be seeking the death penalty it MUST be stated at this time. ALSO if the defense will be seeking not guilty by mental defect it must state this at this time to allow ample time for examination.<BR>\nNow at this time each side is to compile a list of witnesses. By default, the defendant is on both lists regardless of anything else. Also the defense and prosecution can compile more evidence beforehand BUT in order for it to be used the evidence MUST also be given to the other side.\nThe defense has time to compile motions against some evidence here.<BR>\n<B>Possible Motions:</B><BR>\n1. <U>Invalidate Evidence-</U> Something with the evidence is wrong and the evidence is to be thrown out. This includes irrelevance or corrupt security.<BR>\n2. <U>Free Movement-</U> Basically the defendant is to be kept uncuffed before and during the trial.<BR>\n3. <U>Subpoena Witness-</U> If the defense presents god reasons for needing a witness but said person fails to cooperate then a subpoena is issued.<BR>\n4. <U>Drop the Charges-</U> Not enough evidence is there for a trial so the charges are to be dropped. The FT CAN RETRY but the judicial authority must carefully reexamine the new evidence.<BR>\n5. <U>Declare Incompetent-</U> Basically the defendant is insane. Once this is granted a medical official is to examine the patient. If he is indeed insane he is to be placed under care of the medical staff until he is deemed competent to stand trial.<BR>\n<BR>\nALL SIDES MOVE TO A COURTROOM<BR>\n<B>Pre-Trial Hearings:</B><BR>\nA judicial authority and the 2 sides are to meet in the trial room. NO ONE ELSE BESIDES A SECURITY DETAIL IS TO BE PRESENT. The defense submits a plea. If the plea is guilty then proceed directly to sentencing phase. Now the sides each present their motions to the judicial authority. He rules on them. Each side can debate each motion. Then the judicial authority gets a list of crew members. He first gets a chance to look at them all and pick out acceptable and available jurors. Those jurors are then called over. Each side can ask a few questions and dismiss jurors they find too biased. HOWEVER before dismissal the judicial authority MUST agree to the reasoning.<BR>\n<BR>\n<B>The Trial:</B><BR>\nThe trial has three phases.<BR>\n1. <B>Opening Arguments</B>- Each side can give a short speech. They may not present ANY evidence.<BR>\n2. <B>Witness Calling/Evidence Presentation</B>- The prosecution goes first and is able to call the witnesses on his approved list in any order. He can recall them if necessary. During the questioning the lawyer may use the evidence in the questions to help prove a point. After every witness the other side has a chance to cross-examine. After both sides are done questioning a witness the prosecution can present another or recall one (even the EXACT same one again!). After prosecution is done the defense can call witnesses. After the initial cases are presented both sides are free to call witnesses on either list.<BR>\nFINALLY once both sides are done calling witnesses we move onto the next phase.<BR>\n3. <B>Closing Arguments</B>- Same as opening.<BR>\nThe jury then deliberates IN PRIVATE. THEY MUST ALL AGREE on a verdict. REMEMBER: They mix between some charges being guilty and others not guilty (IE if you supposedly killed someone with a gun and you unfortunately picked up a gun without authorization then you CAN be found not guilty of murder BUT guilty of possession of illegal weaponry.). Once they have agreed they present their verdict. If unable to reach a verdict and feel they will never they call a deadlocked jury and we restart at Pre-Trial phase with an entirely new set of jurors.<BR>\n<BR>\n<B>Sentencing Phase:</B><BR>\nIf the death penalty was sought (you MUST have gone through a trial for death penalty) then skip to the second part. <BR>\nI. Each side can present more evidence/witnesses in any order. There is NO ban on emotional aspects or anything. The prosecution is to submit a suggested penalty. After all the sides are done then the judicial authority is to give a sentence.<BR>\nII. The jury stays and does the same thing as I. Their sole job is to determine if the death penalty is applicable. If NOT then the judge selects a sentence.<BR>\n<BR>\nTADA you're done. Security then executes the sentence and adds the applicable convictions to the person's record.<BR>\n"
-/obj/item/weapon/paper/flag
+/obj/item/paper/flag
 	icon_state = "flag_neutral"
 	s_istate = "paper"
 	anchored = 1.0
-/obj/item/weapon/paper/jobs
+/obj/item/paper/jobs
 	name = "paper- 'Job Information'"
 	info = "Information on all formal jobs that can be assigned on Space Station 13 can be found on this document.<BR>\nThe data will be in the following form.<BR>\nGenerally lower ranking positions come first in this list.<BR>\n<BR>\n<B>Job Name</B>   general access>lab access-engine access-systems access (atmosphere control)<BR>\n\tJob Description<BR>\nJob Duties (in no particular order)<BR>\nTips (where applicable)<BR>\n<BR>\n<B>Research Assistant</B> 1>1-0-0<BR>\n\tThis is probably the lowest level position. Anyone who enters the space station after the initial job\nassignment will automatically receive this position. Access with this is restricted. Head of Personnel should\nappropriate the correct level of assistance.<BR>\n1. Assist the researchers.<BR>\n2. Clean up the labs.<BR>\n3. Prepare materials.<BR>\n<BR>\n<B>Staff Assistant</B> 2>0-0-0<BR>\n\tThis position assists the security officer in his duties. The staff assisstants should primarily br\npatrolling the ship waiting until they are needed to maintain ship safety.\n(Addendum: Updated/Elevated Security Protocols admit issuing of low level weapons to security personnel)<BR>\n1. Patrol ship/Guard key areas<BR>\n2. Assist security officer<BR>\n3. Perform other security duties.<BR>\n<BR>\n<B>Technical Assistant</B> 1>0-0-1<BR>\n\tThis is yet another low level position. The technical assistant helps the engineer and the statian\ntechnician with the upkeep and maintenance of the station. This job is very important because it usually\ngets to be a heavy workload on station technician and these helpers will alleviate that.<BR>\n1. Assist Station technician and Engineers.<BR>\n2. Perform general maintenance of station.<BR>\n3. Prepare materials.<BR>\n<BR>\n<B>Medical Assistant</B> 1>1-0-0<BR>\n\tThis is the fourth position yet it is slightly less common. This position doesn't have much power\noutside of the med bay. Consider this position like a nurse who helps to upkeep medical records and the\nmaterials (filling syringes and checking vitals)<BR>\n1. Assist the medical personnel.<BR>\n2. Update medical files.<BR>\n3. Prepare materials for medical operations.<BR>\n<BR>\n<B>Research Technician</B> 2>3-0-0<BR>\n\tThis job is primarily a step up from research assistant. These people generally do not get their own lab\nbut are more hands on in the experimentation process. At this level they are permitted to work as consultants to\nthe others formally.<BR>\n1. Inform superiors of research.<BR>\n2. Perform research alongside of official researchers.<BR>\n<BR>\n<B>Forensic Technician</B> 3>2-0-0<BR>\n\tThis job is in most cases slightly boring at best. Their sole duty is to\nperform investigations of crine scenes and analysis of the crime scene. This\nalleviates SOME of the burden from the security officer. This person's duty\nis to draw conclusions as to what happened and testify in court. Said person\nalso should stroe the evidence safely.<BR>\n1. Perform crime-scene investigations/draw conclusions.<BR>\n2. Store and catalogue evidence properly.<BR>\n3. Testify to superiors/inquieries on findings.<BR>\n<BR>\n<B>Station Technician</B> 2>0-2-3<BR>\n\tPeople assigned to this position must work to make sure all the systems aboard Space Station 13 are operable.\nThey should primarily work in the computer lab and repairing faulty equipment. They should work with the\natmospheric technician.<BR>\n1. Maintain SS13 systems.<BR>\n2. Repair equipment.<BR>\n<BR>\n<B>Atmospheric Technician</B> 3>0-0-4<BR>\n\tThese people should primarily work in the atmospheric control center and lab. They have the very important\njob of maintaining the delicate atmosphere on SS13.<BR>\n1. Maintain atmosphere on SS13<BR>\n2. Research atmospheres on the space station. (safely please!)<BR>\n<BR>\n<B>Engineer</B> 2>1-3-0<BR>\n\tPeople working as this should generally have detailed knowledge as to how the propulsion systems on SS13\nwork. They are one of the few classes that have unrestricted access to the engine area.<BR>\n1. Upkeep the engine.<BR>\n2. Prevent fires in the engine.<BR>\n3. Maintain a safe orbit.<BR>\n<BR>\n<B>Medical Researcher</B> 2>5-0-0<BR>\n\tThis position may need a little clarification. Their duty is to make sure that all experiments are safe and\nto conduct experiments that may help to improve the station. They will be generally idle until a new laboratory\nis constructed.<BR>\n1. Make sure the station is kept safe.<BR>\n2. Research medical properties of materials studied of Space Station 13.<BR>\n<BR>\n<B>Toxin Researcher</B> 2>5-0-0<BR>\n\tThese people study the properties, particularly the toxic properties, of materials handled on SS13.\nTechnically they can also be called Plasma Technicians as plasma is the material they routinly handle.<BR>\n1. Research plasma<BR>\n2. Make sure all plasma is properly handled.<BR>\n<BR>\n<B>Medical Doctor (Officer)</B> 2>0-0-0<BR>\n\tPeople working this job should primarily stay in the medical area. They should make sure everyone goes to\nthe medical bay for treatment and examination. Also they should make sure that medical supplies are kept in\norder.<BR>\n1. Heal wounded people.<BR>\n2. Perform examinations of all personnel.<BR>\n3. Moniter usage of medical equipment.<BR>\n<BR>\n<B>Security Officer</B> 3>0-0-0<BR>\n\tThese people should attempt to keep the peace inside the station and make sure the station is kept safe. One\nside duty is to assist in repairing the station. They also work like general maintenance personnel. They are not\ngiven a weapon and must use their own resources.<BR>\n(Addendum: Updated/Elevated Security Protocols admit issuing of weapons to security personnel)<BR>\n1. Maintain order.<BR>\n2. Assist others.<BR>\n3. Repair structural problems.<BR>\n<BR>\n<B>Head of Research</B> 4>5-2-2<BR>\n\tPeople assigned as head of research should make sure all experiments are conducted efficiently. They should\nalso carefully moderate the usage of all equipment. All experiment results should be reported to this person.<BR>\n1. Moderate equipment.<BR>\n2. Process research results.<BR>\n3. Coordinate all research.<BR>\n<BR>\n<B>Head of Personnel</B> 4>4-2-2<BR>\n\tPeople assigned as head of personnel will find themselves moderating all actions done by personnel. Security\nshould report to them. Also they have the ability to assign jobs and access levels.<BR>\n1. Assign duties.<BR>\n2. Moderate personnel.<BR>\n3. Command Security.<BR>\n<BR>\n<B>Captain</B> 5>5-5-5 (unrestricted station wide access)<BR>\n\tThis is the highest position youi can aquire on Space Station 13. They are allowed anywhere inside the\nspace station and therefore should protect their ID card. They also have the ability to assign positions\nand access levels. They should not abuse their power.<BR>\n1. Assign all positions on SS13<BR>\n2. Inspect the station for any problems.<BR>\n3. Perform administrative duties.<BR>\n"
-/obj/item/weapon/paper/photograph
+/obj/item/paper/photograph
 	name = "photo"
 	icon_state = "photo"
 	var/photo_id = 0.0
 	s_istate = "paper"
-/obj/item/weapon/paper/sop
+/obj/item/paper/sop
 	name = "paper- 'Standard Operating Procedure'"
 	info = "Alert Levels:<BR>\nBlue- Emergency<BR>\n\t1. Caused by fire<BR>\n\t2. Caused by manual interaction<BR>\n\tAction:<BR>\n\t\tClose all fire doors. These can only be opened by reseting the alarm<BR>\nRed- Ejection/Self Destruct<BR>\n\t1. Caused by module operating computer.<BR>\n\tAction:<BR>\n\t\tAfter the specified time the module will eject completely.<BR>\n<BR>\nEngine Maintenance Instructions:<BR>\n\tShut off ignition systems:<BR>\n\tActivate internal power<BR>\n\tActivate orbital balance matrix<BR>\n\tRemove volatile liquids from area<BR>\n\tWear a fire suit<BR>\n<BR>\n\tAfter<BR>\n\t\tDecontaminate<BR>\n\t\tVisit medical examiner<BR>\n<BR>\nToxin Laboratory Procedure:<BR>\n\tWear a gas mask regardless<BR>\n\tGet an oxygen tank.<BR>\n\tActivate internal atmosphere<BR>\n<BR>\n\tAfter<BR>\n\t\tDecontaminate<BR>\n\t\tVisit medical examiner<BR>\n<BR>\nDisaster Procedure:<BR>\n\tFire:<BR>\n\t\tActivate sector fire alarm.<BR>\n\t\tMove to a safe area.<BR>\n\t\tGet a fire suit<BR>\n\t\tAfter:<BR>\n\t\t\tAssess Damage<BR>\n\t\t\tRepair damages<BR>\n\t\t\tIf needed, Evacuate<BR>\n\tMeteor Shower:<BR>\n\t\tActivate fire alarm<BR>\n\t\tMove to the back of ship<BR>\n\t\tAfter<BR>\n\t\t\tRepair damage<BR>\n\t\t\tIf needed, Evacuate<BR>\n\tAccidental Reentry:<BR>\n\t\tActivate fire alrms in front of ship.<BR>\n\t\tMove volatile matter to a fire proof area!<BR>\n\t\tGet a fire suit.<BR>\n\t\tStay secure until an emergency ship arrives.<BR>\n<BR>\n\t\tIf ship does not arrive-<BR>\n\t\t\tEvacuate to a nearby safe area!"
-/obj/item/weapon/paper/engine
+/obj/item/paper/engine
 	name = "paper- 'Generator Startup Procedure'"
 	info = {"<B>Thermo-Electric Generator Startup Procedure for Mark I Plasma-Fired Engines</B>
 <HR>
@@ -1641,14 +1619,14 @@ Refer any breaks or cracks in the pipe to Station Maintenance for repair before 
 Total SMES charging rate should not exceed total power generation rate, or an overload condition may occur.
 "}
 
-/obj/item/weapon/paper_bin
+/obj/item/paper_bin
 	name = "Paper Bin"
 	icon = 'icons/ss13/stationobjs.dmi'
 	icon_state = "paper_bin1"
 	var/amount = 30.0
 	s_istate = "sheet-metal"
 	w_class = 5.0
-/obj/item/weapon/pen
+/obj/item/pen
 	desc = "It's a normal black ink pen."
 	name = "pen"
 	icon_state = "pen"
@@ -1656,33 +1634,33 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	w_class = 1.0
 	throw_speed = 3
 	throw_range = 15
-/obj/item/weapon/pen/sleepypen
+/obj/item/pen/sleepypen
 	desc = "It's a normal black ink pen with a sharp point."
 	var/datum/reagent_container/chem = null
-/obj/item/weapon/pill_canister
+/obj/item/pill_canister
 	name = "Pill Canister"
 	icon_state = "pill_canister"
 	w_class = 1.0
 	s_istate = "brutepack"
-/obj/item/weapon/pill_canister/Tourette
+/obj/item/pill_canister/Tourette
 	desc = "<B>Tourette's Syndrome Remedy</B>\nAdminister as required to surpress Tourette syndrome induced twitching.\nAdminister only once every 15 minutes. Active for 20 at most.\n<B>WARNING</B>: Neurodepressant! Rebalances chemical alignment!\n<B>Warning</B>: May cause drowsyness.\nIf drowsyness persists for over 5 minutes contact medical professional."
 	name = "Pill Canister- 'Tourette's Syndrome Remedy'"
-/obj/item/weapon/pill_canister/antitoxin
+/obj/item/pill_canister/antitoxin
 	desc = "<B>Anti-toxins</B>\nAdminister as required to relieve of plasma burns.\nAdminister only once every 5 minutes.\n<B>Warning</B>: May cause drowsyness.\nIf drowsyness persists for over 5 minutes contact medical professional."
 	name = "Pill Canister- 'Antitoxin Supplements'"
-/obj/item/weapon/pill_canister/cough
+/obj/item/pill_canister/cough
 	desc = "<B>Chronic Cough Syndrome Remedy</B>\nAdminister as required to surpress excessive coughs.\nAdminister only once every 15 minutes. Active for 20 at most.\n<B>Warning</B>: May cause drowsyness.\nIf drowsyness persists for over 5 minutes contact medical professional."
 	name = "Pill Canister- 'CCS Remedy'"
-/obj/item/weapon/pill_canister/epilepsy
+/obj/item/pill_canister/epilepsy
 	desc = "<B>Epilepsy Remedy</B>\nAdminister as required to surpress excessive coughs.\nAdminister only once every 15 minutes. Active for 20 at most.\n<B>WARNING</B>: Neurodepressant! Rebalances chemcial alignment!\n<B>Warning</B>: May cause drowsyness.\nIf drowsyness persists for over 5 minutes contact medical professional."
 	name = "Pill Canister- 'Epilepsy Remedy'"
-/obj/item/weapon/pill_canister/placebo
+/obj/item/pill_canister/placebo
 	desc = "<B>Placebos</B>\nThese pills do nothing phsyiologically."
 	name = "Pill Canister- 'Placebos'"
-/obj/item/weapon/pill_canister/sleep
+/obj/item/pill_canister/sleep
 	desc = "<B>Sleeping Pills</B>\nAdminister as required to calm person.\nCauses 10 minutes of drowsyness. MAY induce immediate sleep.\n<B>WARNING</B>: Neurodepressant! Do not overdose!\n<B>Warning</B>: Causes drowsiness!If drowsyness persists for over 15 minutes contact medical professional."
 	name = "Pill Canister- 'Sleeping Pills'"
-/obj/item/weapon/prox_sensor
+/obj/item/prox_sensor
 	name = "Proximity Sensor"
 	icon_state = "motion0"
 	var/state = 0.0
@@ -1690,10 +1668,10 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/time = null
 	w_class = 2.0
 	s_istate = "electronic"
-/obj/item/weapon/rack_parts
+/obj/item/rack_parts
 	name = "rack parts"
 	icon_state = "rack_parts"
-/obj/item/weapon/radio
+/obj/item/radio
 	name = "Station Bounced Radio"
 	icon='icons/goonstation/obj/device.dmi'
 	suffix = "\[3\]"
@@ -1701,8 +1679,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/last_transmission
 	var/freq = 145.9
 	var/traitorfreq = 0.0
-	var/obj/item/weapon/radio/patch_link = null
-	var/obj/item/weapon/syndicate_uplink/traitorradio = null
+	var/obj/item/radio/patch_link = null
+	var/obj/item/syndicate_uplink/traitorradio = null
 	var/wires = 7.0
 //					1				2				4
 //	var/wires = WIRE_SIGNAL | WIRE_RECEIVE | WIRE_TRANSMIT
@@ -1719,11 +1697,11 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 		WIRE_RECEIVE = 2
 		WIRE_TRANSMIT = 4
 		TRANSMISSION_DELAY = 5 // only 2/second/radio
-/obj/item/weapon/radio/beacon
+/obj/item/radio/beacon
 	name = "Tracking Beacon"
 	icon_state = "beacon"
 	var/code = "beacon"
-/obj/item/weapon/radio/electropack
+/obj/item/radio/electropack
 	name = "Electropack"
 	icon_state = "electropack0"
 	var/code = 2.0
@@ -1733,10 +1711,10 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	w_class = 5.0
 	flags = FPRINT | TABLEPASS | ONBACK
 	s_istate = "electropack"
-/obj/item/weapon/radio/headset
+/obj/item/radio/headset
 	name = "Radio Headset"
 	icon_state = "headset"
-/obj/item/weapon/radio/intercom
+/obj/item/radio/intercom
 	name = "Station Intercom (Radio)"
 	icon_state = "intercom"
 	anchored = 1.0
@@ -1745,7 +1723,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	s/pixel_y = -24
 	e/pixel_x = 24
 	w/pixel_x = -24
-/obj/item/weapon/radio/signaler
+/obj/item/radio/signaler
 	name = "Remote Signaling Device"
 	icon_state = "signaller"
 	var/code = 30.0
@@ -1753,7 +1731,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	freq = 145.7
 	var/delay = 0
 	var/airlock_wire = null
-/obj/item/weapon/rods
+/obj/item/rods
 	name = "rods"
 	icon_state = "rods"
 	var/amount = 1.0
@@ -1762,7 +1740,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throwforce = 20.0
 	throw_speed = 2
 	throw_range = 10
-/obj/item/weapon/screwdriver
+/obj/item/screwdriver
 	name = "screwdriver"
 	icon_state = "screwdriver"
 	force = 5.0
@@ -1770,7 +1748,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throwforce = 5.0
 	throw_speed = 3
 	throw_range = 5
-/obj/item/weapon/shard
+/obj/item/shard
 	name = "shard"
 	icon = 'icons/ss13/shards.dmi'
 	icon_state = "large"
@@ -1778,7 +1756,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	force = 7.0
 	throwforce = 10.0
 	s_istate = "shard-glass"
-/obj/item/weapon/sheet
+/obj/item/sheet
 	name = "sheet"
 	var/amount = 1.0
 	var/length = 2.5
@@ -1788,26 +1766,26 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throw_speed = 1
 	throw_range = 4
 	w_class = 4.0
-/obj/item/weapon/sheet/glass
+/obj/item/sheet/glass
 	name = "glass"
 	icon_state = "sheet-glass"
 	force = 5.0
-/obj/item/weapon/sheet/rglass
+/obj/item/sheet/rglass
 	name = "reinforced glass"
 	icon_state = "sheet-rglass"
 	s_istate = "sheet-rglass"
 	force = 6.0
-/obj/item/weapon/sheet/metal
+/obj/item/sheet/metal
 	name = "metal"
 	icon_state = "sheet-metal"
 	throwforce = 14.0
-/obj/item/weapon/sheet/r_metal
+/obj/item/sheet/r_metal
 	name = "reinforced metal"
 	icon_state = "sheet-r_metal"
 	force = 5.0
 	throwforce = 14.0
 	s_istate = "sheet-metal"
-/obj/item/weapon/shield
+/obj/item/shield
 	name = "shield"
 	icon_state = "shield0"
 	var/active = 0.0
@@ -1816,92 +1794,92 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throw_speed = 1
 	throw_range = 5
 	w_class = 2.0
-/obj/item/weapon/storage
+/obj/item/storage
 	name = "storage"
 	var/obj/screen/storage/boxes = null
 	var/obj/screen/close/closer = null
 	w_class = 3.0
 	icon = 'icons/goonstation/obj/storage.dmi'
-/obj/item/weapon/storage/backpack
+/obj/item/storage/backpack
 	name = "backpack"
 	icon_state = "backpack"
 	w_class = 4.0
 	flags = FPRINT | TABLEPASS | ONBACK
-/obj/item/weapon/storage/box
+/obj/item/storage/box
 	name = "Box"
 	icon_state = "box"
 	s_istate = "syringe"
-/obj/item/weapon/storage/disk_kit
+/obj/item/storage/disk_kit
 	name = "Data Disks"
 	icon_state = "disk_kit"
 	s_istate = "syringe"
 
-/obj/item/weapon/storage/disk_kit/disks
+/obj/item/storage/disk_kit/disks
 
-/obj/item/weapon/storage/disk_kit/disks2
+/obj/item/storage/disk_kit/disks2
 
-/obj/item/weapon/storage/fcard_kit
+/obj/item/storage/fcard_kit
 	name = "Fingerprint Cards"
 	icon_state = "id"
 	s_istate = "syringe"
-/obj/item/weapon/storage/firstaid
+/obj/item/storage/firstaid
 	name = "First-Aid"
 	throw_speed = 2
 	throw_range = 8
-/obj/item/weapon/storage/firstaid/fire
+/obj/item/storage/firstaid/fire
 	name = "Fire First Aid"
 	icon_state = "ointment"
-/obj/item/weapon/storage/firstaid/regular
+/obj/item/storage/firstaid/regular
 	icon_state = "firstaid"
-/obj/item/weapon/storage/firstaid/toxin
+/obj/item/storage/firstaid/toxin
 	name = "Toxin First Aid"
 	icon_state = "antitoxin"
-/obj/item/weapon/storage/flashbang_kit
+/obj/item/storage/flashbang_kit
 	desc = "<FONT color=red><B>WARNING: Do not use without reading these preautions!</B></FONT>\n<B>These devices are extremely dangerous and can cause blindness or deafness if used incorrectly.</B>\nThe chemicals contained in these devices have been tuned for maximal effectiveness and due to\nextreme safety precuaiotn shave been incased in a tamper-proof pack. DO NOT ATTEMPT TO OPEN\nFLASH WARNING: Do not use continually. Excercise extreme care when detonating in closed spaces.\n\tMake attemtps not to detonate withing range of 2 meters of the intended target. It is imperative\n\tthat the targets visit a medical professional after usage. Damage to eyes increases extremely per\n\tuse and according to range. Glasses with flash resistant filters DO NOT always work on high powered\n\tflash devices such as this. <B>EXERCISE CAUTION REGARDLESS OF CIRCUMSTANCES</B>\nSOUND WARNING: Do not use continually. Visit a medical professional if hearing is lost.\n\tThere is a slight chance per use of complete deafness. Exercise caution and restraint.\nSTUN WARNING: If the intended or unintended target is too close to detonation the resulting sound\n\tand flash have been known to cause extreme sensory overload resulting in temporary\n\tincapacitation.\n<B>DO NOT USE CONTINUALLY</B>\nOperating Directions:\n\t1. Pull detonnation pin. <B>ONCE THE PIN IS PULLED THE GRENADE CAN NOT BE DISARMED!</B>\n\t2. Throw grenade. <B>NEVER HOLD A LIVE FLASHBANG</B>\n\t3. The grenade will detonste 10 seconds hafter being primed. <B>EXCERCISE CAUTION</B>\n\t-<B>Never prime another grenade until after the first is detonated</B>\nNote: Usage of this pyrotechnic device without authorization is an extreme offense and can\nresult in severe punishment upwards of <B>10 years in prison per use</B>.\n\nDefault 3 second wait till from prime to detonation. This can be switched with a screwdriver\nto 10 seconds.\n\nCopyright of Nanotrasen Industries- Military Armnaments Division\nThis device was created by Nanotrasen Labs a member of the Expert Advisor Corporation"
 	name = "Flashbangs (WARNING)"
 	icon_state = "flashbang"
 	s_istate = "syringe_kit"
-/obj/item/weapon/storage/gl_kit
+/obj/item/storage/gl_kit
 	name = "Prescription Glasses"
 	icon_state = "id"
 	s_istate = "syringe_kit"
-/obj/item/weapon/storage/handcuff_kit
+/obj/item/storage/handcuff_kit
 	name = "Spare Handcuffs"
 	icon_state = "handcuff"
 	s_istate = "syringe_kit"
-/obj/item/weapon/storage/id_kit
+/obj/item/storage/id_kit
 	name = "Spare IDs"
 	icon_state = "id"
 	s_istate = "syringe_kit"
-/obj/item/weapon/storage/lglo_kit
+/obj/item/storage/lglo_kit
 	name = "Latex Gloves"
 	icon_state = "latex"
 	s_istate = "syringe_kit"
-/obj/item/weapon/storage/stma_kit
+/obj/item/storage/stma_kit
 	name = "Sterile Masks"
 	icon_state = "latex"
 	s_istate = "syringe_kit"
-/obj/item/weapon/storage/toolbox
+/obj/item/storage/toolbox
 	force = 8.0
 	throw_speed = 1
 	throw_range = 4
 	w_class = 4.0
-/obj/item/weapon/storage/toolbox/mechanical
+/obj/item/storage/toolbox/mechanical
 	name = "mechanical toolbox"
 	icon_state = "blue"
-/obj/item/weapon/storage/toolbox/electrical
+/obj/item/storage/toolbox/electrical
 	name = "electical toolbox"
 	icon_state = "yellow"
-/obj/item/weapon/storage/toolbox/emergency
+/obj/item/storage/toolbox/emergency
 	name = "emergency toolbox"
 	icon_state = "red"
 
 
-/obj/item/weapon/storage/trackimp_kit
+/obj/item/storage/trackimp_kit
 	name = "Tracking Implant Kit"
 	icon_state = "implant"
 	s_istate = "syringe"
-/obj/item/weapon/sword
+/obj/item/sword
 	name = "sword"
 	icon_state = "sword0"
 	var/active = 0.0
@@ -1911,19 +1889,19 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throw_range = 5
 	w_class = 2.0
 	flags = FPRINT | TABLEPASS | NOSHIELD
-/obj/item/weapon/syndicate_uplink
+/obj/item/syndicate_uplink
 	name = "Station Bounced Radio"
 	icon_state = "radio"
 	var/temp = null
 	var/uses = 1.0
 	var/selfdestruct = 0.0
 	var/traitorfreq = 0.0
-	var/obj/item/weapon/radio/origradio = null
+	var/obj/item/radio/origradio = null
 	w_class = 2.0
 	s_istate = "electronic"
 	throw_speed = 4
 	throw_range = 20
-/obj/item/weapon/syringe
+/obj/item/syringe
 	name = "syringe"
 	icon_state = "syringe_0"
 	var/datum/reagent_container/chem = null
@@ -1932,41 +1910,10 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throw_speed = 1
 	throw_range = 5
 	w_class = 1.0
-/obj/item/weapon/table_parts
+/obj/item/table_parts
 	name = "table parts"
 	icon_state = "table_parts"
-/obj/item/weapon/tank
-	name = "tank"
-	var/maximum = null
-	var/obj/substance/gas/gas = null
-	var/i_used = 100
-	flags = FPRINT | TABLEPASS | ONBACK
-	weight = 1000000.0
-	force = 5.0
-	throwforce = 10.0
-	throw_speed = 1
-	throw_range = 4
-/obj/item/weapon/tank/anesthetic
-	name = "anesthetic"
-	icon_state = "an_tank"
-	maximum = 3*ONE_ATMOSPHERE
-	i_used = 250.0
-/obj/item/weapon/tank/jetpack
-	name = "jetpack"
-	icon_state = "jetpack0"
-	var/on = 0.0
-	maximum = 30*ONE_ATMOSPHERE
-	w_class = 4.0
-	s_istate = "jetpack"
-/obj/item/weapon/tank/oxygentank
-	name = "oxygentank"
-	icon_state = "oxygen"
-	maximum = 5*ONE_ATMOSPHERE
-/obj/item/weapon/tank/plasmatank
-	name = "plasmatank"
-	icon_state = "plasma"
-	maximum = 5*ONE_ATMOSPHERE
-/obj/item/weapon/tile
+/obj/item/tile
 	name = "steel floor tile"
 	icon_state = "tile"
 	var/amount = 1.0
@@ -1975,14 +1922,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throw_range = 5
 	force = 6.0
 	throwforce = 7.0
-/obj/item/weapon/timer
-	name = "timer"
-	icon_state = "timer0"
-	var/timing = 0.0
-	var/time = null
-	w_class = 2.0
-	s_istate = "electronic"
-/obj/item/weapon/weldingtool
+/obj/item/weldingtool
 	name = "weldingtool"
 	icon_state = "welder"
 	var/welding = 0.0
@@ -1993,32 +1933,32 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	throw_speed = 1
 	throw_range = 5
 	w_class = 2.0
-/obj/item/weapon/wire
+/obj/item/wire
 	desc = "This is just a simple piece of regular insulated wire."
 	name = "wire"
 	icon_state = "item_wire"
 	var/amount = 1.0
 	var/laying = 0.0
 	var/old_lay = null
-/obj/item/weapon/wirecutters
+/obj/item/wirecutters
 	name = "wirecutters"
 	icon_state = "cutters"
 	force = 6.0
 	throw_speed = 2
 	throw_range = 9
 	w_class = 2.0
-/obj/item/weapon/wrapping_paper
+/obj/item/wrapping_paper
 	name = "wrapping paper"
 	icon_state = "wrap_paper"
 	var/amount = 20.0
-/obj/item/weapon/wrench
+/obj/item/wrench
 	name = "wrench"
 	icon_state = "wrench"
 	force = 5.0
 	throwforce = 7.0
 	w_class = 2.0
 
-/obj/item/weapon/cell
+/obj/item/cell
 	name = "power cell"
 	desc = "A rechargable electrochemical power cell."
 	icon = 'icons/immibis/power.dmi'
@@ -2107,7 +2047,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/t_per
 	var/c_per
 	var/c_status
-	var/obj/item/weapon/tank/holding
+	var/obj/item/tank/holding
 	var/max_valve = 1e6
 /obj/machinery/atmoalter/canister
 	name = "canister"
@@ -2263,8 +2203,8 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Master Air Control"
 /obj/machinery/computer/card
 	name = "Identification Computer"
-	var/obj/item/weapon/card/id/scan = null
-	var/obj/item/weapon/card/id/modify = null
+	var/obj/item/card/id/scan = null
+	var/obj/item/card/id/modify = null
 	var/authenticated = 0.0
 	var/mode = 0.0
 	var/printing = null
@@ -2273,7 +2213,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Communications Console"
 	req_access = list("access_comms")
 	var/prints_intercept = 1
-	var/obj/item/weapon/card/id/authenticated = 0
+	var/obj/item/card/id/authenticated = 0
 	var/list/messagetitle = list()
 	var/list/messagetext = list()
 	var/currmsg = 0
@@ -2302,9 +2242,9 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Log Computer"
 /obj/machinery/computer/dna
 	name = "DNA operations computer"
-	var/obj/item/weapon/card/data/scan = null
-	var/obj/item/weapon/card/data/modify = null
-	var/obj/item/weapon/card/data/modify2 = null
+	var/obj/item/card/data/scan = null
+	var/obj/item/card/data/modify = null
+	var/obj/item/card/data/modify2 = null
 	var/mode = null
 	var/temp = null
 
@@ -2322,7 +2262,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/machinery/computer/med_data
 	name = "Medical Records"
 	req_access = list("access_medical_records")
-	var/obj/item/weapon/card/id/scan = null
+	var/obj/item/card/id/scan = null
 	var/authenticated = null
 	var/rank = null
 	var/screen = null
@@ -2344,7 +2284,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/machinery/computer/secure_data
 	name = "Security Records"
 	req_access = list("access_security_records")
-	var/obj/item/weapon/card/id/scan = null
+	var/obj/item/card/id/scan = null
 	var/authenticated = null
 	var/rank = null
 	var/screen = null
@@ -2368,7 +2308,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/obj/machinery/sleeper/connected = null
 /obj/machinery/computer/teleporter
 	name = "Teleporter"
-	var/obj/item/weapon/radio/beacon/locked = null
+	var/obj/item/radio/beacon/locked = null
 	var/id = null
 
 
@@ -2490,7 +2430,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	var/code = ""
 	var/yes_code = 0.0
 	var/safety = 1.0
-	var/obj/item/weapon/disk/nuclear/auth = null
+	var/obj/item/disk/nuclear/auth = null
 	flags = FPRINT
 
 /obj/machinery/atmospherics/binary/oneway
@@ -2571,7 +2511,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon = 'icons/ss13/Cryogenic2.dmi'
 	icon_state = "scannerconsole"
 	density = 1
-	var/obj/item/weapon/card/data/scan = null
+	var/obj/item/card/data/scan = null
 	var/func = ""
 	var/data = ""
 	var/special = ""
@@ -2587,7 +2527,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	name = "Security Pad"
 	icon = 'icons/ss13/stationobjs.dmi'
 	icon_state = "sec_lock"
-	var/obj/item/weapon/card/id/scan = null
+	var/obj/item/card/id/scan = null
 	var/a_type = 0.0
 	var/obj/machinery/door/d1 = null
 	var/obj/machinery/door/d2 = null
@@ -2679,7 +2619,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	anchored = 1
 	req_access = list("access_apcs")
 	var/area/area
-	var/obj/item/weapon/cell/cell
+	var/obj/item/cell/cell
 	var/start_charge = 90				// initial cell charge %
 	var/cell_type = 25000				// 0=no cell, otherwise dictate cellcapacity by changing this value
 	var/opened = 0
@@ -2811,7 +2751,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/machinery/power/portable_gen
 	name = "portable generator"
 	desc = "A plasma-powered portable power generator."
-	var/obj/item/weapon/tank/holding
+	var/obj/item/tank/holding
 	anchored = 0
 	netnum = -1
 	directwired = 0
@@ -2852,7 +2792,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	desc = "A charging unit for power cells."
 	icon = 'icons/immibis/power.dmi'
 	icon_state = "ccharger0"
-	var/obj/item/weapon/cell/charging = null
+	var/obj/item/cell/charging = null
 	var/chargelevel = -1
 	anchored = 1
 
@@ -2971,7 +2911,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon = 'icons/ss13/stationobjs.dmi'
 	icon_state = "portal"
 	density = 1
-	var/obj/item/weapon/radio/beacon/target = null
+	var/obj/item/radio/beacon/target = null
 	var/creator = null
 	anchored = 1.0
 /obj/projection
@@ -3043,7 +2983,7 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	icon_state = "e_chair0"
 	var/atom/movable/overlay/overl = null
 	var/on = 0.0
-	var/obj/item/weapon/assembly/shock_kit/part1 = null
+	var/obj/item/assembly/shock_kit/part1 = null
 	var/last_time = 1.0
 /obj/substance
 	name = "substance"
@@ -3055,5 +2995,5 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 	anchored = 1.0
 
 
-/obj/item/weapon/mouse_drag_pointer = MOUSE_ACTIVE_POINTER
+/obj/item/mouse_drag_pointer = MOUSE_ACTIVE_POINTER
 /mob/mouse_drag_pointer = MOUSE_ACTIVE_POINTER

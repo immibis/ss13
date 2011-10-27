@@ -29,13 +29,13 @@
 		// nothing equipped, can't throw it really
 		return
 
-	u_equip(item)
+	unequip(item)
 	if(src.client)
 		src.client.screen -= item
 	item.loc = src.loc
-	if (istype(item, /obj/item/weapon/grab))
+	if (istype(item, /obj/item/grab))
 		item = item:throw() //throw the person instead of the grab
-	if(istype(item, /obj/item/weapon))
+	if(istype(item, /obj/item))
 		item:dropped(src) // let it know it's been dropped
 
 	//actually throw it!

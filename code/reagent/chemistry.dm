@@ -225,7 +225,7 @@ obj/machinery/chem_dispenser
 	icon_state = "dispenser-goonstation"
 
 	var/list/reagent_names = list()
-	var/obj/item/weapon/container = null
+	var/obj/item/container = null
 	var/datum/reagent_container/chem = null
 	New()
 		. = ..()
@@ -237,7 +237,7 @@ obj/machinery/chem_dispenser
 
 	// doesn't need power
 
-	attackby(obj/item/weapon/O, mob/user)
+	attackby(obj/item/O, mob/user)
 		if(!container && "chem" in O.vars && O.Move(src))
 			container = O
 			chem = O:chem
@@ -275,7 +275,7 @@ obj/machinery/chem_dispenser
 			chem.add_reagent(chem)
 			UpdateInteraction(src)
 
-/obj/item/weapon/reagent/beaker
+/obj/item/reagent/beaker
 	name = "Beaker"
 	icon_state = "beaker0"
 	icon = 'icons/goonstation/obj/chemical.dmi'
@@ -283,21 +283,21 @@ obj/machinery/chem_dispenser
 	max_volume = 150
 	transfer_size = 150
 
-/obj/item/weapon/storage/beaker_box
+/obj/item/storage/beaker_box
 	name = "Beakers"
 	icon_state = "beaker"
 	s_istate = "syringe_kit"
 	New()
 		. = ..()
 		for(var/k = 1 to 7)
-			new /obj/item/weapon/reagent/beaker(src)
+			new /obj/item/reagent/beaker(src)
 
-/obj/item/weapon/storage/syringe
+/obj/item/storage/syringe
 	name = "Syringes (Biohazard Alert)"
 	icon_state = "syringe"
 	s_istate = "syringe_kit"
 	New()
 		. = ..()
 		for(var/k = 1 to 7)
-			new /obj/item/weapon/syringe(src)
+			new /obj/item/syringe(src)
 

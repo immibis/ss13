@@ -61,7 +61,7 @@
 			src.state = STATE_DEFAULT
 		if("login")
 			var/mob/human/M = usr
-			var/obj/item/weapon/card/id/I = M.equipped()
+			var/obj/item/card/id/I = M.equipped()
 			if(I && istype(I) && src.check_access(I))
 				authenticated = I
 			else if(istype(M))
@@ -323,7 +323,7 @@
 			src.modify = null
 		else
 			var/obj/item/I = usr.equipped()
-			if (istype(I, /obj/item/weapon/card/id))
+			if (istype(I, /obj/item/card/id))
 				usr.drop_item()
 				I.loc = src
 				src.modify = I
@@ -334,7 +334,7 @@
 			src.scan = null
 		else
 			var/obj/item/I = usr.equipped()
-			if (istype(I, /obj/item/weapon/card/id))
+			if (istype(I, /obj/item/card/id))
 				usr.drop_item()
 				I.loc = src
 				src.scan = I
@@ -373,7 +373,7 @@
 		if (!( src.printing ))
 			src.printing = 1
 			sleep(50)
-			var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
+			var/obj/item/paper/P = new /obj/item/paper( src.loc )
 			var/t1 = "<B>Crew Manifest:</B><BR>"
 			for(var/datum/data/record/t in data_core.general)
 				t1 += "<B>[t.fields["name"]]</B> - [t.fields["rank"]]<BR>"
@@ -522,7 +522,7 @@
 			var/datum/data/record/G = new /datum/data/record(  )
 			var/datum/data/record/M = new /datum/data/record(  )
 			var/datum/data/record/S = new /datum/data/record(  )
-			var/obj/item/weapon/card/id/C = H.wear_id
+			var/obj/item/card/id/C = H.wear_id
 			if (C)
 				G.fields["rank"] = C.assignment
 			else

@@ -218,7 +218,7 @@
 					M.sdisabilities |= 1
 		else
 			M.plasma += volume * 6
-			for(var/obj/item/weapon/implant/tracking/T in M)
+			for(var/obj/item/implant/tracking/T in M)
 				M.plasma += 1
 				del(T)
 	return

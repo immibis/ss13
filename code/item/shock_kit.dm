@@ -1,4 +1,4 @@
-/obj/item/weapon/assembly/shock_kit/Del()
+/obj/item/assembly/shock_kit/Del()
 	//src.part1 = null
 	del(src.part1)
 	//src.part2 = null
@@ -6,8 +6,8 @@
 	..()
 	return
 
-/obj/item/weapon/assembly/shock_kit/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if ((istype(W, /obj/item/weapon/wrench) && !( src.status )))
+/obj/item/assembly/shock_kit/attackby(obj/item/W as obj, mob/user as mob)
+	if ((istype(W, /obj/item/wrench) && !( src.status )))
 		var/turf/T = src.loc
 		if (ismob(T))
 			T = T.loc
@@ -19,7 +19,7 @@
 		src.part2 = null
 		del(src)
 		return
-	if (!( istype(W, /obj/item/weapon/screwdriver) ))
+	if (!( istype(W, /obj/item/screwdriver) ))
 		return
 	src.status = !( src.status )
 	if (!src.status)
@@ -29,13 +29,13 @@
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/shock_kit/attack_self(mob/user as mob)
+/obj/item/assembly/shock_kit/attack_self(mob/user as mob)
 	src.part1.attack_self(user, src.status)
 	src.part2.attack_self(user, src.status)
 	src.add_fingerprint(user)
 	return
 
-/obj/item/weapon/assembly/shock_kit/r_signal(n, source)
+/obj/item/assembly/shock_kit/r_signal(n, source)
 	//*****
 	//world << "Shock kit got r_signal"
 	if (istype(src.loc, /obj/stool/chair/e_chair))

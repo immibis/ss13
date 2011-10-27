@@ -63,11 +63,11 @@ obj/high_voltage
 
 // attach a wire to a power machine - leads from the turf you are standing on
 
-/obj/machinery/power/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/power/attackby(obj/item/W, mob/user)
 
-	if(istype(W, /obj/item/weapon/cable_coil))
+	if(istype(W, /obj/item/cable_coil))
 
-		var/obj/item/weapon/cable_coil/coil = W
+		var/obj/item/cable_coil/coil = W
 
 		var/turf/T = user.loc
 

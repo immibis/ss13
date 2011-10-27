@@ -39,40 +39,40 @@
 			H.already_placed = 1
 			//H.jumpsuit = null
 			del(H.wear_suit)
-			H.w_uniform = new /obj/item/weapon/clothing/under/black( H )
+			H.w_uniform = new /obj/item/clothing/under/black( H )
 			H.w_uniform.layer = 20
 			//H.shoes = null
 			del(H.shoes)
-			H.wear_suit = new /obj/item/weapon/clothing/suit/heavy_armor( H )
+			H.wear_suit = new /obj/item/clothing/suit/heavy_armor( H )
 			H.wear_suit.layer = 20
-			H.shoes = new /obj/item/weapon/clothing/shoes/black( H )
+			H.shoes = new /obj/item/clothing/shoes/black( H )
 			H.shoes.layer = 20
-			H.gloves = new /obj/item/weapon/clothing/gloves/swat( H )
+			H.gloves = new /obj/item/clothing/gloves/swat( H )
 			H.gloves.layer = 20
-			H.head = new /obj/item/weapon/clothing/head/helmet/swat_hel( H )
+			H.head = new /obj/item/clothing/head/helmet/swat_hel( H )
 			H.head.layer = 20
-			H.glasses = new /obj/item/weapon/clothing/glasses/sunglasses( H )
+			H.glasses = new /obj/item/clothing/glasses/sunglasses( H )
 			H.glasses.layer = 20
-			H.back = new /obj/item/weapon/storage/backpack( H )
+			H.back = new /obj/item/storage/backpack( H )
 			H.back.layer = 20
-			var/obj/item/weapon/ammo/a357/W = new /obj/item/weapon/ammo/a357( H.back )
+			var/obj/item/ammo/a357/W = new /obj/item/ammo/a357( H.back )
 			W.layer = 20
-			W = new /obj/item/weapon/m_pill/cyanide( H.back )
+			W = new /obj/item/m_pill/cyanide( H.back )
 			W.layer = 20
-			var/obj/item/weapon/gun/revolver/G = new /obj/item/weapon/gun/revolver( H )
+			var/obj/item/gun/revolver/G = new /obj/item/gun/revolver( H )
 			G.bullets = 7
 			G.layer = 20
 			H.belt = G
-			var/obj/item/weapon/radio/R = new /obj/item/weapon/radio/headset( H )
+			var/obj/item/radio/R = new /obj/item/radio/headset( H )
 			R.freq = 146.5
 			R.layer = 20
 			H.w_radio = R
 
 /datum/game_mode/nuclear/post_setup()
-	spawn (50)
+	spawn(5)
 		var/obj/L = locate("landmark*Nuclear-Disk")
 		if (L)
-			new /obj/item/weapon/disk/nuclear(L.loc)
+			new /obj/item/disk/nuclear(L.loc)
 
 		L = locate("landmark*Nuclear-Closet")
 		if (L)
@@ -86,7 +86,7 @@
 				ticker.killer.memory += text("<B>Syndicate Nuclear Bomb Code</B>: []<BR>", NB.r_code)
 				ticker.killer << text("The nuclear authorization code is: <B>[]</B>\]", NB.r_code)
 				ticker.killer << text("Nuclear Explosives 101:\n\tHello and thank you for choosing the Syndicate for your nuclear information needs.\nToday's crash course will deal with the operation of a Fusion Class Nanotrasen made Nuclear Device.\nFirst and foremost, DO NOT TOUCH ANYTHING UNTIL THE BOMB IS IN PLACE.\nPressing any button on the compacted bomb will cause it to extend and bolt itself into place.\nIf this is done to unbolt it one must compeltely log in which at this time may not be possible.\nTo make the device functional:\n1. Place bomb in designated detonation zone\n2. Extend and anchor bomb (attack with hand).\n3. Insert Nuclear Auth. Disk into slot.\n4. Type numeric code into keypad ([]).\n\tNote: If you make a mistake press R to reset the device.\n5. Press the E button to log onto the device\nYou now have activated the device. To deactivate the buttons at anytime for example when\nyou've already prepped the bomb for detonation remove the auth disk OR press the R ont he keypad.\nNow the bomb CAN ONLY be detonated using the timer. A manual det. is not an option.\n\tNote: Nanotrasen is a pain in the neck.\nToggle off the SAFETY.\n\tNote: You wouldn't believe how many Syndicate Operatives with doctorates have forgotten this step\nSo use the - - and + + to set a det time between 5 seconds and 10 minutes.\nThen press the timer toggle button to start the countdown.\nNow remove the auth. disk so that the buttons deactivate.\n\tNote: THE BOMB IS STILL SET AND WILL DETONATE\nNow before you remvoe the disk if you need to mvoe the bomb you can:\nToggle off the anchor, move it, and re-anchor.\n\nGood luck. Remember the order:\nDisk, Code, Safety, Timer, Disk, RUN\nGood luck.\nIntelligence Analysts believe that they are hiding the disk in the control room emergency room", NB.r_code)
-				var/obj/item/weapon/paper/P = new /obj/item/weapon/paper(ticker.killer.loc)
+				var/obj/item/paper/P = new /obj/item/paper(ticker.killer.loc)
 				P.info = text("The nuclear authorization code is: <b>[]</b>", NB.r_code)
 				P.name = "nuclear bomb code"
 
@@ -97,19 +97,12 @@
 				continue
 
 			if (A.name == "Syndicate-Bomb")
-				var/obj/item/weapon/assembly/t_i_ptank/R = new /obj/item/weapon/assembly/t_i_ptank(A.loc )
-				var/obj/item/weapon/timer/p1 = new /obj/item/weapon/timer(R)
-				var/obj/item/weapon/igniter/p2 = new /obj/item/weapon/igniter(R)
-				var/obj/item/weapon/tank/plasmatank/p3 = new /obj/item/weapon/tank/plasmatank(R)
-				R.part1 = p1
-				R.part2 = p2
-				R.part3 = p3
-				p1.master = R
-				p2.master = R
-				p3.master = R
-				R.status = 1
-				p3.gas.temperature = 650 +T0C
-				p2.status = 1
+				var/obj/item/assembly/bomb/R = new /obj/item/assembly/bomb(A.loc)
+				R.attackby(new /obj/item/trigger/timer)
+				R.attackby(new /obj/item/igniter)
+				R.attackby(new /obj/item/tank/plasma)
+				R.PT.gas.temperature = 650 +T0C
+				R.I.status = 1
 				del(A)
 				continue
 
@@ -121,7 +114,7 @@
 
 	if (ticker.objective != "Success")
 		var/disk_on_shuttle = 0
-		for(var/obj/item/weapon/disk/nuclear/N in world)
+		for(var/obj/item/disk/nuclear/N in world)
 			if (N.loc)
 				var/turf/T = get_turf(N)
 				if ((T in A))

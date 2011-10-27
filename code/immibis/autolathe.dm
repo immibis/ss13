@@ -1,12 +1,12 @@
 var/list/autolathe_items = list(
-	list("Wirecutters", 80, 0, /obj/item/weapon/wirecutters),
-	list("Wrench", 150, 0, /obj/item/weapon/wrench),
-	list("Crowbar", 50, 0, /obj/item/weapon/crowbar),
-	list("Welder", 30, 30, /obj/item/weapon/weldingtool),
+	list("Wirecutters", 80, 0, /obj/item/wirecutters),
+	list("Wrench", 150, 0, /obj/item/wrench),
+	list("Crowbar", 50, 0, /obj/item/crowbar),
+	list("Welder", 30, 30, /obj/item/weldingtool),
 	list("Welding helmet", 3000, 1000),
-	list("Multitool", 50, 20, /obj/item/weapon/multitool),
-	list("Flashlight", 50, 20, /obj/item/weapon/flashlight),
-	list("Fire extinguisher", 90, 0, /obj/item/weapon/extinguisher),
+	list("Multitool", 50, 20, /obj/item/multitool),
+	list("Flashlight", 50, 20, /obj/item/flashlight),
+	list("Fire extinguisher", 90, 0, /obj/item/extinguisher),
 	list("Metal", 3750, 0),
 	list("Glass", 3750, 0),
 	list("Reinforced metal", 7500, 0),
@@ -15,7 +15,7 @@ var/list/autolathe_items = list(
 	list("Compressed matter cartridge", 30000, 15000),
 	list("Scalpel", 10000, 5000, ),
 	list("Circular saw", 20000, 10000),
-	list("T-ray scanner", 150, 0, /obj/item/weapon/t_scanner)
+	list("T-ray scanner", 150, 0, /obj/item/t_scanner)
 )
 
 obj/machinery/autolathe
@@ -35,16 +35,16 @@ obj/machinery/autolathe
 		add_fingerprint(user)
 		interact(user)
 
-	attackby(obj/item/weapon/W as obj, mob/user as mob)
+	attackby(obj/item/W as obj, mob/user as mob)
 		add_fingerprint(user)
-		var/obj/item/weapon/sheet/S = W
-		if(istype(W, /obj/item/weapon/sheet/metal))
+		var/obj/item/sheet/S = W
+		if(istype(W, /obj/item/sheet/metal))
 			metal += 3750 * S.amount
-		else if(istype(W, /obj/item/weapon/sheet/glass))
+		else if(istype(W, /obj/item/sheet/glass))
 			glass += 3750 * S.amount
-		else if(istype(W, /obj/item/weapon/sheet/r_metal))
+		else if(istype(W, /obj/item/sheet/r_metal))
 			metal += 7500 * S.amount
-		else if(istype(W, /obj/item/weapon/sheet/rglass))
+		else if(istype(W, /obj/item/sheet/rglass))
 			metal += 1875 * S.amount
 			glass += 3750 * S.amount
 		else

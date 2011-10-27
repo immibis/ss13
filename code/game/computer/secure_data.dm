@@ -66,7 +66,7 @@
 				src.scan = null
 			else
 				var/obj/item/I = usr.equipped()
-				if (istype(I, /obj/item/weapon/card/id))
+				if (istype(I, /obj/item/card/id))
 					usr.drop_item()
 					I.loc = src
 					src.scan = I
@@ -84,7 +84,7 @@
 						src.authenticated = 1
 						src.rank = "AI"
 						src.screen = 1
-					if (istype(src.scan, /obj/item/weapon/card/id))
+					if (istype(src.scan, /obj/item/card/id))
 						src.active1 = null
 						src.active2 = null
 						if(check_access(src.scan))
@@ -349,7 +349,7 @@
 				if (!( src.printing ))
 					src.printing = 1
 					sleep(50)
-					var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( src.loc )
+					var/obj/item/paper/P = new /obj/item/paper( src.loc )
 					P.info = "<CENTER><B>Security Record</B></CENTER><BR>"
 					if ((istype(src.active1, /datum/data/record) && data_core.general.Find(src.active1)))
 						P.info += text("Name: [] ID: []<BR>\nSex: []<BR>\nAge: []<BR>\nFingerprint: []<BR>\nPhysical Status: []<BR>\nMental Status: []<BR>", src.active1.fields["name"], src.active1.fields["id"], src.active1.fields["sex"], src.active1.fields["age"], src.active1.fields["fingerprint"], src.active1.fields["p_stat"], src.active1.fields["m_stat"])

@@ -19,9 +19,9 @@ obj/machinery/trashcompactor
 			AddMatter(O2)
 		for(var/mob/M in O.contents)
 			for(var/o in M.organs)
-				var/obj/item/weapon/organ/organ = M.organs[o]
+				var/obj/item/organ/organ = M.organs[o]
 				M.organs -= o
-				if(istype(organ, /obj/item/weapon/organ/internal))
+				if(istype(organ, /obj/item/organ/internal))
 					del(organ)
 				else
 					organ.Move(get_step(loc, EAST))
@@ -41,7 +41,7 @@ obj/machinery/trashcompactor
 			del(O)
 		if(matter > 0)
 			use_power(TRASHCOMPACTOR_POWER)
-			var/obj/item/weapon/compacted_cube/cube = new(loc)
+			var/obj/item/compacted_cube/cube = new(loc)
 			cube.weight = matter
 			step(cube, EAST)
 			if(!was_running)
@@ -59,7 +59,7 @@ obj/machinery/trashcompactor
 			was_running = 0
 			icon_state = "off"
 
-obj/item/weapon/compacted_cube
+obj/item/compacted_cube
 	name = "cube"
 	icon = 'icons/immibis/trashcompactor.dmi'
 	icon_state = "cube"

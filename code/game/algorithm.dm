@@ -199,7 +199,7 @@ var/const
 	slot_w_radio = 17
 	slot_in_backpack = 18
 
-/mob/human/proc/equip_if_possible(obj/item/weapon/W, slot) // since byond doesn't seem to have pointers, this seems like the best way to do this :/
+/mob/human/proc/equip_if_possible(obj/item/W, slot) // since byond doesn't seem to have pointers, this seems like the best way to do this :/
 	//warning: icky code
 	var/equipped = 0
 	if((slot == l_store || slot == r_store || slot == belt || slot == wear_id) && !src.w_uniform)
@@ -275,8 +275,8 @@ var/const
 				src.w_radio = W
 				equipped = 1
 		if(slot_in_backpack)
-			if (src.back && istype(src.back, /obj/item/weapon/storage/backpack))
-				var/obj/item/weapon/storage/backpack/B = src.back
+			if (src.back && istype(src.back, /obj/item/storage/backpack))
+				var/obj/item/storage/backpack/B = src.back
 				if(B.contents.len < 7 && W.w_class <= 3)
 					W.loc = B
 					equipped = 1
@@ -293,21 +293,21 @@ var/const
 			src.loc = S.loc
 			src.AIize()
 		return
-	src.equip_if_possible(new /obj/item/weapon/radio/headset(src), slot_w_radio)
-	src.equip_if_possible(new /obj/item/weapon/storage/backpack(src), slot_back)
+	src.equip_if_possible(new /obj/item/radio/headset(src), slot_w_radio)
+	src.equip_if_possible(new /obj/item/storage/backpack(src), slot_back)
 	if (src.disabilities & 1)
-		src.equip_if_possible(new /obj/item/weapon/clothing/glasses/regular(src), slot_glasses)
+		src.equip_if_possible(new /obj/item/clothing/glasses/regular(src), slot_glasses)
 	var/list/items = GetJobItems(rank)
 	for(var/jobitem/i in items)
 		src.equip_if_possible(new i.path(src), i.slot)
-	var/obj/item/weapon/card/id/C = new /obj/item/weapon/card/id(src)
+	var/obj/item/card/id/C = new /obj/item/card/id(src)
 	C.registered = src.rname
 	C.assignment = rank
 	C.name = "[C.registered]'s ID Card ([C.assignment])"
 	C.access = get_access(C.assignment)
 	src.equip_if_possible(C, slot_wear_id)
-	src.equip_if_possible(new /obj/item/weapon/pen(src), slot_r_store)
-	src.equip_if_possible(new /obj/item/weapon/radio/signaler(src), slot_belt)
+	src.equip_if_possible(new /obj/item/pen(src), slot_r_store)
+	src.equip_if_possible(new /obj/item/radio/signaler(src), slot_belt)
 	if(rank == "Captain")
 		world << "<b>[src] is the captain!</b>"
 	src << "<B>You are the [rank].</B>"

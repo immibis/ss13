@@ -1,6 +1,6 @@
-obj/item/weapon/sheet/metal/proc
+obj/item/sheet/metal/proc
 	make_rods()
-		var/obj/item/weapon/rods/R = new /obj/item/weapon/rods( usr.loc )
+		var/obj/item/rods/R = new /obj/item/rods( usr.loc )
 		R.amount = 2
 	make_chair()
 		var/obj/stool/chair/C = new /obj/stool/chair( usr.loc )
@@ -27,10 +27,10 @@ obj/item/weapon/sheet/metal/proc
 		C.gas.n2 = 0
 		C.gas.o2 = 0
 	make_reinforced_metal()
-		var/obj/item/weapon/sheet/r_metal/C = new /obj/item/weapon/sheet/r_metal( usr.loc )
+		var/obj/item/sheet/r_metal/C = new /obj/item/sheet/r_metal( usr.loc )
 		C.amount = 1
 	make_tiles()
-		var/obj/item/weapon/tile/R = new /obj/item/weapon/tile( usr.loc )
+		var/obj/item/tile/R = new /obj/item/tile( usr.loc )
 		R.amount = 4
 	construct_wall()
 		if (src.amount < 2)
@@ -83,10 +83,10 @@ var/list/buildable_with_metal = list(
 	// "id" = list("description", amount, type-or-proc),
 	// procs can return 1 to cancel (and not use any metal)
 	"rods" = list("Make 2 metal rods", 1, "make_rods"),
-	"table" = list("Make table parts", 2, /obj/item/weapon/table_parts),
+	"table" = list("Make table parts", 2, /obj/item/table_parts),
 	"stool" = list("Make stool", 1, /obj/stool),
 	"chair" = list("Make chair", 1, "make_chair"),
-	"rack" = list("Make rack parts", 1, /obj/item/weapon/rack_parts),
+	"rack" = list("Make rack parts", 1, /obj/item/rack_parts),
 	"o2can" = list("Make empty O2 canister", 2, "make_oxycan"),
 	"plcan" = list("Make empty plasma canister", 2, "make_plcan"),
 	//"n2can" = list("Make empty N2 canister", 2, "make_n2can"),
@@ -104,10 +104,10 @@ var/list/buildable_with_metal = list(
 //	"turbine" = list("Construct gas turbine", 2, "construct_turbine")
 	)
 
-/obj/item/weapon/sheet/metal/attack_hand(mob/user as mob)
+/obj/item/sheet/metal/attack_hand(mob/user as mob)
 	if ((user.r_hand == src || user.l_hand == src))
 		src.add_fingerprint(user)
-		var/obj/item/weapon/sheet/metal/F = new /obj/item/weapon/sheet/metal( user )
+		var/obj/item/sheet/metal/F = new /obj/item/sheet/metal( user )
 		F.amount = 1
 		src.amount--
 		if (user.hand)
@@ -124,8 +124,8 @@ var/list/buildable_with_metal = list(
 	src.force = 5
 	return
 
-/obj/item/weapon/sheet/metal/attackby(obj/item/weapon/sheet/metal/W as obj, mob/user as mob)
-	if (!( istype(W, /obj/item/weapon/sheet/metal) ))
+/obj/item/sheet/metal/attackby(obj/item/sheet/metal/W as obj, mob/user as mob)
+	if (!( istype(W, /obj/item/sheet/metal) ))
 		return
 	if (W.amount >= 5)
 		return
@@ -139,12 +139,12 @@ var/list/buildable_with_metal = list(
 		return
 	return
 
-/obj/item/weapon/sheet/metal/examine()
+/obj/item/sheet/metal/examine()
 	set src in view(1)
 	..()
 	usr << "There are [amount] metal sheet\s on the stack."
 
-/obj/item/weapon/sheet/metal/attack_self(mob/user as mob)
+/obj/item/sheet/metal/attack_self(mob/user as mob)
 	var/t1 = "<HTML><HEAD></HEAD><BODY><span style='font-size: small;'><TT>Amount Left: [src.amount] <BR>"
 	for(var/item in buildable_with_metal)
 		var/list/data = buildable_with_metal[item]
@@ -156,7 +156,7 @@ var/list/buildable_with_metal = list(
 	user << browse(t1, "window=metal_sheet")
 	return
 
-/obj/item/weapon/sheet/metal/Topic(href, href_list)
+/obj/item/sheet/metal/Topic(href, href_list)
 	..()
 	if ((usr.restrained() || usr.stat || usr.equipped() != src))
 		return
@@ -174,13 +174,13 @@ var/list/buildable_with_metal = list(
 		else if(istext(item[3]))
 			// hascall is buggy if the name has a _ in it
 			//if(!hascall(src, item[3]))
-			//	CRASH("Build callback doesn't exist in /obj/item/weapon/sheet/metal: [item[3]]")
+			//	CRASH("Build callback doesn't exist in /obj/item/sheet/metal: [item[3]]")
 			if(call(src, item[3])() != 1)
 				src.amount -= item[2]
 		else
 			CRASH("Build callback not a path or text: [item[3]]")
 		if(src.amount <= 0)
-			usr.u_equip(src)
+			usr.unequip(src)
 			del(src)
 			usr << browse(null, "window=met_sheet")
 			return

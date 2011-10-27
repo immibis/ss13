@@ -12,7 +12,7 @@ obj/machinery/power/teslacoil
 	name = "Tesla coil"
 	proc/send_interference()
 		var/list/interfere = new
-		for(var/obj/item/weapon/radio/R in interfere)
+		for(var/obj/item/radio/R in interfere)
 			if(R.freq == frequency)
 				R.send_crackle() << "\icon[R] *BUZZ* *HISS* *BUZZ*"
 
