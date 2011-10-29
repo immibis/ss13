@@ -20,7 +20,7 @@ obj/item/reagent
 		reagents = new
 		reagents.max_volume = max_volume
 		if(default_reagent)
-			reagents.init(max_volume, default_reagent)
+			reagents.init(default_reagent, max_volume)
 
 	examine()
 		set src in view(usr)
@@ -31,7 +31,13 @@ obj/item/reagent
 	attackby(obj/item/reagent/B as obj, mob/user as mob)
 
 		if(!istype(B))
-			return ..()
+			if(B.reagents && transfer_mode == TRANSFER_DEFAULT)
+				var/amt = min(min(reagents.cur_volume, transfer_size), B.reagents.max_volume - B.reagents.cur_volume)
+				B.reagents.transfer_from(reagents, amt)
+				user.show_message("\blue You pour [amt] units onto \the [B]. \The [src] now contains [reagents.describe()].", 1)
+				return
+			else
+				return ..()
 
 		if(B.transfer_mode != TRANSFER_DEFAULT && transfer_mode == TRANSFER_DEFAULT)
 			return B.attackby(src, user)

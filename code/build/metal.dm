@@ -151,7 +151,7 @@ var/list/buildable_with_metal = list(
 		if(src.amount >= data[2])
 			t1 += "<A href='?src=\ref[src];make=[item]'>[data[1]]</A> ([data[2]] metal)<BR>"
 		else
-			t1 += "[item[1]] (<span style='color: red;'>need [data[2]] metal</span>)<BR>"
+			t1 += "[data[1]] (<span style='color: red;'>need [data[2]] metal</span>)<BR>"
 	t1 += "</TT></span></HTML>"
 	user << browse(t1, "window=metal_sheet")
 	return

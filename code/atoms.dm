@@ -338,7 +338,7 @@
 	icon = 'icons/ss13/weap_sat.dmi'
 	icon_state = "laser"
 	var/obj/beam/i_beam/next = null
-	var/obj/item/infra/master = null
+	var/obj/item/trigger/infra/master = null
 	var/limit = null
 	var/visible = 0.0
 	var/left = null
@@ -1329,15 +1329,6 @@ obj/item/clothing/suit/labcoat
 	throw_speed = 1
 	throw_range = 5
 	w_class = 2.0
-/obj/item/infra
-	name = "Infrared Beam (Security)"
-	desc = "Emits a visible or invisible beam and is triggered when the beam is interrupted."
-	icon_state = "infrared0"
-	var/obj/beam/i_beam/first = null
-	var/state = 0.0
-	var/visible = 0.0
-	w_class = 2.0
-	s_istate = "electronic"
 /obj/item/infra_sensor
 	name = "Infrared Sensor"
 	desc = "Scans for infrared beams in the vicinity."
@@ -1660,14 +1651,6 @@ Total SMES charging rate should not exceed total power generation rate, or an ov
 /obj/item/pill_canister/sleep
 	desc = "<B>Sleeping Pills</B>\nAdminister as required to calm person.\nCauses 10 minutes of drowsyness. MAY induce immediate sleep.\n<B>WARNING</B>: Neurodepressant! Do not overdose!\n<B>Warning</B>: Causes drowsiness!If drowsyness persists for over 15 minutes contact medical professional."
 	name = "Pill Canister- 'Sleeping Pills'"
-/obj/item/prox_sensor
-	name = "Proximity Sensor"
-	icon_state = "motion0"
-	var/state = 0.0
-	var/timing = 0.0
-	var/time = null
-	w_class = 2.0
-	s_istate = "electronic"
 /obj/item/rack_parts
 	name = "rack parts"
 	icon_state = "rack_parts"

@@ -1534,14 +1534,14 @@
 
 /obj/item/sheet/glass/attack_self(mob/user as mob)
 
-	if (!( istype(usr.loc, /turf/simulated) ))
+	if (!( istype(user.loc, /turf/simulated) ))
 		return
-	if (!(istype(usr, /mob/human) || ticker) && ticker.mode.name != "monkey")
+	if (!(istype(user, /mob/human) || ticker) && ticker.mode.name != "monkey")
 		usr << "\red You don't have the dexterity to do this!"
 		return
 	switch(alert("Sheet-Glass", "Would you like full tile glass or one direction?", "one direct", "full (2 sheets)", "cancel", null))
 		if("one direct")
-			var/obj/window/W = new /obj/window( usr.loc )
+			var/obj/window/W = new /obj/window( user.loc )
 			W.anchored = 0
 			if (src.amount < 1)
 				return
@@ -1550,7 +1550,7 @@
 			if (src.amount < 2)
 				return
 			src.amount -= 2
-			var/obj/window/W = new /obj/window( usr.loc )
+			var/obj/window/W = new /obj/window( user.loc )
 			W.dir = SOUTHWEST
 			W.ini_dir = SOUTHWEST
 			W.anchored = 0
@@ -2795,98 +2795,6 @@
 
 	..()
 	usr << text("There are [] tile\s left on the stack.", src.amount)
-	return
-
-/obj/item/igniter/attackby(obj/item/W as obj, mob/user as mob)
-	if ((istype(W, /obj/item/radio/signaler) && !( src.status )))
-		var/obj/item/radio/signaler/S = W
-		if (!( S.b_stat ))
-			return
-		var/obj/item/assembly/rad_ignite/R = new /obj/item/assembly/rad_ignite( user )
-		S.loc = R
-		R.part1 = S
-		S.layer = initial(S.layer)
-		if (user.client)
-			user.client.screen -= S
-		if (user.r_hand == S)
-			user.unequip(S)
-			user.r_hand = R
-		else
-			user.unequip(S)
-			user.l_hand = R
-		S.master = R
-		src.master = R
-		src.layer = initial(src.layer)
-		user.unequip(src)
-		if (user.client)
-			user.client.screen -= src
-		src.loc = R
-		R.part2 = src
-		R.layer = 20
-		R.loc = user
-		src.add_fingerprint(user)
-
-	else if ((istype(W, /obj/item/prox_sensor) && !( src.status )))
-
-		var/obj/item/assembly/prox_ignite/R = new /obj/item/assembly/prox_ignite( user )
-		W.loc = R
-		R.part1 = W
-		W.layer = initial(W.layer)
-		if (user.client)
-			user.client.screen -= W
-		if (user.r_hand == W)
-			user.unequip(W)
-			user.r_hand = R
-		else
-			user.unequip(W)
-			user.l_hand = R
-		W.master = R
-		src.master = R
-		src.layer = initial(src.layer)
-		user.unequip(src)
-		if (user.client)
-			user.client.screen -= src
-		src.loc = R
-		R.part2 = src
-		R.layer = 20
-		R.loc = user
-		src.add_fingerprint(user)
-
-	else if ((istype(W, /obj/item/timer) && !( src.status )))
-
-		var/obj/item/assembly/time_ignite/R = new /obj/item/assembly/time_ignite( user )
-		W.loc = R
-		R.part1 = W
-		W.layer = initial(W.layer)
-		if (user.client)
-			user.client.screen -= W
-		if (user.r_hand == W)
-			user.unequip(W)
-			user.r_hand = R
-		else
-			user.unequip(W)
-			user.l_hand = R
-		W.master = R
-		src.master = R
-		src.layer = initial(src.layer)
-		user.unequip(src)
-		if (user.client)
-			user.client.screen -= src
-		src.loc = R
-		R.part2 = src
-		R.layer = 20
-		R.loc = user
-		src.add_fingerprint(user)
-
-
-	if (!( istype(W, /obj/item/screwdriver) ))
-		return
-	src.status = !( src.status )
-	if (src.status)
-		user.show_message("\blue The igniter is ready!")
-	else
-		user.show_message("\blue The igniter can now be attached!")
-	src.add_fingerprint(user)
 	return
 
 /obj/item/igniter/attack_self(mob/user as mob)
@@ -4500,7 +4408,7 @@
 			return
 	return
 
-/atom/proc/MouseDrop_T()
+/atom/proc/MouseDrop_T(atom/dropped, mob/user)
 	return
 
 /atom/proc/attack_hand(mob/user as mob)
@@ -4527,19 +4435,16 @@
 /atom/proc/attackby(obj/item/W as obj, mob/user as mob)
 	if (istype(W, /obj/item/f_print_scanner))
 		for(var/mob/O in viewers(src, null))
-			if ((O.client && !( O.blinded )))
-				O << text("\red [] has been scanned by [] with the []", src, user, W)
-	else
-		if (!( istype(W, /obj/item/grab) ))
-			for(var/mob/O in viewers(src, null))
-				if ((O.client && !( O.blinded )))
-					O << text("\red <B>[] has been hit by [] with []</B>", src, user, W)
+			O.show_message("\red <B>\The [src] has been scanned by [user] with \the [W]", 1)
+	else if (!W.abstract)
+		for(var/mob/O in viewers(src, null))
+			O.show_message("\red <B>\The [src] has been hit by [user] with \the [W]", 1)
 	return
 
 /atom/proc/add_fingerprint(mob/human/M as mob)
 	if ((!( istype(M, /mob/human) ) || !( istype(M.primary, /obj/dna) )))
 		return 0
-	if (!(src.flags) & 256) // obvious bug...but lots of things probably depend on this
+	if (!(src.flags) & FPRINT) // obvious bug...but lots of things probably depend on this
 		return
 	if (M.gloves)
 		return 0
@@ -4548,8 +4453,6 @@
 	else
 		var/list/L = params2list(src.fingerprints)
 		L -= md5(M.primary.uni_identity)
-		while(L.len >= 3)
-			L -= L[1]
 		L += md5(M.primary.uni_identity)
 		src.fingerprints = list2params(L)
 	return

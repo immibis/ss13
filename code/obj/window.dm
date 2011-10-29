@@ -15,51 +15,25 @@
 	las_act(flag)
 		if (flag == "bullet")
 			if(!reinf)
-				new /obj/item/shard( src.loc )
-				//SN src = null
-				src.density = 0
-				src.loc.buildlinks()
-
-				del(src)
+				destroy()
 			else
 				health -= 35
 				if(health <=0)
-					new /obj/item/shard( src.loc )
-					new /obj/item/rods( src.loc )
-					src.density = 0
-					src.loc.buildlinks()
-					del(src)
-
-			return
-		return
+					destroy()
 
 	ex_act(severity)
 		switch(severity)
 			if(1.0)
 				del(src)
-				return
 			if(2.0)
-				new /obj/item/shard( src.loc )
-				if(reinf) new /obj/item/rods( src.loc)
-				//SN src = null
-				del(src)
-				return
+				destroy()
 			if(3.0)
 				if (prob(50))
-					new /obj/item/shard( src.loc )
-					if(reinf) new /obj/item/rods( src.loc)
-
-					del(src)
-					return
-		return
+					destroy()
 
 	blob_act()
 		if(prob(50))
-			new /obj/item/shard( src.loc )
-			if(reinf) new /obj/item/rods( src.loc)
-			density = 0
-			src.loc.buildlinks()
-			del(src)
+			destroy()
 
 	CheckPass(atom/movable/O as mob|obj, target as turf)
 
@@ -79,14 +53,15 @@
 
 	meteorhit()
 		src.health = 0
-		new /obj/item/shard( src.loc )
-		if(reinf) new /obj/item/rods( src.loc)
-		src.density = 0
-		src.loc.buildlinks()
+		destroy()
 
-
-		del(src)
-		return
+	proc/destroy()
+		for(var/k = 1 to (dir == SOUTHWEST ? 2 : 1))
+			new /obj/item/shard( src.loc )
+			if(reinf) new /obj/item/rods( src.loc)
+			src.density = 0
+			src.loc.buildlinks()
+			del(src)
 
 
 	hitby(obj/item/W as obj)
@@ -100,14 +75,9 @@
 			src.anchored = 0
 			step(src, get_dir(W, src))
 		if (src.health <= 0)
-			new /obj/item/shard( src.loc )
-			if(reinf) new /obj/item/rods( src.loc)
-			src.density = 0
-			src.loc.buildlinks()
-			del(src)
+			destroy()
 			return
 		..()
-		return
 
 	attackby(obj/item/W as obj, mob/user as mob)
 
@@ -137,16 +107,7 @@
 				sl.buildlinks()
 				src.loc.buildlinks()
 			if (src.health <= 0)
-				if (src.dir == SOUTHWEST)
-					var/index = null
-					index = 0
-					while(index < 2)
-						new /obj/item/shard( src.loc )
-						if(reinf) new /obj/item/rods( src.loc)
-						index++
-				else
-					new /obj/item/shard( src.loc )
-					if(reinf) new /obj/item/rods( src.loc)
+				destroy()
 
 				src.density = 0
 				src.loc.buildlinks()

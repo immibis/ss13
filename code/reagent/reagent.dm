@@ -5,6 +5,14 @@ datum/reagent
 
 	var/reacts_from = null
 
+	// This can be either null, or a list mapping
+	// strings to numbers.
+	// For example, list("plant-toxic"=5, "toxic"=1)
+	// will make this 5x as effective as normal at killing
+	// plants, and 1x as effective as normal at killing
+	// living beings.
+	var/class = null
+
 	// does not check that amount >= amt
 	proc/split_and_remove(var/amt)
 		var/datum/reagent/R = new type()
@@ -15,7 +23,7 @@ datum/reagent
 	proc/dropper_mob(mob/M)
 	proc/inject_mob(mob/M)
 
-	// input is the list of reagent objects
+	// in_put is the list of reagent objects
 	// note "input" is the name of a built-in proc
 	proc/reaction_finish(var/list/in_put)
 
@@ -56,7 +64,10 @@ datum/reagent_container
 		R.amount = amt
 		reagents = list(R)
 
-	// Does not check the max volume.
+	proc/clear()
+		reagents = list()
+		cur_volume = 0
+
 	// dont_check_reaction is not normally specified, it is only
 	// used if you are adding a lot of reagents and will call check_reaction
 	// yourself at the end.
@@ -65,8 +76,9 @@ datum/reagent_container
 		if(!this)
 			this = new R.type()
 			reagents += this
-		this.amount += R.amount
-		cur_volume += R
+		var/amt = min(R.amount, max_volume - cur_volume)
+		this.amount += amt
+		cur_volume += amt
 		if(!dont_check_reaction)
 			check_reaction()
 
@@ -74,6 +86,8 @@ datum/reagent_container
 	// if pct is specified, then the max volume is not checked.
 	proc/pour_into(datum/reagent_container/dest, pct)
 		if(pct == null)
+			if(cur_volume < 0.0000001)
+				return
 			pct = (dest.max_volume - dest.cur_volume) / cur_volume
 		if(pct <= 0)
 			return
@@ -101,9 +115,17 @@ datum/reagent_container
 		if(amt >= cur_volume)
 			C.reagents = reagents
 			C.cur_volume = cur_volume
+			reagents = list()
+			cur_volume = 0
 		else
 			for(var/datum/reagent/R in reagents)
 				C.add_reagent(R.split_and_remove(amt * (R.amount / cur_volume)))
+				if(R.amount < 0.001)
+					reagents -= R
+					del(R)
+			cur_volume = 0
+			for(var/datum/reagent/R in reagents)
+				cur_volume += R.amount
 		return C
 
 	proc/dropper_mob(mob/M)
@@ -133,6 +155,14 @@ datum/reagent_container
 			t += R.name
 		return t
 
+	proc/describe_detailed_to(object, mob/user)
+		if(reagents.len == 0)
+			user << "\blue \The [object] is empty."
+		else
+			user << "\blue \The [object] contains:"
+			for(var/datum/reagent/R in reagents)
+				user << "\blue [R.amount] mL of [R.name]"
+
 	proc/check_reaction()
 		for(var/datum/reaction/R in reagent_reactions)
 			var/amt = cur_volume
@@ -157,6 +187,19 @@ datum/reagent_container
 				output_.reaction_finish(input_)
 				reagents += output_
 				cur_volume += amt
+
+	proc/get_amount_of(reagent_type)
+		if(ispath(reagent_type))
+			var/datum/reagent/R = locate(reagent_type) in reagents
+			return R ? R.amount : 0
+		else if(istext(reagent_type))
+			var/amt = 0
+			for(var/datum/reagent/R in reagents)
+				if(R.class && (reagent_type in R.class))
+					amt += R.amount*R.class[reagent_type]
+			return amt
+		else
+			CRASH("/datum/reagent/get_amount_of: parameter is not a string or path")
 
 	// TODO
 	proc/move_to_turf(turf/T)

@@ -132,6 +132,8 @@
 			if(T.gas.temperature > SERVER_TEMP_THRESHOLD_HIGH)
 				begin_thermal_shutdown()
 			else
+				if(T.atmos_sleeping)
+					atmos_turfs += T
 				T.atmos_sleeping = 0
 				T.gas.set_heat(T.gas.get_heat() + SERVER_RACK_HEAT)
 				if(T.gas.temperature >= SERVER_TEMP_THRESHOLD_HIGH)

@@ -304,3 +304,6 @@
 			py+=sdy
 			line+=locate(px,py,M.z)
 	return line
+
+proc/rand_frac(min, max)
+	return rand()*(max - min) + min

@@ -3,17 +3,16 @@
 		name = "alkysine"
 		reacts_from = list(.chlorine, .nitrogen, .antitoxins)
 		// treats catastrophic injuries
+
 	arithrazine
 		name = "arithrazine"
 		reacts_from = list(.hyronalin, .hydrogen)
 		// treats high radiation poisoning
+
 	ammonia
 		name = "ammonia"
 		reacts_from = list(.hydrogen, .nitrogen)
-		// a fertilizer
-//	bilk
-//		name = "Bilk"
-//		reacts_from = list(.milk, .beer)
+		class = list(fertilizer=1)
 
 	cryoxadone
 		name = "cryoxadone"
@@ -43,6 +42,7 @@
 	diethylamine
 		name = "diethylamine"
 		reacts_from = list(.ammonia, .ethanol)
+		class = list(fertilizer=2.5)
 		// a better fertilizer
 
 	flash_powder
@@ -197,7 +197,16 @@ datum/reagent
 	space_fungus/name = "space fungus"
 	inaprovaline/name = "inaprovaline"
 	blood/name = "blood"
-	welding_fuel/name = "welding fuel"
+
+	welding_fuel
+		name = "welding fuel"
+		class = list(toxic=1, plant_toxic=1)
+
+	poo
+		name = "poo"
+		class = list(fertilizer=1)
+
+	space_cleaner/name = "space cleaner"
 
 var/list/chemistry_base_reagents = list(
 /datum/reagent/chlorine,
@@ -280,8 +289,8 @@ obj/machinery/chem_dispenser
 	icon_state = "beaker0"
 	icon = 'icons/goonstation/obj/chemical.dmi'
 
-	max_volume = 150
-	transfer_size = 150
+	max_volume = 70
+	transfer_size = 70
 
 /obj/item/storage/beaker_box
 	name = "Beakers"

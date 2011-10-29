@@ -17,6 +17,8 @@ turf
 	proc/AddHotspot()
 	proc/RemoveHotspot()
 
+var/turf/simulated/atmos_turfs[0]
+
 turf/simulated
 	var/airdir = null
 	var/airforce = null
@@ -117,6 +119,8 @@ turf/simulated
 		gas.add_n2(gas.partial_pressure_to_moles(N2_STANDARD))
 		ngas = new
 		ngas.copy_from(gas)
+		if(!atmos_sleeping)
+			atmos_turfs += src
 
 
 
@@ -318,11 +322,15 @@ turf/simulated
 
 			if(total_movement < GAS_SLEEP_FLOW && !(locate(/obj/machinery) in src))
 				//world << "sleeping [x],[y],[z]"
+				if(!atmos_sleeping)
+					atmos_turfs -= src
 				atmos_sleeping = 1
 			else if(total_movement > GAS_WAKE_FLOW)
 				//world << "waking [x],[y],[z]"
 				for(var/turf/simulated/T in list(linkN, linkS, linkE, linkW))
 					if(T && isturf(T))
+						if(T.atmos_sleeping)
+							atmos_turfs += src
 						T.atmos_sleeping = 0
 
 		if(ngas.plasma > 8) // about 10% of one atmosphere at 20 degrees C

@@ -420,12 +420,15 @@ world/New()
 
 	DivideOccupations()
 
-	for (var/obj/manifest/M in world)
+	for(var/obj/manifest/M)
 		M.manifest()
 
-	for (var/mob/human/H in world)
+	for(var/mob/human/H)
 		if (H.start)
 			reg_dna[H.primary.uni_identity] = H.name
+
+	for(var/atom/A)
+		A.OnTickerStart()
 
 	data_core.manifest()
 
@@ -444,27 +447,32 @@ world/New()
 #ifdef ASYNC_ATMOS
 	var/count
 	var/maxcount = 500
+	var/ticks = 0
 #endif
-	for(var/turf/simulated/T)
+	for(var/turf/simulated/T in atmos_turfs)
 #ifdef ASYNC_ATMOS
 		count++
 		if(count >= maxcount)
 			count = 0
 			sleep(1)
+			ticks++
 #endif
-		if(!T.atmos_sleeping && T.updatecell)
+		if(T.updatecell)
 			T.updatecell()
 			if(!time)
 				T.conduction()
+#ifdef ASYNC_ATMOS
+	world.log << "Atmos step completed in [ticks] ticks."
+#endif
 	// reset gas in space and in gas clouds
 	space_gas.remove_all_gas()
 	space_gas.set_temp(2.7)
 	gspace_gas.temperature = 2.7
-	gspace_gas.o2 = 1000000
-	gspace_gas.plasma = 1000000
-	gspace_gas.n2 = 1000000
-	gspace_gas.co2 = 1000000
-	gspace_gas.n2o = 1000000
+	gspace_gas.o2 = 1000
+	gspace_gas.plasma = 1000
+	gspace_gas.n2 = 1000
+	gspace_gas.co2 = 1000
+	gspace_gas.n2o = 1000
 	gspace_gas.amt_changed()
 
 	for(var/turf/simulated/T)

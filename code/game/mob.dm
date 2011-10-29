@@ -1097,7 +1097,7 @@
 	user << browse(dat, text("window=mob[];size=325x500", src.name))
 	return
 
-/mob/proc/unequip(W as obj)
+/mob/proc/unequip(obj/W as obj)
 	if (W == src.r_hand)
 		src.r_hand = null
 	else if (W == src.l_hand)

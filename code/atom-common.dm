@@ -1,6 +1,4 @@
 atom
-	proc/burn(fi_amount)
-
 	proc/meteorhit(obj/meteor)
 		return 1
 
@@ -12,11 +10,10 @@ atom
 	proc/CheckExit()
 		return 1
 
+	proc/burn(fi_amount)
 	proc/HasEntered(atom/movable/AM)
-		return
-
 	proc/HasProximity(atom/movable/AM)
-		return
+	proc/OnTickerStart()
 
 atom/movable
 	Move()

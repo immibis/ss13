@@ -31,7 +31,7 @@
 			var/t1 = 0
 			user << "\blue Results of analysis of \icon[icon]"
 			if (total)
-				user << "\blue Overall: [total] / [src.capacity]"
+				user << "\blue Pressure: [round(gas.pressure/1000,0.1)] kPa"
 				t1 = round( src.gas.n2 / total * 100 , 0.0010)
 				user << "\blue Nitrogen: [t1]%"
 				t1 = round( src.gas.o2 / total * 100 , 0.0010)
@@ -275,107 +275,3 @@ Internals Valve: <A href='?src=\ref[src];stat=1'>[(loc == user && user.internal 
 
 			del(src.master)
 			del(src)
-
-		attackby(obj/item/W as obj, mob/user as mob)
-			..()
-			if (istype(W, /obj/item/assembly/rad_ignite))
-				var/obj/item/assembly/rad_ignite/S = W
-				if (!( S.status ))
-					return
-				var/obj/item/assembly/r_i_ptank/R = new /obj/item/assembly/r_i_ptank( user )
-				R.part1 = S.part1
-				S.part1.loc = R
-				S.part1.master = R
-				R.part2 = S.part2
-				S.part2.loc = R
-				S.part2.master = R
-				S.layer = initial(S.layer)
-				if (user.client)
-					user.client.screen -= S
-				if (user.r_hand == S)
-					user.unequip(S)
-					user.r_hand = R
-				else
-					user.unequip(S)
-					user.l_hand = R
-				src.master = R
-				src.layer = initial(src.layer)
-				user.unequip(src)
-				if (user.client)
-					user.client.screen -= src
-				src.loc = R
-				R.part3 = src
-				R.layer = 20
-				R.loc = user
-				S.part1 = null
-				S.part2 = null
-				//S = null
-				del(S)
-			if (istype(W, /obj/item/assembly/prox_ignite))
-				var/obj/item/assembly/prox_ignite/S = W
-				if (!( S.status ))
-					return
-				var/obj/item/assembly/m_i_ptank/R = new /obj/item/assembly/m_i_ptank( user )
-				R.part1 = S.part1
-				S.part1.loc = R
-				S.part1.master = R
-				R.part2 = S.part2
-				S.part2.loc = R
-				S.part2.master = R
-				S.layer = initial(S.layer)
-				if (user.client)
-					user.client.screen -= S
-				if (user.r_hand == S)
-					user.unequip(S)
-					user.r_hand = R
-				else
-					user.unequip(S)
-					user.l_hand = R
-				src.master = R
-				src.layer = initial(src.layer)
-				user.unequip(src)
-				if (user.client)
-					user.client.screen -= src
-				src.loc = R
-				R.part3 = src
-				R.layer = 20
-				R.loc = user
-				S.part1 = null
-				S.part2 = null
-				//S = null
-				del(S)
-
-			if (istype(W, /obj/item/assembly/time_ignite))
-				var/obj/item/assembly/time_ignite/S = W
-				if (!( S.status ))
-					return
-				var/obj/item/assembly/t_i_ptank/R = new /obj/item/assembly/t_i_ptank( user )
-				R.part1 = S.part1
-				S.part1.loc = R
-				S.part1.master = R
-				R.part2 = S.part2
-				S.part2.loc = R
-				S.part2.master = R
-				S.layer = initial(S.layer)
-				if (user.client)
-					user.client.screen -= S
-				if (user.r_hand == S)
-					user.unequip(S)
-					user.r_hand = R
-				else
-					user.unequip(S)
-					user.l_hand = R
-				src.master = R
-				src.layer = initial(src.layer)
-				user.unequip(src)
-				if (user.client)
-					user.client.screen -= src
-				src.loc = R
-				R.part3 = src
-				R.layer = 20
-				R.loc = user
-				S.part1 = null
-				S.part2 = null
-				//S = null
-				del(S)
-

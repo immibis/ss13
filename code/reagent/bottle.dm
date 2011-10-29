@@ -15,19 +15,21 @@
 
 	inaprovaline
 		name = "inaprovaline bottle"
-		icon_state = "rejuvbottle"
 		default_reagent = /datum/reagent/inaprovaline
 		icon_state = "bottle14"
 
 	sleep_toxin
 		name = "sleep toxin bottle"
-		icon_state = "toxinbottle"
 		default_reagent = /datum/reagent/sleep_toxin
 		icon_state = "bottle15"
 
 	antitoxin
 		name = "antitoxin bottle"
-		icon_state = "atoxinbottle"
 		default_reagent = /datum/reagent/antitoxins
 		icon_state = "bottle16"
 
+
+	weedkiller
+		name = "weedkiller bottle"
+		default_reagent = /datum/reagent/weedkiller
+		icon_state = "bottle15"

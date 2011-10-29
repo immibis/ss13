@@ -30,7 +30,8 @@ var/permissions = list(
 	"access_quartermaster" = "Access the cargo bay",
 	"access_solars" = "Access solar substations",
 	"access_ai" = "Access AI Upload",
-	"access_netmon" = "Access Network Monitoring"
+	"access_netmon" = "Access Network Monitoring",
+	"access_botany" = "Access Hydroponics",
 	)
 var/jobs = list(
 	"Genetic Researcher" = list(
@@ -72,6 +73,9 @@ var/jobs = list(
 		list(/obj/item/clothing/gloves/yellow, slot_gloves),
 		list(/obj/item/clothing/mask/gasmask, slot_wear_mask)
 		),
+	/*"Botanist" = list(
+		"access_botany", "access_maintenance",
+		list(/obj/item/ */
 	"Assistant" = list(
 		"access_maintenance", "open_external_airlocks", "access_trash_disposal", "access_medbay", "access_morgue",
 		list(/obj/item/clothing/under/grey, slot_w_uniform),
@@ -102,7 +106,7 @@ var/jobs = list(
 		list(/obj/item/clothing/under/toxins_white, slot_w_uniform),
 		list(/obj/item/clothing/shoes/white, slot_shoes),
 		list(/obj/item/clothing/mask/gasmask, slot_wear_mask),
-		list(/obj/item/tank/oxygentank, slot_l_hand)
+		list(/obj/item/tank/oxygen, slot_l_hand)
 		),
 	"Head of Research" = list(
 		"access_medbay", "access_morgue", "access_toxins", "access_teleporter", "access_bridge", "access_security",

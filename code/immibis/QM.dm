@@ -100,7 +100,7 @@
 			/obj/item/storage/firstaid/regular)
 
 	food
-		name = "Food Crate"
+		/*name = "Food Crate"
 		start_items = list(
 			/obj/item/storage/bacon,
 			/obj/item/storage/eggs,
@@ -134,11 +134,11 @@
 			/obj/item/reagent/bag/flour,
 			/obj/item/reagent/bag/flour,
 			/obj/item/reagent/bag/flour,
-			/obj/item/reagent/bag/flour)
+			/obj/item/reagent/bag/flour)*/
 	janitorial
-		name = "Janitorial Crate"
+	/*	name = "Janitorial Crate"
 		start_items = list(
-			/obj/bucket/mop_bucket,
+			/obj/mop_bucket,
 			/obj/item/mop,
 			/obj/item/reagent/spraybottle/space_cleaner,
 			/obj/item/grenade/reagent/cleaning,
@@ -149,7 +149,7 @@
 			/obj/item/bucket,
 			/obj/item/sign/wet_floor,
 			/obj/item/sign/wet_floor,
-			/obj/item/sign/wet_floor)
+			/obj/item/sign/wet_floor)*/
 	hydroponics
 		name = "Hydroponics Crate"
 		start_items = list(
@@ -174,20 +174,20 @@
 		locked = 1
 		lockable = 1
 		start_items = list(
-			/obj/item/device/trigger/timer,
-			/obj/item/device/trigger/timer,
-			/obj/item/device/trigger/timer,
-			/obj/item/device/trigger/proximity,
-			/obj/item/device/trigger/proximity,
-			/obj/item/device/trigger/proximity,
-			/obj/item/device/trigger/radio,
-			/obj/item/device/trigger/radio,
-			/obj/item/device/trigger/radio,
-			/obj/item/device/trigger/radio,
-			/obj/item/device/trigger/radio,
-			/obj/item/device/igniter,
-			/obj/item/device/igniter,
-			/obj/item/device/igniter,
+			/obj/item/trigger/timer,
+			/obj/item/trigger/timer,
+			/obj/item/trigger/timer,
+			/obj/item/trigger/proximity,
+			/obj/item/trigger/proximity,
+			/obj/item/trigger/proximity,
+			/obj/item/trigger/radio,
+			/obj/item/trigger/radio,
+			/obj/item/trigger/radio,
+			/obj/item/trigger/radio,
+			/obj/item/trigger/radio,
+			/obj/item/igniter,
+			/obj/item/igniter,
+			/obj/item/igniter,
 			/obj/item/tank/plasma,
 			/obj/item/tank/plasma,
 			/obj/item/tank/plasma)

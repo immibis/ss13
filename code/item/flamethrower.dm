@@ -100,7 +100,7 @@
 		src.throw_amount = max(0,min(5000,src.throw_amount))
 	if (href_list["remove"])
 		if(!attached)	return
-		var/obj/item/tank/plasmatank/A = attached
+		var/obj/item/tank/plasma/A = attached
 		A.loc = get_turf(src)
 		A.layer = initial(A.layer)
 		attached = null
@@ -122,7 +122,7 @@
 	if (!src.attached)
 		user << "\red Attach a plasma tank first!"
 		return
-	var/dat = text("<TT><B>Flamethrower (<A HREF='?src=\ref[src];light=1'>[lit ? "<font color='red'>Lit</font>" : "Unlit"]</a>)</B><BR>\nTank pressure: [round(attached.gas.pressure / 1000, 0.1)] kPa<BR>\nAmount to throw: <A HREF='?src=\ref[src];amount=-100'>-</A> <A HREF='?src=\ref[src];amount=-10'>-</A> <A HREF='?src=\ref[src];amount=-1'>-</A> [src.throw_amount] <A HREF='?src=\ref[src];amount=1'>+</A> <A HREF='?src=\ref[src];amount=10'>+</A> <A HREF='?src=\ref[src];amount=100'>+</A><BR>\n<A HREF='?src=\ref[src];remove=1'>Remove plasmatank</A> - <A HREF='?src=\ref[src];close'>Close</A></TT>")
+	var/dat = text("<TT><B>Flamethrower (<A HREF='?src=\ref[src];light=1'>[lit ? "<font color='red'>Lit</font>" : "Unlit"]</a>)</B><BR>\nTank pressure: [round(attached.gas.pressure / 1000, 0.1)] kPa<BR>\nAmount to throw: <A HREF='?src=\ref[src];amount=-100'>-</A> <A HREF='?src=\ref[src];amount=-10'>-</A> <A HREF='?src=\ref[src];amount=-1'>-</A> [src.throw_amount] <A HREF='?src=\ref[src];amount=1'>+</A> <A HREF='?src=\ref[src];amount=10'>+</A> <A HREF='?src=\ref[src];amount=100'>+</A><BR>\n<A HREF='?src=\ref[src];remove=1'>Remove plasma</A> - <A HREF='?src=\ref[src];close'>Close</A></TT>")
 	user << browse(dat, "window=flamethrower;size=600x300")
 	return
 
